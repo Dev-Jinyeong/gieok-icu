@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	<select id="idDupCheck" parameterType="String" resultType="user">
+		select * from users where user_id = #{id_input}
+	</select>
+	
+	<insert id="userInsert" parameterType="user">
+		insert into users (
+			user_code, user_id, user_pw, user_name, user_email, user_domain, 
+			user_mobcarr, user_ph1, user_ph2, user_ph3, user_terms, user_regDate
+			) values (
+				user_seq.nextval, #{user_id}, #{user_pw}, #{user_name}, #{user_email}, 
+				#{user_domain}, #{user_mobcarr}, #{user_ph1}, #{user_ph2}, #{user_ph3},
+				#{user_terms}, SYSDATE
+				)
+	</insert>
+	
+	<update id="updateAuthKey" parameterType="java.util.Map">
+		update users set user_key = #{authKey} where user_id = #{user_id}
+	</update>
+	
+	<update id="updateAuth" parameterType="java.util.Map">
+		update users set user_auth=1 where user_key=#{authKey} and 
+			user_email=#{user_email} and user_domain=#{user_domain}
+	</update>
+	
+	<select id="checkAuth" parameterType="java.util.Map" resultType="user">
+		select * from users where user_id=#{user_id} AND user_pw=#{user_pw} AND user_state='0'
+	</select>
+	
+	<select id="userSelect" parameterType="String" resultType="user">
+		select * from users where user_id = #{user_id}
+	</select>
+	
+	<update id="updateUserInform" parameterType="user">
+		update users set user_email = #{user_email}, user_domain = #{user_domain}, user_mobcarr = #{user_mobcarr}, 
+		user_ph1 = #{user_ph1}, user_ph2 = #{user_ph2}, user_ph3 = #{user_ph3}, user_profile = #{user_profile}
+		where user_id = #{user_id} 
+	</update>
+
+	<update id="userDelete" parameterType="String">
+		update users set user_state = 'd' where user_id = #{user_id}
+	</update>
+	
+	<update id="updateUserPw" parameterType="java.util.Map">
+		update users set user_pw = #{user_pw} where user_id = #{user_id}
+	</update>
+	
+	<select id="userIdPwFind" parameterType="java.util.Map" resultType="user">
+		select * from users 
+		where user_email = #{user_email} and user_domain = #{user_domain}
+		and user_mobcarr = #{user_mobcarr} and user_ph1 = #{user_ph1} and user_ph2 = #{user_ph2} and user_ph3 = #{user_ph3}
+	</select>
+	
+	<select id="emailDupCheck" parameterType="java.util.Map" resultType="int">
+		select count(user_code) from users where user_email = #{email_input} and user_domain = #{domain_input}
+	</select>
+	
+	
+	
+	
+
+</mapper>
