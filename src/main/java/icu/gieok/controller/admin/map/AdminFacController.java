@@ -163,7 +163,7 @@ public class AdminFacController {
 		mv.addObject("keyword", keyword);
 		mv.setViewName("/admin/fac_regist");
 		
-		System.out.println("page = " + page);
+		// System.out.println("page = " + page);
 		
 		return mv;
 	}
@@ -449,6 +449,5 @@ public class AdminFacController {
 	
 }
 	
-	
-	
+
 
