@@ -32,4 +32,8 @@ public interface PhotoDAO {
 
     int updatePhotoEventLikeCheck(Map<String, Object> map);
 
+	int updatePhotoEventReportCheck(Map<String, Object> map);
+
+	int updatePhotoEventReport(Map<String, Object> map);
+
 }

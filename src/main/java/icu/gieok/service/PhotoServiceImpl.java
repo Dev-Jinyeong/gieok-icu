@@ -76,4 +76,14 @@ public class PhotoServiceImpl implements PhotoService {
         return photoDAO.updatePhotoEventLikeCheck(map);
     }
 
+	@Override
+	public int updatePhotoEventReportCheck(Map<String, Object> map) {
+		return photoDAO.updatePhotoEventReportCheck(map);
+	}
+
+	@Override
+	public int updatePhotoEventReport(Map<String, Object> map) {
+		return photoDAO.updatePhotoEventReport(map);
+	}
+
 }

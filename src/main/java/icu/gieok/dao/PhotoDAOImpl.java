@@ -75,4 +75,14 @@ public class PhotoDAOImpl implements PhotoDAO {
         return sqlSession.update("updatePhotoEventLikeCheck", map);
     }
 
+	@Override
+	public int updatePhotoEventReportCheck(Map<String, Object> map) {
+		return sqlSession.update("updatePhotoEventReportCheck", map);
+	}
+
+	@Override
+	public int updatePhotoEventReport(Map<String, Object> map) {
+		return sqlSession.update("updatePhotoEventReport", map);
+	}
+
 }
