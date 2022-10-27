@@ -18,7 +18,7 @@
 			<!-- 주변 시설 명소 수정 -->
 			<div class="facregist_container">
 				<div class="facregist_default">
-					<form action="/admin/fac_detail" method="POST" enctype="multipart/form-data" name="fac_regist" onsubmit="return formValidate2();">
+					<form action="/admin/fac_detail" method="POST" enctype="multipart/form-data" name="fac_regist" onsubmit="return formValidate();">
 						<input type="hidden" value="${fac.fac_code}" name="fac_code" id="fac_code">
 						<input type="hidden" value="${fac.attr_code}" name="attr_code" id="attr_code">
 						<input type="hidden" value="${page}" name="page">
@@ -84,7 +84,7 @@
 <!-- 주소 api -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- 이미지 업로드 -->
-<script type="text/javascript" src="../resources/JS/admin/fac_regist.js"></script>
+<script type="text/javascript" src="../resources/JS/admin/fac_detail.js"></script>
 
 <!-- ***** footer ***** -->
 <jsp:include page="../static/footer.jsp" />
