@@ -309,7 +309,7 @@
     font-size: 0;
 }
 
-.board_post_button>label {
+.board_post_button>label:first-of-type {
 	display: block;
 	
     position: absolute;
@@ -331,12 +331,12 @@
     transition: transform, box-shadow .1s, .1s;
 }
 
-.board_post_button>label:hover {
+.board_post_button>label:first-of-type:hover {
     transform: translate(-1px, -1px);
     box-shadow: 1px 1px 1px #333;
 }
 
-.board_post_button>label:active {
+.board_post_button>label:first-of-type:active {
     transform: translate(1px, 1px);
     box-shadow: none;
 }
@@ -363,7 +363,7 @@
 	height: 30px;
 }
 
-.board_post_button>input[type="button"]:last-of-type {
+.board_post_button>.back_button {
     position: absolute;
     right: 0;
 
@@ -387,11 +387,13 @@
 	fill: #fff;
 }
 
+.report_button,
 #delete_button {
 	display: block;
 	
 	position: absolute;
 	right: -310px;
+	bottom: 15px;
 	
 	width: 70px;
 	

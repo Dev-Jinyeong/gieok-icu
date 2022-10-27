@@ -62,9 +62,13 @@
                                 mask="url(#path-1.5-inside-1_731_234)" />
                         </svg>
                     </label>
-                    <input type="button" value="뒤로">
+                    <input type="button" value="뒤로" class="back_button">
                 	<c:if test="${sessionScope.code == board.user_code}">
                     	<span id="delete_button">게시물 삭제</span>
+                    </c:if>
+                    <input type="checkbox" id="report_checkbox" name="report_checkbox">
+                    <c:if test="${sessionScope.code != board.user_code}">
+                    	<label for="report_checkbox" class="report_button">게시물 신고</label>
                     </c:if>
                 </div>
             </form>
