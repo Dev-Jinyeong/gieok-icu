@@ -84,103 +84,51 @@
         </div>
 
         <div class="search_type3 search_content">
-            <h1>동행(10) <span>검색 결과</span> </h1>
+            <h1>동행(${withcount}) <span>검색 결과</span> </h1>
             <div class="line"></div>
-           <c:if test="${!empty test}"> 
+           <c:if test="${!empty withlist}"> 
             <ul>
-               <c:forEach var="item" items="map_list">
+               <c:forEach var="item" items="${withlist}">
                 <li>
                     <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
+                    <a href="board_with_list?category=board_location&keyword=${search}">
+                        <span class="board_content">${item.board_title}</span>
+                        <span class="board_content">${item.board_content}</span>
+                    </a>
                     </div>
                 </li>
 
                 </c:forEach>
             </ul>
             </c:if>
-            <c:if test="${!empty test}">
-                     <b>검색 결과가 없습니다</b></c:if>
+            <c:if test="${empty withlist}">
+                     <p><b>검색 결과가 없습니다</b></p></c:if>
             <input type="button" class="view_more_btn" value="더 보기">
 
         </div>
 
         <div class="search_type4 search_content">
-            <h1>포토/이벤트(10) <span>검색 결과</span> </h1>
+            <h1>포토/이벤트(${photocount}) <span>검색 결과</span> </h1>
             <div class="line"></div>
-             <c:if test="${test}"> 
+             <c:if test="${!empty photolist}"> 
             <ul>
-                <c:forEach var="item" items="${map_list}">
+                <c:forEach var="item" items="${photolist}">
                 <li>
-                    <div class="board_img" name="board_img"></div>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
+                    <div class="board_img" name="board_img">
+                    <img src="../resources/upload/event/${item.board_img}">
                     </div>
-                </li>
-                <li>
-                    <div class="board_img" name="board_img"></div>
                     <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_img" name="board_img"></div>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_img" name="board_img"></div>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="board_img" name="board_img"></div>
-                    <div class="board_info">
-                        <span>${item.location_title}</span>
-                        <span>${item.location_content}</span>
+                    <a href="#">
+                        <span>${item.board_title}</span>
+                        <span>${item.board_content}</span>
+                    </a>
                     </div>
                 </li>
                </c:forEach>
             </ul>
             </c:if>
-            <c:if test="${!empty test}">
-                     <b>검색 결과가 없습니다</b></c:if>
+            <c:if test="${empty photlist}">
+                     <p><b>검색 결과가 없습니다</b></p></c:if>
 
             <!-- view more icon -->
             <input type="button" class="view_more_btn" value="더 보기">

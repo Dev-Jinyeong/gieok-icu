@@ -35,7 +35,7 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 				<where>
 				board_type = '4' and board_state = '0'
 					<if test="!category.equals('')">
-						${category} like '%${keyword}%'
+						and	${category} like '%${keyword}%'
 					</if>
 				</where>
 				order by ${sortBy}

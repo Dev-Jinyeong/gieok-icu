@@ -4,7 +4,7 @@ let background_image = document.querySelector(".background_image");
 let contents = document.querySelector(".contents");
 let search_box = document.querySelector(".search_box");
 let search_text = document.querySelector(".search_box>h1");
-let search_svg = document.querySelector(".search_box>svg");
+let search_svg = document.querySelector(".search_box>form>label>svg");
 
 /*full screen 떄문에 추가함 일단~ */
 let viewport = document.querySelector(".viewport");
