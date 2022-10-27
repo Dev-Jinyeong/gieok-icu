@@ -104,4 +104,19 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		update board set board_report = board_report + 1
 		where board_no = #{board_no}
 	</update>
+	
+	<select id="selectPhotoEventList" parameterType="java.util.List" resultType="board">
+		select * from board where board_no in
+		<foreach collection="list" item="board_no" open="(" close=")" separator=",">
+			#{board_no}
+		</foreach>
+	</select>
+	
+	<delete id="deletePhotoEventList" parameterType="java.util.List">
+		delete from board where board_no in
+		<foreach collection="list" item="board_no" open="(" close=")" separator=",">
+			#{board_no}
+		</foreach>
+	</delete>
+	
 </mapper>

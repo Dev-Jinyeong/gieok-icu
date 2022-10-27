@@ -473,4 +473,40 @@ public class PhotoEventController {
         
         return map;
     }
+    
+    @PostMapping("/photo_event_listDelete")
+	public ModelAndView photoEventListDelete(
+			HttpSession session,
+			@RequestParam List<Integer> photo_no, int page,
+			String sortBy, String category, String keyword) {
+		
+		if(checkUser != null) {
+			return null;
+		}
+		
+		List<BoardVO> list = photoService.selectPhotoEventList(photo_no);
+		
+		System.out.println(photo_no.size());
+		
+		int listSize = photo_no.size();
+		int result = photoService.deletePhotoEventList(photo_no);
+		
+		String msg = "";
+		
+		if(listSize == result) {
+			msg = "정상적으로 삭제되었습니다";
+		} else {
+			msg = "삭제 실패";
+		}
+		
+//		String url = "/photo_event_list?page=" + page + "&sortBy=" + sortBy + "&category=" + category + "&keyword=" + keyword;
+		String url = "/photo_event_list?page=" + page;
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("url", url);
+		mv.setViewName("message");
+		
+		return mv;
+	}
 }

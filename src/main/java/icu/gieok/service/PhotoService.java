@@ -39,4 +39,9 @@ public interface PhotoService {
 
 	int updatePhotoEventReport(Map<String, Object> map);
 
+	List<BoardVO> selectPhotoEventList(List<Integer> photo_no);
+
+	int deletePhotoEventList(List<Integer> photo_no);
+
+
 }

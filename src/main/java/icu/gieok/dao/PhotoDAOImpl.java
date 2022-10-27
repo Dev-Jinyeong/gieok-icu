@@ -85,4 +85,14 @@ public class PhotoDAOImpl implements PhotoDAO {
 		return sqlSession.update("updatePhotoEventReport", map);
 	}
 
+	@Override
+	public List<BoardVO> selectPhotoEventList(List<Integer> photo_no) {
+		return sqlSession.selectList("selectPhotoEventList", photo_no);
+	}
+
+	@Override
+	public int deletePhotoEventList(List<Integer> photo_no) {
+		return sqlSession.delete("deletePhotoEventList", photo_no);
+	}
+
 }

@@ -200,7 +200,7 @@ body {
     font-size: var(--font-size-head3);
 }
 
-.board_post_delete,
+#delete_button,
 .board_title>input[type="button"] {
 	display: block; 
 	
@@ -212,12 +212,15 @@ body {
     height: 30px;
 }
 
-.board_post_delete {
+#delete_button {
 	line-height: 30px;
 
 	color: var(--color-red);
 	font-weight: 600;
 	text-align: right;
+	
+	background-color: transparent;
+	border: none;	
 	
 	cursor: pointer;
 }
