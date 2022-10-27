@@ -14,6 +14,7 @@
 
 
     <!--// search box start -->
+    
     <form method="get" class="search_box" action="/main_search">
         <input type="text" placeholder="어디로 떠나실건가요?:)" name="search" id="search" maxlength="20" value="${search}">
         <!-- search icon -->
