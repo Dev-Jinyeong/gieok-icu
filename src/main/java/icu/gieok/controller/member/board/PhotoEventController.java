@@ -214,8 +214,7 @@ public class PhotoEventController {
         if(checkUser != null) {
         	return checkUser;
         }
-        
-        
+        board = photoService.getBoardDetail(board_no);
         int user_code = (int) session.getAttribute("code");
         
         map.put("user_code", user_code);
@@ -354,7 +353,7 @@ public class PhotoEventController {
         return mv;
     }
     
-    // 좋아요
+    /* =====// 좋아요 // ===== */
     @ResponseBody // 맵일때 
     @GetMapping("/photo_event_detailLike")
     public Map<String, Object> photoEventLike(
@@ -397,12 +396,11 @@ public class PhotoEventController {
             } 
         }
         
-        int like = 0;
         char like_check = boardLikeReport.getBoard_like();
         map.put("check", like_check); // 좋아요가 눌려있는지 안눌려있는지
         
-        like = photoService.updatePhotoEventLikeCheck(map);
-        like += photoService.updatePhotoEventLike(map);
+        photoService.updatePhotoEventLikeCheck(map);
+        photoService.updatePhotoEventLike(map);
 
         if(like_check == 'Y') {
             msg = "좋아요가 취소되었습니다";
@@ -415,4 +413,64 @@ public class PhotoEventController {
         return map;
     }
     
+    /* ===== 신고 ===== */
+    @ResponseBody // 맵일때 
+    @GetMapping("/photo_event_detailReport")
+    public Map<String, Object> photoEventReport(
+            HttpSession session,
+            @RequestParam("photo_no") int board_no) {
+        
+        checkUser = checkMember(session);
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        String msg = "";
+        String url = "";
+        
+        if(checkUser != null) {
+            msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
+            url = "/member/login";
+            map.put("msg", msg);
+            map.put("url", url);
+            
+            return map;
+        }
+        
+        int user_code = (int) session.getAttribute("code");
+        
+        map.put("board_no", board_no);
+        map.put("user_code", user_code);
+        
+        BoardLikeReportVO boardLikeReport = photoService.getBoardLikeReport(map);
+        if(boardLikeReport == null) {
+            int result = photoService.boardLikeReportInsert(map);
+            
+            if(result != 0) {
+                boardLikeReport = photoService.getBoardLikeReport(map);
+            } 
+        }
+        
+        char report_check = boardLikeReport.getBoard_report();
+        char like_check = boardLikeReport.getBoard_like();
+        
+        map.put("check", like_check);
+        
+        if(report_check == 'Y') {
+        	msg = "이미 신고처리된 게시물입니다";
+        } else if(report_check == 'N') {
+        	photoService.updatePhotoEventReportCheck(map);
+        	photoService.updatePhotoEventReport(map);
+        	
+        	if(like_check == 'Y') {
+        		photoService.updatePhotoEventLike(map);
+        		photoService.updatePhotoEventLikeCheck(map);
+        	}
+        	
+        	msg = "게시물이 신고처리되었습니다";
+        }
+        
+        map.put("msg", msg);
+        
+        return map;
+    }
 }
