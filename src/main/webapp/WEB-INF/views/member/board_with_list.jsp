@@ -4,7 +4,7 @@
 <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 	<jsp:include page="../static/sidebar.jsp" />
 </c:if>
-<c:if test="${sessionScope.grade == 'm'  }">
+<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
 	<!-- 회원용 리모컨 -->
 </c:if>
 <link rel="stylesheet" href="../resources/CSS/static/header.css">
@@ -24,6 +24,11 @@
 			<input type="hidden" value="${keyword}" id="keyword" name="keyword" />
 			
 			<div class="board_top">
+				<span class="topbtn">
+					<button class="with_my">내가 쓴글 보기</button>
+					<span class="with_slash"><b>/</b></span>
+					<button class="with_singo">신고</button>
+				</span>
 				<h1>동행 등록</h1>
 				<input type="button" value="등록" class="add_contents"
 					onclick="location.href=`/board_with_write?page=${page}&category=${category}&keyword=${keyword}`">
@@ -38,35 +43,35 @@
 				</c:if>
 				<c:if test="${!empty with_li_list}">
 					<c:forEach var="with" items="${with_li_list}">
-	 					<li>
-							<span class="singo">신고</span> 
+	 					<li style="position: relative;">
+	 						
 							<span class="sel_check">
 								<input type="checkbox" name="with_checkbox" value="${with.board_no}">
 							</span>
 							<div class="li_box">
 								<h2>${with.board_title}</h2>
-								<div>
+								<div class="li_with_cont">
 									<p>
 									<b>작성자 :</b>&nbsp
-									<span><img alt="Profile"
-										src="/resources/upload/profile/default_profile.png"></img>
+									<img alt="Profile" src="/resources/upload/profile/default_profile.png"></img>
+									<span class="li_box_list">
 										${with.board_writer}
 									</span>
-									&nbsp.&nbsp
+									&nbsp
 									<b>장소 :</b>&nbsp
-									<span>${with.board_location}</span>
+									<span class="li_box_list">${with.board_location}</span>
 									</p>
 									<p>
-									&nbsp.&nbsp
+									&nbsp
 									<b>기간 :</b>&nbsp
-									<span>${with.board_startDay} ~ ${with.board_endDay}</span>
-									&nbsp.&nbsp
+									<span class="li_box_list">${with.board_startDay} <b>~</b> ${with.board_endDay}</span>
+									&nbsp
 									<b>모집인원 :</b>&nbsp
-									<span>${with.board_memCount}</span>
+									<span class="li_box_list">${with.board_memCount}</span>
 									</p>
 								</div>
 	
-								<textarea readonly>${with.board_content}</textarea>
+								<div class="with_contbox">${with.board_content}</div>
 	
 								<input type="button" value="신청하기">
 							</div>
@@ -127,10 +132,15 @@
 					<c:if test="${page == totalPage}">
 						<span>마지막</span>
 					</c:if>			
-					<c:if test="${page > totalPage || page==1}">
+					<c:if test="${page > totalPage}">
 						<a href="/board_with_list?page=${totalPage}&category=${category}&keyword=${keyword}">
 							<span>마지막</span>
 						</a>
+						<c:if test="${page == 0}">
+							<a href="/board_with_list?page=${totalPage}&category=${category}&keyword=${keyword}">
+								<span>마지막</span>
+							</a>
+						</c:if>
 					</c:if>
 				</div>
 			</div>

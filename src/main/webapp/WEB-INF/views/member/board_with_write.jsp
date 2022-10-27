@@ -4,7 +4,7 @@
 <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 	<jsp:include page="../static/sidebar.jsp" />
 </c:if>
-<c:if test="${sessionScope.grade == 'm'  }">
+<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
 	<!-- 회원용 리모컨 -->
 </c:if>
 <link rel="stylesheet" href="./resources/CSS/static/header.css">
@@ -24,7 +24,7 @@
             <div class="board_title">
             	
             	<!-- ***** 도 선택 ***** -->
-                <select id="province" name="province_id">
+                <select id="province" class="province" name="province_id">
                         <option disabled selected>도 선택</option>
                 </select>
                 <input type="hidden" id="with_province_name" name="with_province_name">
@@ -42,9 +42,9 @@
                 <input type="hidden" id="with_attr_name" name="with_attr_name">
                 
                 <span class="board_date">기간
-                    <input type="date" id="withStartDay" name="board_startDay" type="date" required>
+                    <input type="date" id="withStartDay" class="withStartDay" name="board_startDay" type="date" >
                     ~
-                    <input type="date" id="withEndDay" name="board_endDay" type="date" required>
+                    <input type="date" id="withEndDay"class="withEndDay" name="board_endDay" type="date" >
                 </span>
 
                 <span class="board_people">모집인원
@@ -57,10 +57,12 @@
                 </span>
             </div>
             <div class="board_title_cont">
-                <input type="text" name="board_title" placeholder="제목" required>
+                <input type="text" id="with_board_title" class="with_board_title" name="board_title" placeholder="제목">
             </div>
             <div class="board_content">
-                <textarea name="board_content" id="with_board_content" class="summernote"></textarea>
+                <textarea id="with_board_content" class="summernote" name="board_content" maxlength="50"></textarea>
+                <br />
+				<span style="color:#aaa; right: 20px;" id="with_con_counter">0</span>
             </div>
             <div class="board_button">
                 <input type="submit" value="등록">
@@ -86,11 +88,11 @@
 			    // [groupName, [list of button]]
 			    ['fontNames', ['fontname']],
 			    ['fontSizes', ['fontsize']],
-			    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			    ['style', ['bold', 'italic', 'underline','strikethrough'/* , 'clear' */]],
 			    ['color', ['forecolor','color']],
-			    ['table', ['table']],
-			    ['para', ['ul', 'ol', 'paragraph']],
-			    ['height', ['height']]
+			    /* ['table', ['table']], */
+			    /* ['para', ['ul', 'ol', 'paragraph']], */
+			    /* ['height', ['height']] */
 /* 			    ['insert',['picture','link','video']],
 			    ['view', ['fullscreen', 'help']] */
 			  ],
@@ -100,7 +102,7 @@
     /* }); */
     </script>
     <!-- summernote // -->
-
+    
 <script src="/resources/JS/member/board_with_write.js"></script>
 <jsp:include page="../static/footer.jsp"/>
 

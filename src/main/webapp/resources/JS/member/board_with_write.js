@@ -179,25 +179,84 @@ withEndDay.addEventListener("input", function(event) {
 
 
 /**
+ * 동행 textarea 글자수 체크
+ */
+
+/*const with_board_content_count = document.querySelector(".board_content");
+const with_con_counter = document.querySelector("#with_con_counter");
+let cont = document.querySelector("#with_board_content");
+let noteEditable = document.querySelector('.note-editable');
+
+noteEditable.addEventListener("keyup", (e) => {
+	console.log(cont.value);
+	let content = e.target.value;
+	let content_length = content.length;
+	if(content_length > 50) {
+		alert("최대 50자까지 작성 가능합니다");
+		e.target.value = content.substring(0,50);
+	}
+	with_con_counter.value = `${e.target.value.length}/50자`;
+});*/
+
+
+
+/**
  * 전체 유효성 검사
  */
 
-let form = board_with;
-let memCount = form.memCount;
-let with_board_content = form.with_board_content;
+let form = document.board_with;
+let with_province_name_check = form.with_province_name;
+let withStartDay_check = form.board_startDay;
+let withEndDay_check = form.board_endDay;
+let memCount_check = form.board_memCount;
+let with_board_title_check = form.with_board_title;
+let with_board_content_check = form.board_content;
 
 function formcheck() {
+
+	console.log(memCount.value);
+	console.log(memCount_check.value);
+	
+	// 도 선택 유효성 검사
+	if (with_province_name_check.value == "") {
+		alert('도를 선택하세요 😊');
+		
+		return false;
+		
+	}
+	
+	// 시작날짜 유효성 검사
+	if (withStartDay_check.value == "") {
+		alert('시작날짜를 선택하세요 😊')
+		
+		return false;
+	}
+	
+	// 종료날짜 유효성 검사
+	if (withEndDay_check.value == "") {
+		alert('종료날짜를 선택하세요 😊')
+		
+		return false;
+	}
 	
 	// 모집인원 유효성 검사
-	if (memCount.value == 0) {
+	if (memCount_check.value == 0) {
 		alert('모집인원은 1인 이상부터 가능합니다 😊');
 		
 		return false;
 		
 	}
 	
+	// 제목 유효성 검사
+	if (with_board_title_check.value == "") {
+		alert('제목을 입력하세요 😊')
+		$('.with_board_title').focus();
+		
+		return false;
+	}
+	
 	// 내용 유효성 검사
-	if (with_board_content.value == "") {
+	if (with_board_content_check.value == "") {
 		alert('내용을 입력하세요 😊');
 		$('.note-editable').focus();
 		
