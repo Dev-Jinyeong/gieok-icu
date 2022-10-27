@@ -103,3 +103,4 @@
 
 <script src="/resources/JS/member/board_with_write.js"></script>
 <jsp:include page="../static/footer.jsp"/>
+
