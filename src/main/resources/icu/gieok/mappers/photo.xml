@@ -47,7 +47,7 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getBoardDetail" resultType="board">
-		select * from board where board_type = 4 and board_no=#{board_no}
+		select * from board where board_type = 4 and board_no=#{board_no} and board_state = '0'
 	</select>
 	
 	<update id="updateBoardHit">
@@ -94,4 +94,14 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		insert into board_like_report (user_code, board_no)
 		values (#{user_code}, #{board_no})
 	</insert>
+	
+	<update id="updatePhotoEventReportCheck" parameterType="java.util.Map">
+		update board_like_report set board_report = 'Y'
+		where board_no = #{board_no} and user_code = #{user_code}
+	</update>
+	
+	<update id="updatePhotoEventReport" parameterType="java.util.Map">
+		update board set board_report = board_report + 1
+		where board_no = #{board_no}
+	</update>
 </mapper>
