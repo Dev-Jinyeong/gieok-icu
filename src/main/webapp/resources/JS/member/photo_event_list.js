@@ -6,9 +6,11 @@ const board_list = document.querySelector(".board_list");
 /* =====// upload button //===== */
 const upload_button = document.querySelector('.board_title>input[type="button"]');
 
-upload_button.addEventListener('click', () => {
-	location.href = "/photo_event_upload";
-});
+if(upload_button != null) {
+	upload_button.addEventListener('click', () => {
+		location.href = "/photo_event_upload";
+	});
+}
 
 /* =====// search start //===== */
 const board_search_button = document.querySelector('.board_search>input[type="submit"]:last-of-type');
