@@ -6,9 +6,6 @@
 <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 	<jsp:include page="../static/sidebar.jsp" />
 </c:if>
-<c:if test="${sessionScope.grade == 'm'  }">
-	<!-- 회원용 리모컨 -->
-</c:if>
 
 <link type="text/css" rel="stylesheet" href="../resources/CSS/member/attr.css">
 
@@ -16,18 +13,23 @@
 	<div class="attraction_default">
 		<!-- 관광 명소 container -->
 		<div class="attraction_container">
-			<!-- 관광 명소 리모컨 -->
-			<div class="attr_remotectr_con">
-				<p class="attr_remotectr_name wf-gangwonTT">명소 이름</p>
-				<ul class="attr_remotectr_list">
-					<li class="attr_remotectr_item"><a href="#" class="attr_remotectr_menu">
-						주변
-					</a></li>
-					<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
-						지도보기
-					</a></li>
-				</ul>
-			</div>
+			<input type="hidden" value=${sessionScope.grade } id="user_grade">
+			<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
+				<!-- 회원용 리모컨 -->
+				<div class="attr_remotectr_con">
+					<p class="attr_remotectr_name wf-gangwonTT">${attr.attr_name }</p>
+					<ul class="attr_remotectr_list">
+						<li class="attr_remotectr_item go_city">
+							<span class="attr_remotectr_menu">
+								${attr.attr_city }
+							</span>
+						</li>
+						<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
+							지도보기
+						</a></li>
+					</ul>
+				</div>
+			</c:if>
 			<!-- 관광 명소 지도 -->
 			<div class="attr_map_container">
 				<div id="map" class="attr_map">
@@ -48,9 +50,9 @@
 					</p>
 					
 					<div class="attr_back_btn">
-						<input type="button" class="back_btn" value="뒤로가기" onclick="history.back();">
+						<input type="button" class="back_btn" value="뒤로가기">
 						<input type="checkbox" name="check_like" id="check_like"
-							<c:if test="${!empty attr_like }">
+							<c:if test="${attr_like == 'Y' }">
 								checked
 							</c:if>
 						>
@@ -85,8 +87,11 @@
 						</div>
 					</div>
 					<input type="hidden" value="${province }" id="province">
+					<input type="hidden" value="${latitude }" id="latitude">
+					<input type="hidden" value="${longitude }" id="longitude">
 					<input type="hidden" value="${attr.city_code }" id="city_code">
 					<input type="hidden" value="${attr.attr_code }" id="attr_code">
+					<input type="hidden" value="${attr.attr_city }" id="city_name">
 					<input type="hidden" value="${sessionScope.code }" id="user_code">
 					<input type="hidden" value="${sessionScope.grade }" id="user_grade">
 					<ul class="attr_card_list">

@@ -44,7 +44,7 @@
                 <a href="#" class="content_text">
                     <span>전국 유명 여행지</span><br>
                     <span>22년 베스트픽 여행지들을 한눈에 확인해요!</span>
-                    <span>80</span>
+                    <span>${attrTotalCount}</span>
                     <span>
                         여개의 여행지들을<br>
                         둘러보실수 있어요 :)
@@ -99,11 +99,9 @@
 
  
             <div class="content_right">
-                <div class="item">명소 이름</div>
-                <div class="item">명소 이름2</div>
-                <div class="item">명소 이름3</div>
-                <div class="item">명소 이름4</div>
-                <div class="item">명소 이름5</div>
+            <c:forEach var="item" items="${attrlike}">
+                <a href="/member/attr?attr_code=${item.attr_code}" class="item" style="background-image:url(../resources/upload/${item.attr_photo})">${item.attr_name}</a>
+			</c:forEach>
             </div>
 
         </article>

@@ -92,7 +92,7 @@
                 <li>
                     <div class="board_info">
                     <a href="board_with_list?category=board_location&keyword=${search}">
-                        <span class="board_content">${item.board_title}</span>
+                        <span class="board_content">[${item.board_location}]${item.board_title}</span>
                         <span class="board_content">${item.board_content}</span>
                     </a>
                     </div>

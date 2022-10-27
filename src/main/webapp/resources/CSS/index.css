@@ -385,27 +385,20 @@ height: 600px;
     font-size: var(--font-size-head6);
 }
 .content_right > .item:first-of-type {
-    /* 이미지들은 나중에 다 빼고 게시판이랑 연결할거에요 */
-    background-image: url(../images/right1.jpg);
 }
 
 .content_right > .item:nth-of-type(2) {
-    background-image: url(../images/right2.jpg);
     background-position-y: -50px;
 }
 
 .content_right > .item:nth-of-type(3) {
-    background-image: url(../images/right3.jpg);
 }
 
 .content_right > .item:nth-of-type(4) {
-    background-image: url(../images/right4.jpg);
     background-position-y: -20px;
 }
 
 .content_right > .item:last-of-type {
-    background-image: url(../images/right5.jpg);
-
     margin-bottom: 0;
 }
 
