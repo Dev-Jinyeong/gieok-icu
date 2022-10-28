@@ -25,11 +25,13 @@
 			
 			<div class="board_top">
 				<span class="topbtn">
-					<button class="with_my">내가 쓴글 보기</button>
+					<button class="with_my">나의 동행</button>
 					<span class="with_slash"><b>/</b></span>
-					<button class="with_singo">신고</button>
+					<button class="with_sin">신청 동행</button>
 				</span>
-				<h1>동행 등록</h1>
+				
+				<h1><a class="with-main-point" href="/board_with_list">동행 등록</a></h1>
+				
 				<input type="button" value="등록" class="add_contents"
 					onclick="location.href=`/board_with_write?page=${page}&category=${category}&keyword=${keyword}`">
 			</div>
@@ -44,16 +46,12 @@
 				<c:if test="${!empty with_li_list}">
 					<c:forEach var="with" items="${with_li_list}">
 	 					<li style="position: relative;">
-	 						
-							<span class="sel_check">
-								<input type="checkbox" name="with_checkbox" value="${with.board_no}">
-							</span>
 							<div class="li_box">
+								<button class="useBtn">신고</button>
 								<h2>${with.board_title}</h2>
 								<div class="li_with_cont">
 									<p>
 									<b>작성자 :</b>&nbsp
-									<img alt="Profile" src="/resources/upload/profile/default_profile.png"></img>
 									<span class="li_box_list">
 										${with.board_writer}
 									</span>
@@ -80,8 +78,6 @@
 				</c:if>
 				</ul>
 			</div>
-			<!-- event end -->
-			<button class="with_end_button">선택 동행 종료</button>
 		</form>
 		<!-- // bottom -->
 		<div class="board_last">
@@ -106,13 +102,14 @@
 						</a>
 					</c:if>
 				</div>
+				
 				<ul class="board_page">
 					<c:forEach var="p" begin="${startPage}" end="${endPage}" step="1">
 						<c:if test="${p == page}">
-							<li>${p}</li>
+							<li class="now_P">${p}</li>
 						</c:if>
 						<c:if test="${p != page}">
-							<li>
+							<li class="now_P">
 								<a href="/board_with_list?page=${p}&category=${category}&keyword=${keyword}">
 									${p}
 								</a>
@@ -120,6 +117,7 @@
 						</c:if>	
 					</c:forEach>
 				</ul>
+				
 				<div class="next">
 					<c:if test="${(startPage + 10) > totalPage}">
 						<span>다음</span>
