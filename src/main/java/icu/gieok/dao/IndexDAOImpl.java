@@ -18,48 +18,49 @@ public class IndexDAOImpl implements IndexDAO {
 
 	@Override
 	public List<AttrVO> getAttrList_index(Map<String, Object> m) {
-		return this.sqlSession.selectList("getAttrList_index", m);
+		return sqlSession.selectList("getAttrList_index", m);
 	}
 
 	@Override
 	public int countAttr_index(Map<String, Object> m) {
-		return this.sqlSession.selectOne("countAttr_index", m);
+		return sqlSession.selectOne("countAttr_index", m);
 	}
 
 	@Override
 	public List<BoardVO> getWiteList_index(Map<String, Object> m) {
-		return this.sqlSession.selectList("getWithList_index", m);
+		return sqlSession.selectList("getWithList_index", m);
 	}
 
 	@Override
 	public int countWith_index(Map<String, Object> m) {
-		return this.sqlSession.selectOne("countWith_index", m);
+		return sqlSession.selectOne("countWith_index", m);
 	}
 
 	@Override
 	public List<BoardVO> getBoardList_index(Map<String, Object> m) {
-		return this.sqlSession.selectList("getBoardList_index", m);
+		return sqlSession.selectList("getBoardList_index", m);
 	}
 
 	@Override
 	public int boardListCount_index(Map<String, Object> m) {
-		return this.sqlSession.selectOne("boardListCount_index", m);
+		return sqlSession.selectOne("boardListCount_index", m);
 	}
 
 	@Override
-	public List<AttrVO> getAttrLike_index(Map<String, Object> m) {
-		return this.sqlSession.selectList("getAttrLike_index", m);
+	public List<AttrVO> getAttrLike_index() {
+		return sqlSession.selectList("getAttrLike_index");
 	}
 
 	@Override
 	public int maxNumAttr_index() {
-		return this.sqlSession.selectOne("maxNumAttr_index");
+		return sqlSession.selectOne("maxNumAttr_index");
 	}
 
 	@Override
-	public List<AttrVO> getAttrAll() {
-		return this.sqlSession.selectList("getAttrAll");
+	public AttrVO getAttrOne_index(int ran) {
+		return sqlSession.selectOne("getAttrOne_index", ran);
 	}
+
 	
 	
 }

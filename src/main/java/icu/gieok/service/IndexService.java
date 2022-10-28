@@ -20,10 +20,10 @@ public interface IndexService {
 
 	int boardListCount_index(Map<String, Object> m);
 
-	List<AttrVO> getAttrLike_index(Map<String, Object> m);
+	List<AttrVO> getAttrLike_index();
 
 	int maxNumAttr_index();
 
-	List<AttrVO> getAttrAll();
+	AttrVO getAttrOne_index(int ran);
 
 }

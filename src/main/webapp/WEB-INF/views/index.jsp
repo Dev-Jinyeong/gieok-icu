@@ -38,35 +38,25 @@
 
         <article class="contents_container">
 
-            <div class="content_left">
+            <div class="content_left" style="background-image:url(../resources/upload/${attrimg.attr_img1})">
                 <!--div는 block.WRAP이라고생각하기-->
-
                 <a href="#" class="content_text">
                     <span>전국 유명 여행지</span><br>
                     <span>22년 베스트픽 여행지들을 한눈에 확인해요!</span>
                     <span>${attrTotalCount}</span>
-                    <span>
-                        여개의 여행지들을<br>
-                        둘러보실수 있어요 :)
-                    </span>
+                    <span>여개의 여행지들을<br>둘러보실수 있어요 :)</span>
                     <p>보러가기!</p>
                 </a>
-
             </div>
-
-
             <div class="content_middle">
                 <div class="cont_mid_top">
                     <span>22년 11월 베스트 샷</span><br>
                     <a href="#">홍길동님</a>
                 </div>
-
-
                 <div class="cont_mid_bottom">
                     <ul class="notice_board_view">
                         <h1 class="notice_board_title" style="cursor:pointer;" onclick="location.href='/board_list'">
-                            기억하자 <span>NEWS!!</span>
-                        </h1>
+			                            기억하자 <span>NEWS!!</span></h1>
                         <div class="line"></div>
                         <c:forEach var="list" items="${blist}">
                         	<li>
@@ -96,10 +86,8 @@
                 </div>
             </div>
 
-
- 
             <div class="content_right">
-            <c:forEach var="item" items="${attrlike}">
+            <c:forEach var="item" items="${attrlike}" begin="0" end="4" step="1">
                 <a href="/member/attr?attr_code=${item.attr_code}" class="item" style="background-image:url(../resources/upload/${item.attr_photo})">${item.attr_name}</a>
 			</c:forEach>
             </div>

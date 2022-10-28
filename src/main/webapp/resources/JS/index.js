@@ -58,4 +58,3 @@ let search_value = document.querySelector('#search').value;
 		return false;
 	}
 }
-

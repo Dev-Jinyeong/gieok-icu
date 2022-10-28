@@ -75,18 +75,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 좋아요 상위 5개(index) -->
-	<select id="getAttrLike_index" parameterType="java.util.Map" resultType="attr">
-		select * from
-		(select attr_code, count(user_code) as like_count from attr_like
-		where attr_like like 'Y' group by attr_code order by count(user_code) desc)
-		natural join attraction where rownum between 1 and 5
+	<select id="getAttrLike_index" resultType="attr">
+	select * from (select attr_code, count(user_code) as like_count, rank() over (order by count(user_code) desc) as like_rank
+	from attr_like where attr_like like 'Y' group by attr_code order by like_count desc)
+	natural join attraction where like_rank &lt;=5 order by like_rank, attr_regdate desc
 	</select>
 	
 	<!--  -->
 	<select id="maxNumAttr_index" resultType="int">
 		select max(attr_code) from attraction
 	</select>
-	<select id="getAttrAll" resultType="attr">
-		select * from attraction
+	<select id="getAttrOne_index" resultType="attr">
+		select * from attraction where attr_code=#{ran}
 	</select>
 </mapper>

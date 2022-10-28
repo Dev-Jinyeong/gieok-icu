@@ -17,62 +17,62 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void noticeInsert(BoardVO b) {
-		this.boardDao.noticeInsert(b);
+		boardDao.noticeInsert(b);
 	}
 
 	@Override
 	public void eventInsert(BoardVO b) {
-		this.boardDao.eventInsert(b);
+		boardDao.eventInsert(b);
 	}
 
 	@Override
 	public BoardVO board_cont(int board_no) {
-		return this.boardDao.board_cont(board_no);
+		return boardDao.board_cont(board_no);
 	}
 
 	@Override
 	public BoardVO getboardDetail(int board_no) {
-		return this.boardDao.getboardDetail(board_no);
+		return boardDao.getboardDetail(board_no);
 	}
 
 	@Override
 	public BoardVO board_contM(int board_no) {
-		return this.boardDao.board_contM(board_no);
+		return boardDao.board_contM(board_no);
 	}
 
 	@Override
 	public void board_del(int i) {
-		this.boardDao.board_del(i);		
+		boardDao.board_del(i);		
 	}
 
 	@Override
 	public void noticeUpdate(BoardVO b) {
-		this.boardDao.noticeUpdate(b);
+		boardDao.noticeUpdate(b);
 	}
 
 	@Override
 	public void eventUpdate(BoardVO b) {
-		this.boardDao.eventUpdate(b);
+		boardDao.eventUpdate(b);
 	}
 
 	@Override
 	public List<BoardVO> boardSort(Map<String, Object> bs) {
-		return this.boardDao.boardSort(bs);
+		return boardDao.boardSort(bs);
 	}
 
 	@Override
 	public List<BoardVO> board_list(Map<String, Object> rows) {
-		return this.boardDao.board_list(rows);
+		return boardDao.board_list(rows);
 	}
 
 	@Override
 	public int board_count(Map<String, Object> row_sort) {
-		return this.boardDao.board_count(row_sort);
+		return boardDao.board_count(row_sort);
 	}
 
 	@Override
 	public void board_eventEnd(int i) {
-		this.boardDao.board_eventEnd(i);
+		boardDao.board_eventEnd(i);
 	}
 
 }

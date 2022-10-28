@@ -16,7 +16,7 @@ public class AttrVO {
 	private	int city_code;
 	private String attr_city;
 	private int like_count;
-	
+	private int like_rank;
 	
 	public int getAttr_code() {
 		return attr_code;
@@ -102,7 +102,12 @@ public class AttrVO {
 	public void setLike_count(int like_count) {
 		this.like_count = like_count;
 	}
-	
+	public int getLike_rank() {
+		return like_rank;
+	}
+	public void setLike_rank(int like_rank) {
+		this.like_rank = like_rank;
+	}
 	
 	
 }

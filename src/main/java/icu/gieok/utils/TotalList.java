@@ -82,24 +82,28 @@ public class TotalList {
 	
 	public List<AttrVO> attr_list_like(Object service){
 		
-		List<AttrVO> list = ((IndexService) service).getAttrLike_index(m);
-
+		List<AttrVO> list = ((IndexService) service).getAttrLike_index();
+		
 		return list;
 	}
 
-	public List<AttrVO> attr_ranImg(Object service) {
+	public AttrVO attr_ranImg(Object service) {
 		
 		list_count = ((IndexService) service).maxNumAttr_index();
 		
-		List<AttrVO> list = ((IndexService) service).getAttrAll();
+		int ran = (int)(Math.random()*list_count)+1;
 		
-		int ran = (int)(Math.random()*list_count);
+		AttrVO list = ((IndexService) service).getAttrOne_index(ran);
 
-		
-		for(int i= 0; i <= list_count; i++) {
+		for(int i=0; i<list_count; i++) {
+			if(list == null) {
+				ran = (int)(Math.random()*list_count);
+				list = ((IndexService) service).getAttrOne_index(ran);
+			}else {
+				break;
+			}
 		}
-				
-		return null;
+		return list;
 	}
 
 	

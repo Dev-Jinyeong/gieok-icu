@@ -18,46 +18,47 @@ public class IndexServieceImpl implements IndexService {
 
 	@Override
 	public List<AttrVO> getAttrList_index(Map<String, Object> m) {
-		return this.indexDao.getAttrList_index(m);
+		return indexDao.getAttrList_index(m);
 	}
 
 	@Override
 	public int countAttr_index(Map<String, Object> m) {
-		return this.indexDao.countAttr_index(m);
+		return indexDao.countAttr_index(m);
 	}
 
 	@Override
 	public List<BoardVO> getWithList_index(Map<String, Object> m) {
-		return this.indexDao.getWiteList_index(m);
+		return indexDao.getWiteList_index(m);
 	}
 
 	@Override
 	public int countWith_index(Map<String, Object> m) {
-		return this.indexDao.countWith_index(m);
+		return indexDao.countWith_index(m);
 	}
 
 	@Override
 	public List<BoardVO> getBoardList_index(Map<String, Object> m) {
-		return this.indexDao.getBoardList_index(m);
+		return indexDao.getBoardList_index(m);
 	}
 
 	@Override
 	public int boardListCount_index(Map<String, Object> m) {
-		return this.indexDao.boardListCount_index(m);
+		return indexDao.boardListCount_index(m);
 	}
 
 	@Override
-	public List<AttrVO> getAttrLike_index(Map<String, Object> m) {
-		return this.indexDao.getAttrLike_index(m);
+	public List<AttrVO> getAttrLike_index() {
+		return indexDao.getAttrLike_index();
 	}
 
 	@Override
 	public int maxNumAttr_index() {
-		return this.indexDao.maxNumAttr_index();
+		return indexDao.maxNumAttr_index();
 	}
 
 	@Override
-	public List<AttrVO> getAttrAll() {
-		return this.indexDao.getAttrAll();
+	public AttrVO getAttrOne_index(int ran) {
+		return indexDao.getAttrOne_index(ran);
 	}
+
 }
