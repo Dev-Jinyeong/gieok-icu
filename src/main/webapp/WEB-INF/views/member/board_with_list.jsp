@@ -30,7 +30,9 @@
 					<button class="with_sin">신청 동행</button>
 				</span>
 				
-				<h1><a class="with-main-point" href="/board_with_list">동행 등록</a></h1>
+				<h1>
+					<a class="with-main-point" href="/board_with_list">동행 등록</a>
+				</h1>
 				
 				<input type="button" value="등록" class="add_contents"
 					onclick="location.href=`/board_with_write?page=${page}&category=${category}&keyword=${keyword}`">
@@ -51,21 +53,21 @@
 								<h2>${with.board_title}</h2>
 								<div class="li_with_cont">
 									<p>
-									<b>작성자 :</b>&nbsp
-									<span class="li_box_list">
-										${with.board_writer}
-									</span>
-									&nbsp
-									<b>장소 :</b>&nbsp
-									<span class="li_box_list">${with.board_location}</span>
+										<b>작성자 :</b>&nbsp
+										<span class="li_box_list">
+											${with.board_writer}
+										</span>
+										&nbsp&nbsp
+										<b>장소 :</b>&nbsp
+										<span class="li_box_list">${with.board_location}</span>
 									</p>
 									<p>
-									&nbsp
-									<b>기간 :</b>&nbsp
-									<span class="li_box_list">${with.board_startDay} <b>~</b> ${with.board_endDay}</span>
-									&nbsp
-									<b>모집인원 :</b>&nbsp
-									<span class="li_box_list">${with.board_memCount}</span>
+										&nbsp&nbsp
+										<b>기간 :</b>&nbsp
+										<span class="li_box_list">${with.board_startDay} <b>~</b> ${with.board_endDay}</span>
+										&nbsp&nbsp
+										<b>모집인원 :</b>&nbsp
+										<span class="li_box_list">${with.board_memCount}</span>
 									</p>
 								</div>
 	
