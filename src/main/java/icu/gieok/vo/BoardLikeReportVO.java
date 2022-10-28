@@ -2,11 +2,20 @@ package icu.gieok.vo;
 
 public class BoardLikeReportVO {
     
+	private int report_no;
     private int user_code;
     private int board_no;
     private char board_like;
     private char board_report;
-    
+
+	public int getReport_no() {
+		return report_no;
+	}
+
+	public void setReport_no(int report_no) {
+		this.report_no = report_no;
+	}
+	
     public int getUser_code() {
         return user_code;
     }
