@@ -398,15 +398,15 @@ public class PhotoEventController {
         }
         
         int like = 0;
-        char like_check = boardLikeReport.getBoard_like();
+        String like_check = boardLikeReport.getBoard_like();
         map.put("check", like_check); // 좋아요가 눌려있는지 안눌려있는지
         
         like = photoService.updatePhotoEventLikeCheck(map);
         like += photoService.updatePhotoEventLike(map);
 
-        if(like_check == 'Y') {
+        if(like_check == "Y") {
             msg = "좋아요가 취소되었습니다";
-        } else if(like_check == 'N') {
+        } else if(like_check == "N") {
             msg = "좋아요를 눌렀습니다";
         }
         
