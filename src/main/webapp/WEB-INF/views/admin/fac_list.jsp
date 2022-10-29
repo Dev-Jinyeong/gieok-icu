@@ -134,13 +134,13 @@
 		                    <c:if test="${page == totalPage}">
 				                <span>마지막</span>
 				            </c:if>
+				            <c:if test="${totalPage == 0}">
+				                <span>마지막</span>
+				            </c:if>
 		                    <c:if test="${page < totalPage}">
 		                    	<a href="/admin/fac_list?attr_code=${attr_code}&page=${totalPage}&sort=${sort}&category=${category}&keyword=${keyword}">
 		                    		<span>마지막</span>
 		                    	</a>
-		                    	<c:if test="${totalPage == 0}">
-				                	<span>마지막</span>
-				            	</c:if>
 		                    </c:if>
 		                </div>
 		            </div> <!-- class="board_page" -->
