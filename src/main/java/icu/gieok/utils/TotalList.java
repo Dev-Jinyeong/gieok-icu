@@ -77,6 +77,7 @@ public class TotalList {
 		m.put("category", "attr_name");
 		m.put("keyword", search);
 		list_count = ((IndexService) service).countAttr_index(m);
+		
 		return list_count;
 	}
 	
@@ -103,6 +104,13 @@ public class TotalList {
 				break;
 			}
 		}
+		return list;
+	}
+
+	public List<BoardVO> photo_likeImg(Object service) {
+		
+		List<BoardVO> list = ((IndexService)service).getPhotoLike();
+		
 		return list;
 	}
 

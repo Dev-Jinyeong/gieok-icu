@@ -61,6 +61,11 @@ public class IndexDAOImpl implements IndexDAO {
 		return sqlSession.selectOne("getAttrOne_index", ran);
 	}
 
+	@Override
+	public List<BoardVO> getPhotoLike() {
+		return sqlSession.selectList("getPhotoLike");
+	}
+
 	
 	
 }

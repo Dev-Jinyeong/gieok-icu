@@ -26,4 +26,6 @@ public interface IndexService {
 
 	AttrVO getAttrOne_index(int ran);
 
+	List<BoardVO> getPhotoLike();
+
 }

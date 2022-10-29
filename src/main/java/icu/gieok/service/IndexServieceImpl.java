@@ -61,4 +61,9 @@ public class IndexServieceImpl implements IndexService {
 		return indexDao.getAttrOne_index(ran);
 	}
 
+	@Override
+	public List<BoardVO> getPhotoLike() {
+		return indexDao.getPhotoLike();
+	}
+
 }

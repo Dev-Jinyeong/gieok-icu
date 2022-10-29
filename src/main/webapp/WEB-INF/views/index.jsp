@@ -49,10 +49,12 @@
                 </a>
             </div>
             <div class="content_middle">
-                <div class="cont_mid_top">
+            <c:forEach var="item" items="${photoimg}" begin="0" end="0">
+                <div class="cont_mid_top" style="background-image:url(../resources/upload/event/${item.board_img})">
                     <span>22년 11월 베스트 샷</span><br>
-                    <a href="#">홍길동님</a>
+                    <a href="#">${item.board_writer}</a>
                 </div>
+            </c:forEach>
                 <div class="cont_mid_bottom">
                     <ul class="notice_board_view">
                         <h1 class="notice_board_title" style="cursor:pointer;" onclick="location.href='/board_list'">

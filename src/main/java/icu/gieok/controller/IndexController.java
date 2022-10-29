@@ -34,10 +34,11 @@ public class IndexController {
 		m.addObject("attrlike", list.attr_list_like(indexService));
 		m.addObject("attrTotalCount", list.attr_count("total", indexService));
 		m.addObject("attrimg", list.attr_ranImg(indexService));
+		m.addObject("photoimg", list.photo_likeImg(indexService));
 		m.setViewName("index");
 
 		return m;
-	}
+	}	
 	
 	@GetMapping("/main_search")
 	public ModelAndView index_search(ModelAndView m, String search) {

@@ -51,7 +51,7 @@
             </ul>
             <c:if test="${empty alist}">
                      <p><b>검색 결과가 없습니다</b></p></c:if>
-            <input type="button" class="view_more_btn" value="더 보기">
+            <input type="button" class="view_more_btn" value="더 보기" onclick="location.href='member/map'">
         </div>
 
         <div class="search_type2 search_content">
@@ -62,7 +62,7 @@
                 <c:forEach var="item" items="${blist}">
                 <li>
                     <div class="board_info">
-                        <a href="">
+                        <a href="/board_cont?no=${item.board_no}&page=1">
                         <span>
 	                        <c:if test ="${item.board_type eq '1' }">[공지사항]</c:if>
 	                        <c:if test ="${item.board_type eq '2' }">[이벤트]</c:if>
@@ -118,7 +118,7 @@
                     <img src="../resources/upload/event/${item.board_img}">
                     </div>
                     <div class="board_info">
-                    <a href="#">
+                    <a href="photo_event_detail?photo_no=${item.board_no}">
                         <span>${item.board_title}</span>
                         <span>${item.board_content}</span>
                     </a>
