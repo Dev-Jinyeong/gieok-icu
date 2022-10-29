@@ -236,6 +236,10 @@ span, span>p {
     background-color: #333;
 }
 
+.board_img img{
+	width: 100%;
+}
+
 .board_info {
     display: inline-block;
     margin-left: 10px;

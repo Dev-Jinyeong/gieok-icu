@@ -20,16 +20,18 @@ public interface AttrDAO {
 
 	String avgReviewRate(int attr_code);
 
-	AttrReviewReportVO getAttrReviewReport(Map<String, Integer> codes);
+	AttrReviewReportVO getAttrReviewReport(Map<String, Object> codes);
 
-	int insertAttrReviewReport(Map<String, Integer> codes);
+	int insertAttrReviewReport(Map<String, Object> codes);
 
-	int updateAttrReviewReport(Map<String, Integer> codes);
+	int updateAttrReviewReport(Map<String, Object> codes);
 
 	AttrLikeVO getAttrLike(Map<String, Integer> map);
 
 	int insertAttrLike(AttrLikeVO attrLike);
 
 	int updateAttrLike(AttrLikeVO attrLike);
+
+	int getAttrReviewWriter(int rev_code);
 
 }

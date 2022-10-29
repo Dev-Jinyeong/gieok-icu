@@ -18,63 +18,63 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void noticeInsert(BoardVO b) {
-		this.sqlSession.insert("notice_insert", b);
+		sqlSession.insert("notice_insert", b);
 	}
 
 	@Override
 	public void eventInsert(BoardVO b) {
-		this.sqlSession.insert("event_insert", b);
+		sqlSession.insert("event_insert", b);
 	}
 
 	@Override
 	public BoardVO board_cont(int board_no) {
-		return this.sqlSession.selectOne("board_cont", board_no);
+		return sqlSession.selectOne("board_cont", board_no);
 	}
 
 	@Override
 	public BoardVO getboardDetail(int board_no) {
-		return this.sqlSession.selectOne("board_detail", board_no);
+		return sqlSession.selectOne("board_detail", board_no);
 	}
 
 	@Transactional
 	@Override
 	public BoardVO board_contM(int board_no) {
-		this.sqlSession.update("board_hitup", board_no);
-		return this.sqlSession.selectOne("board_cont", board_no);
+		sqlSession.update("board_hitup", board_no);
+		return sqlSession.selectOne("board_cont", board_no);
 	}
 
 	@Override
 	public void board_del(int i) {
-		this.sqlSession.update("board_del", i);
+		sqlSession.update("board_del", i);
 	}
 
 	@Override
 	public void noticeUpdate(BoardVO b) {
-		this.sqlSession.update("notice_up", b);
+		sqlSession.update("notice_up", b);
 	}
 
 	@Override
 	public void eventUpdate(BoardVO b) {
-		this.sqlSession.update("event_up", b);
+		sqlSession.update("event_up", b);
 	}
 
 	@Override
 	public List<BoardVO> boardSort(Map<String, Object> bs) {
-		return this.sqlSession.selectList("board_sort", bs);
+		return sqlSession.selectList("board_sort", bs);
 	}
 
 	@Override
 	public List<BoardVO> board_list(Map<String, Object> rows) {
-		return this.sqlSession.selectList("board_list", rows);
+		return sqlSession.selectList("board_list", rows);
 	}
 
 	@Override
 	public int board_count(Map<String, Object> row_sort) {
-		return this.sqlSession.selectOne("board_count", row_sort);
+		return sqlSession.selectOne("board_count", row_sort);
 	}
 
 	@Override
 	public void board_eventEnd(int i) {
-		this.sqlSession.update("board_eventEnd", i);
+		sqlSession.update("board_eventEnd", i);
 	}
 }

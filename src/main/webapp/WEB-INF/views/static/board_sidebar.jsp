@@ -4,32 +4,8 @@
     <section class="controller">
         <!-- admin menu -->
         <div class="admin_menu">
-            <span>관리자</span>
+            <span>게시판</span>
             <div class="line_s"></div>
-            <!-- member -->
-            <span>회원 관리</span>
-            <ul>
-                <li>
-                    <input type="radio" id="admin_list" name="admin_menu">
-                    <label for="admin_list" id="admin_list_btn">관리자 목록</label>
-                </li>
-                <li>
-                    <input type="radio" id="member_list" name="admin_menu">
-                    <label for="member_list" id="member_list_btn">회원 목록</label>
-                </li>
-	             <li>
-	                 <input type="radio" id="report_list" name="admin_menu">
-	                 <label for="report_list" id="report_list_btn">신고 목록</label>
-	             </li>
-            </ul>
-            <!-- local -->
-            <span>명소 게시판</span>
-            <ul>
-                <li>
-                    <input type="radio" id="attr_list" name="admin_menu">
-                    <label for="attr_list" id="attr_list_btn">명소 목록</label>
-                </li>
-            </ul>
             <!-- news, event board -->
             <span>News & Event</span>
             <ul>
@@ -56,4 +32,5 @@
             </ul>
         </div>
     </section>
-    <script src="../resources/JS/static/sidebar.js"></script>
+    
+    <script src="../resources/JS/static/board_sidebar.js"></script>

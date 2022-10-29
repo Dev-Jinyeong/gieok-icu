@@ -3,6 +3,7 @@ package icu.gieok.service;
 import java.util.List;
 import java.util.Map;
 
+import icu.gieok.vo.AttrReviewVO;
 import icu.gieok.vo.UserVO;
 
 public interface UserService {
@@ -28,5 +29,19 @@ public interface UserService {
 	UserVO userIdPwFind(Map<String, String> map);
 
 	int emailDupCheck(Map<String, String> map);
+
+	int changeStateLeave(int user_code);
+
+	List<AttrReviewVO> getMyReviewList(Map<String, Object> map);
+
+	int countMyReview(Map<String, Object> map);
+
+	AttrReviewVO reviewDetail(Map<String, Integer> map);
+
+	int reviewDelete(Map<String, Integer> map);
+
+	int reviewUpdate(AttrReviewVO review);
+
+
 
 }
