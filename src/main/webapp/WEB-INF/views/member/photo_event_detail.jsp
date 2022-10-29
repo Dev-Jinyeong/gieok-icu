@@ -8,6 +8,7 @@
         </c:if>
         <c:if test="${sessionScope.grade == 'm'  }">
             <!-- 회원용 리모컨 -->
+			<jsp:include page="../static/board_sidebar.jsp"></jsp:include>
         </c:if>
         <link rel="stylesheet" href="../resources/CSS/member/photo_event_detail.css">
 
