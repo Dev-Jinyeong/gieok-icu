@@ -43,7 +43,6 @@ function doubleSubmitCheck() {
 let form = document.fac_regist;
 
 function formValidate() {
-
    const type = form.fac_type;
    const name = form.fac_name; 
    const addr = form.fac_addr; 
@@ -68,20 +67,20 @@ function formValidate() {
       link.focus();
       return false;
    }
-   if(facimageCheck == false) {
-      alert("메인 이미지를 선택해주세요!");
-      return false;
-   }
    
    return doubleSubmitCheck();
-   
 }
+
 
 // 취소 버튼
 const cancel_btn = document.querySelector(".facreg_cac_btn");
 
 cancel_btn.addEventListener("click", () => {
    const attr_code = document.querySelector("#attr_code").value;
+   const page = form.page.value;
+   const sort = form.sort.value;
+   const category = form.category.value;
+   const keyword = form.keyword.value;
    
-   location.href = `/admin/fac_list?attr_code=${attr_code}`;
+   location.href = `/admin/fac_list?attr_code=${attr_code}&page=${page}&sort=${sort}&category=${category}&keyword=${keyword}`;
 });

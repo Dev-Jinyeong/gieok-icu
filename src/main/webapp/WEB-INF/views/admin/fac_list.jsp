@@ -90,15 +90,15 @@
 		            	<!-- 처음 / 이전 -->
 		                <div class="prev">
 		                	<c:if test="${page == 1}">
-				                <span class="prev_next">처음</span>
+				                <span>처음</span>
 				            </c:if>
 				            <c:if test="${page > 1}">
 				                <a href="/admin/fac_list?attr_code=${attr_code}&page=1&sort=${sort}&category=${category}&keyword=${keyword}">
-				                  <span class="prev_next">처음</span>
+				                  <span>처음</span>
 				                </a>
 				            </c:if>
 		                	<c:if test="${page < 11}">
-				                <span class="prev_next">이전</span>
+				                <span>이전</span>
 				            </c:if>
 		                	<c:if test="${page >= 11}">
 		                		<a href="/admin/fac_list?attr_code=${attr_code}&page=${startPage - 10}&sort=${sort}&category=${category}&keyword=${keyword}">
@@ -124,7 +124,7 @@
 		                <!-- 다음 / 마지막 -->
 		                <div class="next">
 		                	<c:if test="${(startPage + 10) > totalPage}">
-				                <span class="prev_next">다음</span>
+				                <span>다음</span>
 				            </c:if>
 		                	<c:if test="${(startPage + 10) <= totalPage}">
 		                		<a href="/admin/fac_list?attr_code=${attr_code}&page=${startPage + 10}&sort=${sort}&category=${category}&keyword=${keyword}">>
@@ -132,7 +132,10 @@
 		                    	</a>
 		                    </c:if>
 		                    <c:if test="${page == totalPage}">
-				                <span class="prev_next">마지막</span>
+				                <span>마지막</span>
+				            </c:if>
+				            <c:if test="${totalPage == 0}">
+				                <span>마지막</span>
 				            </c:if>
 		                    <c:if test="${page < totalPage}">
 		                    	<a href="/admin/fac_list?attr_code=${attr_code}&page=${totalPage}&sort=${sort}&category=${category}&keyword=${keyword}">

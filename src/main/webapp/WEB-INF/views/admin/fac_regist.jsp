@@ -18,12 +18,8 @@
 			<!-- 주변 시설 명소 등록 -->
 			<div class="facregist_container">
 				<div class="facregist_default">
-					<form action="/admin/fac_regist" method="POST" enctype="multipart/form-data" name="fac_regist" onsubmit="return formValidate1();">
+					<form action="/admin/fac_regist" method="POST" enctype="multipart/form-data" name="fac_regist" onsubmit="return formValidate();">
 						<input type="hidden" value="${attr_code}" name="attr_code" id="attr_code">
-						<input type="hidden" value="${page}" name="page">
-						<input type="hidden" value="${sort}" name="sort">
-						<input type="hidden" value="${category}" name="category">
-						<input type="hidden" value="${keyword}" name="keyword">
 						<!-- 명소이름 -->
 						<div class="facreg1">
 							<label class="facreg_title wf-gangwonTT">${attr_name} 주변 시설 등록</label>

@@ -217,7 +217,9 @@
     width: 800px;
     height: 20px;
 }
-.prev>span, .next>span {
+.prev>span, .next>span,
+.prev>a, .next>a,
+.prev>a>span, .next>a>span {
     display: inline-block;
 
     width: 50px;
