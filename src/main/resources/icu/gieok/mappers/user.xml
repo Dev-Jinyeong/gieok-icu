@@ -62,7 +62,29 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		select count(user_code) from users where user_email = #{email_input} and user_domain = #{domain_input}
 	</select>
 	
+	<select id="userListCount" parameterType="java.util.Map" resultType="int">
+		select count(user_code) from users where user_grade = 'm' and user_state = '0'
+		<if test="!category.equals('')">
+			and ${category} like '%${keyword}%'
+		</if>
+	</select>
 	
+	<select id="getUserList" parameterType="java.util.Map" resultType="user">
+		select * from
+		(
+			select rowNum rNum, user_code, user_name, user_id, user_regDate,
+			user_mobcarr, user_ph1, user_ph2, user_ph3,
+			user_email, user_domain, user_grade, user_state, user_profile from
+			(
+				select * from users
+				where user_grade = 'm' and user_state = '0'
+				<if test="!category.equals('')">
+					and ${category} like '%${keyword}$'
+				</if>
+				order by user_code desc
+			)
+		) where rNum between #{startRow} and #{endRow}
+	</select>
 	
 	
 
