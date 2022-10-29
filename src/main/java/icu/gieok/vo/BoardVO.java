@@ -23,6 +23,8 @@ public class BoardVO {
 	private int board_like;
 	private int user_code;
 	
+	private int board_report;
+	
 	
 	public int getBoard_no() {
 		return board_no;
@@ -138,8 +140,12 @@ public class BoardVO {
 	public void setUser_code(int user_code) {
 		this.user_code = user_code;
 	}
-	
-	
+	public int getBoard_report() {
+		return board_report;
+	}
+	public void setBoard_report(int board_report) {
+		this.board_report = board_report;
+	}
 	
 	
 }

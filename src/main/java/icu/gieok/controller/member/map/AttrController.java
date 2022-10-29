@@ -55,8 +55,10 @@ public class AttrController {
 		
 	}
 	
+	// 명소 페이지
 	@GetMapping("/attr")
-	public ModelAndView showAttr(@RequestParam int attr_code, HttpSession session) {
+	public ModelAndView showAttr(@RequestParam int attr_code, HttpSession session,
+								String latitude, String longitude) {
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -87,11 +89,14 @@ public class AttrController {
 			map.put("user_code", user_code);
 			map.put("attr_code", attr_code);
 			AttrLikeVO attr_like = attrService.getAttrLike(map);
-			mv.addObject("attr_like", attr_like);
+			if(attr_like!=null) {
+				mv.addObject("attr_like", attr_like.getAttr_like());
+			}
 		}
 		
-		
 		mv.addObject("attr", attr);
+		mv.addObject("latitude", latitude);
+		mv.addObject("longitude", longitude);
 		mv.addObject("rev_rate", rev_rate);
 		mv.addObject("restaurantList", restaurantList);
 		mv.addObject("province", province_id);
@@ -100,6 +105,8 @@ public class AttrController {
 		return mv;
 	}
 	
+	
+	// 식당&카페
 	@ResponseBody
 	@PostMapping("/attr_fac")
 	public List<FacVO> selectAttrOption(@RequestBody Map<String, String> map) {
@@ -117,6 +124,7 @@ public class AttrController {
 		return list;
 	}
 	
+	// 리뷰 목록
 	@ResponseBody
 	@PostMapping("/attr_review")
 	public List<AttrReviewVO> attrReviewList(@RequestBody Map<String, String> map) {
@@ -126,7 +134,7 @@ public class AttrController {
 		return list;
 	}
 	
-	
+	// 리뷰 등록
 	@ResponseBody
 	@PostMapping("/attr_review_write")
 	public List<AttrReviewVO> attrReviewList(@RequestParam("image") MultipartFile file, AttrReviewVO review,
@@ -176,47 +184,51 @@ public class AttrController {
 		return list;
 	}
 	
-	@ResponseBody
-	@PostMapping("/attr_review_report")
-	public String attrReviewReport(@RequestBody Map<String, String> map, HttpSession session) {
-		
-		
-    	int rev_code = Integer.parseInt(map.get("rev_code"));
-    	int user_code = (int)session.getAttribute("code");
-    	
-    	Map<String, Integer> codes = new HashMap<>();
-    	codes.put("rev_code", rev_code);
-    	codes.put("user_code", user_code);
-    	
-    	
-    	AttrReviewReportVO reportVO = attrService.getAttrReviewReport(codes);
-    	
-    	String msg = "";
-    	int res = 0;
-    	
-    	if(reportVO==null) {
-    		res = attrService.insertAttrReviewReport(codes);
-
-    		if(res==1) {
-    			msg = "success";
-    		}else {
-    			msg = "error";
-    		}
-    	}else {
-    		if(reportVO.getRev_report().equals("N")) {
-    			res = attrService.updateAttrReviewReport(codes);
-    			if(res==1) {
-    				msg = "success";
-    			}else {
-    				msg = "error";
-    			}
-    		}else {
-    			msg = "fail";
-    		}
-    	}
-    	
-		return msg;
-	}
+	// 리뷰 신고
+//	@ResponseBody
+//	@PostMapping("/attr_review_report")
+//	public String attrReviewReport(@RequestBody Map<String, String> map, HttpSession session) {
+//		
+//		
+//    	int rev_code = Integer.parseInt(map.get("rev_code"));
+//    	int user_code = (int)session.getAttribute("code");
+//    	String report_type = map.get("report_type");
+//    	int rev_writer = attrService.getAttrRevieWriter(rev_code);
+//    	
+//    	Map<String, Object> codes = new HashMap<>();
+//    	codes.put("rev_code", rev_code);
+//    	codes.put("user_code", user_code);
+//    	
+//    	AttrReviewReportVO reportVO = attrService.getAttrReviewReport(codes);
+//    	
+//    	String msg = "";
+//    	int res = 0;
+//    	
+//    	if(reportVO==null) {
+//    		codes.put("report_type", report_type);
+//    		codes.put("rev_writer", rev_writer);
+//    		res = attrService.insertAttrReviewReport(codes);
+//
+//    		if(res==1) {
+//    			msg = "success";
+//    		}else {
+//    			msg = "error";
+//    		}
+//    	}else {
+//    		if(reportVO.getRev_report().equals("N")) {
+//    			res = attrService.updateAttrReviewReport(codes);
+//    			if(res==1) {
+//    				msg = "success";
+//    			}else {
+//    				msg = "error";
+//    			}
+//    		}else {
+//    			msg = "fail";
+//    		}
+//    	}
+//    	
+//		return msg;
+//	}
 	
 	// 좋아요
 	@ResponseBody
