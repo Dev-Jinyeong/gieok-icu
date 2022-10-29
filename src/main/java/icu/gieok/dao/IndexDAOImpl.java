@@ -52,18 +52,13 @@ public class IndexDAOImpl implements IndexDAO {
 	}
 
 	@Override
-	public int maxNumAttr_index() {
-		return sqlSession.selectOne("maxNumAttr_index");
-	}
-
-	@Override
-	public AttrVO getAttrOne_index(int ran) {
-		return sqlSession.selectOne("getAttrOne_index", ran);
-	}
-
-	@Override
 	public List<BoardVO> getPhotoLike() {
 		return sqlSession.selectList("getPhotoLike");
+	}
+	
+	@Override
+	public List<AttrVO> getAllAttrList() {
+		return sqlSession.selectList("getAllAttrList");
 	}
 
 	

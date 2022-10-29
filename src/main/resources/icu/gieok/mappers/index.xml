@@ -81,12 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	natural join attraction where like_rank &lt;=5 order by like_rank, attr_regdate desc
 	</select>
 	
-	<!--  -->
-	<select id="maxNumAttr_index" resultType="int">
-		select max(attr_code) from attraction
-	</select>
-	<select id="getAttrOne_index" resultType="attr">
-		select * from attraction where attr_code=#{ran}
+	<select id="getAllAttrList" resultType="attr">
+		select * from attraction
 	</select>
 	
 	<select id="getPhotoLike" resultType="board">

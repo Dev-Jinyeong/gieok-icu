@@ -90,20 +90,12 @@ public class TotalList {
 
 	public AttrVO attr_ranImg(Object service) {
 		
-		list_count = ((IndexService) service).maxNumAttr_index();
 		
-		int ran = (int)(Math.random()*list_count)+1;
+		List<AttrVO> attrList = ((IndexService)service).getAllAttrList();
+		int ran = (int)(Math.random()*attrList.size());
 		
-		AttrVO list = ((IndexService) service).getAttrOne_index(ran);
+		AttrVO list = attrList.get(ran); 
 
-		for(int i=0; i<list_count; i++) {
-			if(list == null) {
-				ran = (int)(Math.random()*list_count);
-				list = ((IndexService) service).getAttrOne_index(ran);
-			}else {
-				break;
-			}
-		}
 		return list;
 	}
 

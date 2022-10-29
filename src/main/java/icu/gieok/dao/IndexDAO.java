@@ -22,10 +22,8 @@ public interface IndexDAO {
 
 	List<AttrVO> getAttrLike_index();
 
-	int maxNumAttr_index();
-
-	AttrVO getAttrOne_index(int ran);
-
 	List<BoardVO> getPhotoLike();
+
+	List<AttrVO> getAllAttrList();
 
 }

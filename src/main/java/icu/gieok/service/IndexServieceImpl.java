@@ -52,18 +52,13 @@ public class IndexServieceImpl implements IndexService {
 	}
 
 	@Override
-	public int maxNumAttr_index() {
-		return indexDao.maxNumAttr_index();
-	}
-
-	@Override
-	public AttrVO getAttrOne_index(int ran) {
-		return indexDao.getAttrOne_index(ran);
-	}
-
-	@Override
 	public List<BoardVO> getPhotoLike() {
 		return indexDao.getPhotoLike();
+	}
+	
+	@Override
+	public List<AttrVO> getAllAttrList() {
+		return indexDao.getAllAttrList();
 	}
 
 }
