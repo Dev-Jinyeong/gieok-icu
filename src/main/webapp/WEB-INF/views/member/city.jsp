@@ -16,31 +16,30 @@
 	<div class="attraction_default">
 		<!-- 관광 명소 container -->
 		<div class="attraction_container">
-			<!-- 관광 명소 리모컨 -->
-			<div class="attr_remotectr_con">
-				<p class="attr_remotectr_name wf-gangwonTT">명소</p>
-				<ul class="attr_remotectr_list">
-					<li class="attr_remotectr_item"><a href="#" class="attr_remotectr_menu">
-						명소
-					</a></li>
-					<li class="attr_remotectr_item"><a href="#" class="attr_remotectr_menu">
-						주변
-					</a></li>
-					<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
-						지도보기
-					</a></li>
-				</ul>
-			</div>
+			<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
+				<!-- 회원용 리모컨 -->
+				<div class="attr_remotectr_con">
+					<p class="attr_remotectr_name wf-gangwonTT">${province_name }</p>
+					<ul class="attr_remotectr_list">
+						<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
+							지도보기
+						</a></li>
+					</ul>
+				</div>
+			</c:if>
 			<!-- 관광 명소 지도 -->
 			<div class="attr_map_container">
 				<input type="hidden" value="${province }" id="province">
+				<input type="hidden" value="${latitude }" id="latitude">
+				<input type="hidden" value="${longitude }" id="longitude">
 				<div id="map" class="attr_map"></div>
 				<div class="attr_card_con">
 					<ul class="attr_card_list">
 						<c:forEach var="attr" items="${attr_list }">
 							<input type="hidden" value="${attr.attr_addr }" class="attr_pin">
 							<li class="attr_card_item">
-								<a href="/member/attr?attr_code=${attr.attr_code }">
+								<a href="/member/attr?city_name=${attr.attr_city}
+								&latitude=${latitude}&longitude=${longitude}&attr_code=${attr.attr_code }">
 									<img src="/resources/upload/${attr.attr_img1}" class="attr_card_img">
 									<p class="attr_card_name">${attr.attr_name }</p>
 								</a>

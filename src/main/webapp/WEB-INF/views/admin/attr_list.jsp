@@ -1,13 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <!-- ***** header ***** -->
 <jsp:include page="../static/header.jsp" />
 <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
    <jsp:include page="../static/sidebar.jsp" />
-</c:if>
-<c:if test="${sessionScope.grade == 'm'  }">
-   <!-- 회원용 리모컨 -->
 </c:if>
 
 
@@ -45,13 +43,13 @@
                   <li><span class="board_no">${attr.attr_code } </span> 
                   <span class="board_writer"> 
                      <a href="/admin/attr_detail?attr_code=${attr.attr_code }&page=${page }
-                     								&sort=${sort}&category=${category}&keyword=${keyword}">
+                     		&sort=${sort}&category=${category}&keyword=${keyword}" class="detail_name_link">
                            ${attr.attr_name } 
                      </a>
                   </span> 
                   <span class="board_title">
                      <a href="/admin/attr_detail?attr_code=${attr.attr_code }&page=${page }
-                     								&sort=${sort}&category=${category}&keyword=${keyword}">
+                     		&sort=${sort}&category=${category}&keyword=${keyword}" class="detail_addr_link">
                         ${attr.attr_addr }
                      </a>
                   </span>

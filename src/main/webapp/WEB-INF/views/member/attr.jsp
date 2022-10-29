@@ -6,9 +6,6 @@
 <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 	<jsp:include page="../static/sidebar.jsp" />
 </c:if>
-<c:if test="${sessionScope.grade == 'm'  }">
-	<!-- 회원용 리모컨 -->
-</c:if>
 
 <link type="text/css" rel="stylesheet" href="../resources/CSS/member/attr.css">
 
@@ -16,24 +13,37 @@
 	<div class="attraction_default">
 		<!-- 관광 명소 container -->
 		<div class="attraction_container">
-			<!-- 관광 명소 리모컨 -->
-			<div class="attr_remotectr_con">
-				<p class="attr_remotectr_name wf-gangwonTT">명소 이름</p>
-				<ul class="attr_remotectr_list">
-					<li class="attr_remotectr_item"><a href="#" class="attr_remotectr_menu">
-						주변
-					</a></li>
-					<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
-						지도보기
-					</a></li>
-				</ul>
-			</div>
+			<input type="hidden" value=${sessionScope.grade } id="user_grade">
+			<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
+				<!-- 회원용 리모컨 -->
+				<div class="attr_remotectr_con">
+					<p class="attr_remotectr_name wf-gangwonTT">${attr.attr_name }</p>
+					<ul class="attr_remotectr_list">
+						<li class="attr_remotectr_item go_city">
+							<span class="attr_remotectr_menu">
+								${attr.attr_city }
+							</span>
+						</li>
+						<li class="attr_remotectr_item"><a href="/member/map" class="attr_remotectr_menu">
+							지도보기
+						</a></li>
+					</ul>
+				</div>
+			</c:if>
 			<!-- 관광 명소 지도 -->
 			<div class="attr_map_container">
 				<div id="map" class="attr_map">
 					<p class="attr_title wf-gangwonTT">${attr.attr_name }</p>
 					<span class="attr_rate">⭐  ${rev_rate}</span>
-					<img class="attr_image" src="/resources/upload/${attr.attr_img1}" width="560px" height="300px">
+					<div class="attr_image_container">
+						<div class="attr_image_block"></div>
+						<img class="attr_image" src="/resources/upload/${attr.attr_img1}" id="attr_image1">
+						<img class="attr_image" src="/resources/upload/${attr.attr_img2}" id="attr_image2">
+					</div>
+					<div class="attr_image_btn_container">
+						<div class="attr_image_btn" id="attr_image_btn1"></div>
+						<div class="attr_image_btn" id="attr_image_btn2"></div>
+					</div>
 					<div class="attr_info">
 						<span>주소: &nbsp; &nbsp;${attr.attr_addr } </span>
 						<c:if test="${!empty attr.attr_link }">
@@ -48,9 +58,9 @@
 					</p>
 					
 					<div class="attr_back_btn">
-						<input type="button" class="back_btn" value="뒤로가기" onclick="history.back();">
+						<input type="button" class="back_btn" value="뒤로가기">
 						<input type="checkbox" name="check_like" id="check_like"
-							<c:if test="${!empty attr_like }">
+							<c:if test="${attr_like == 'Y' }">
 								checked
 							</c:if>
 						>
@@ -85,8 +95,11 @@
 						</div>
 					</div>
 					<input type="hidden" value="${province }" id="province">
+					<input type="hidden" value="${latitude }" id="latitude">
+					<input type="hidden" value="${longitude }" id="longitude">
 					<input type="hidden" value="${attr.city_code }" id="city_code">
 					<input type="hidden" value="${attr.attr_code }" id="attr_code">
+					<input type="hidden" value="${attr.attr_city }" id="city_name">
 					<input type="hidden" value="${sessionScope.code }" id="user_code">
 					<input type="hidden" value="${sessionScope.grade }" id="user_grade">
 					<ul class="attr_card_list">
@@ -114,7 +127,6 @@
 			</div>
 		</div>
 	</div>
-	
 
 <!-- 지도 api -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3ca3d095c5fa4364799bef0568bbc89e&libraries=services"></script>

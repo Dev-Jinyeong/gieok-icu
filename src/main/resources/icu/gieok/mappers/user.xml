@@ -62,6 +62,41 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		select count(user_code) from users where user_email = #{email_input} and user_domain = #{domain_input}
 	</select>
 	
+	<update id="changeStateLeave1" parameterType="int">
+		update attr_review set rev_state = 'D' where user_code=#{user_code}
+	</update>
+
+	<update id="changeStateLeave2" parameterType="int">
+		update board set board_state = '1' where user_code=#{user_code} and board_type IN ('3', '4')
+	</update>
+	
+	<select id="getMyReviewList" parameterType="int" resultType="review">
+		
+		select * from (
+			select rowNum rNum, rev_code, rev_content, rev_rate, rev_date, attr_code from (
+				select * from attr_review where rev_state = 'R' AND user_code=#{user_code} order by rev_code DESC
+			)
+		) WHERE rNum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="getMyReviewCount" parameterType="java.util.Map" resultType="int">
+		select count(rev_code) from attr_review where user_code=#{user_code} and rev_state='R'
+	</select>
+	
+	<select id="reviewDetail" parameterType="java.util.Map" resultType="review">
+		select * from attr_review where rev_state='R' and user_code=#{user_code} and rev_code=#{rev_code}
+	</select>
+	
+	<update id="reviewUpdate" parameterType="review">
+		update attr_review set rev_content=#{rev_content}, rev_rate=#{rev_rate}, rev_img=#{rev_img}, rev_date=SYSDATE
+		WHERE rev_code=#{rev_code}
+	</update>
+
+	<update id="reviewDelete" parameterType="java.util.Map">
+		update attr_review set rev_state='D' where user_code=#{user_code} and rev_code=#{rev_code}
+	</update>
+	
+	
 	
 	
 	

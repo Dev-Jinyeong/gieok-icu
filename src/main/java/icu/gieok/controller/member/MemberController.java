@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import icu.gieok.service.MapService;
 import icu.gieok.service.UserService;
-import icu.gieok.utils.CheckAdmin;
 import icu.gieok.utils.CheckMember;
 import icu.gieok.utils.MailSendService;
+import icu.gieok.vo.AttrReviewVO;
 import icu.gieok.vo.UserVO;
 
 @RequestMapping(value="/member")
@@ -39,7 +41,10 @@ public class MemberController {
 	
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private MapService mapService;
+	
 	@Autowired 
 	private MailSendService mss;
 	
@@ -145,10 +150,16 @@ public class MemberController {
 		}
 		
 		exception.add("joinOK");
-		exception.add("find_id_pw");
-		if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
-			request.getSession().setAttribute("referer", "/");
-		}
+	    exception.add("find_id_pw");
+	    exception.add("board_with_sinchung");
+	    if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
+	    	request.getSession().setAttribute("referer", "/");
+	    }
+	      
+	    if(referer.contains("board_with_sinchung")) {
+	         request.getSession().setAttribute("referer", "/board_with_list");
+	    }
+
 
 		return "/member/login";
 	}
@@ -361,8 +372,6 @@ public class MemberController {
     		return errorMap;
     	}
 
-        String user_email = map.get("user_email");
-        String user_domain = map.get("user_domain");
         String user_id = map.get("user_id"); // 아이디찾기, 비밀번호찾기 구분
 
         String msg = "";
@@ -372,13 +381,19 @@ public class MemberController {
             msg = "해당하는 정보가 없습니다.";
         } else {
             if (user_id == null) { // 아이디 찾기
-                msg = "아이디는 " + user.getUser_id() + " 입니다";
-            } else { // 아이디 찾기
-                if (user_id == "") { // 비밀번호 찾기
-                    msg = "아이디를 입력해주세요";
-                } else {
-                    msg = "비밀번호는 " + user.getUser_pw() + " 입니다";
-                }
+                msg = "아이디는 " + user.getUser_id().substring(0, user.getUser_id().length()/2) + "*** 입니다";
+            } else { // 비밀번호 찾기
+            	String user_email = map.get("user_email");
+            	String user_domain = map.get("user_domain");
+            	String full_email = user_email+"@"+user_domain;
+            	String temp_pw = mss.resetPw(full_email);
+            	map.put("user_pw", temp_pw);
+            	int res = userService.updateUserPw(map);
+            	if(res==1) {
+            		msg = full_email+"로 임시 비밀번호를 발송했습니다 :)";
+            	}else {
+            		msg = "시스템 오류! 관리자에게 문의하세요";  
+            	}
             }
         }
         Map<String, String> result = new HashMap<>();
@@ -419,18 +434,28 @@ public class MemberController {
 
         UserVO user = userService.userSelect(user_id);
         if (user_pw.equals(user.getUser_pw())) {
+        	int user_code = user.getUser_code();
             int result = userService.userDelete(user_id);
             if (result == 1) {
-                msg = "탈퇴 완료";
-                url = "/";
-                session.invalidate(); // 세션값 삭제
+            	
+            	int res = userService.changeStateLeave(user_code);
+            	
+            	if(res >= 0) {
+            		msg = "탈퇴 완료";
+            		url = "/";
+            		session.invalidate(); // 세션값 삭제
+            	}else {
+            		 msg = "시스템 오류";
+                     url = "/member/leave";
+            	}
+            	
             } else {
                 msg = "시스템 오류";
-                url = "/leave";
+                url = "/member/leave";
             }
         } else {
             msg = "비밀번호가 다릅니다";
-            url = "/leave";
+            url = "/member/leave";
         }
 
         ModelAndView mv = new ModelAndView();
@@ -456,7 +481,213 @@ public class MemberController {
         return emailDup;
 
     }
+    
+    // 내가 쓴 리뷰
+    @GetMapping("/my_review")
+    public ModelAndView myReview(HttpSession session, HttpServletRequest request) {
+    	
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return checkUser;
+    	}
+    	
+    	int page = 1;
+		if(request.getParameter("page")!=null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		int user_code = (int)session.getAttribute("code");
+		
+		int startRow = (page-1)*10+1;
+		int endRow = page*10;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("user_code", user_code);
+		
+		int totalCount = userService.countMyReview(map);
+		
+		int totalPage = (totalCount/10);
+		if((totalCount%10)!=0) {
+			totalPage++;
+		}
+		
+		int startPage = 0;
+		int endPage = 0;
+		
+		
+		if(page/10<1 || page==10) {
+			startPage = 1;
+			endPage = 10;
+			if(totalPage<10) {
+				endPage = totalPage;
+			}
+		}else {
+			
+			startPage = ((page/10)*10)+1;
+			endPage = startPage+9;
+			
+			if(endPage>=totalPage) {
+				endPage = totalPage;
+			}
+			
+		}
+    	
+    	List<AttrReviewVO> review_list = userService.getMyReviewList(map);
+    	
+    	for(AttrReviewVO review : review_list) {
+    		String attr_name = mapService.getAttrName(review.getAttr_code());
+    		review.setRev_date(review.getRev_date().substring(0, 10));
+    		review.setAttr_name(attr_name);
+    	}
+    	
+    	ModelAndView mv = new ModelAndView();
+    	
+    	mv.addObject("review_list", review_list);
+    	mv.addObject("page", page);
+		mv.addObject("startPage", startPage);
+		mv.addObject("endPage", endPage);
+		mv.addObject("totalPage", totalPage);
+		mv.addObject("totalCount", totalCount);
+    	mv.setViewName("/member/my_review");
+    	
+    	return mv;
+    }
 
+    
+    @ResponseBody
+    @PostMapping("/review_detail")
+    public AttrReviewVO reviewDetail(@RequestBody Map<String, String> code, HttpSession session) {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = Integer.parseInt(code.get("rev_code"));
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
+
+    	AttrReviewVO review = userService.reviewDetail(map);
+    	
+    	return review;
+    }
+
+    @ResponseBody
+    @PostMapping("/review_update")
+    public Map<String, String> reviewUpdate(@RequestParam("image") MultipartFile file, AttrReviewVO review,
+			 								HttpSession session) throws IllegalStateException, IOException {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = review.getRev_code();
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
+    	
+    	AttrReviewVO prevReview = userService.reviewDetail(map);
+    	
+    	review.setRev_writer(prevReview.getRev_writer());
+    	review.setUser_code(prevReview.getUser_code());
+    	
+    	if(prevReview.getRev_img()==null) {
+    		review.setRev_img("");
+    	}else {
+    		review.setRev_img(prevReview.getRev_img());
+    	}
+    	
+    	if(file.getSize()>0) {
+
+    		String dir = uploadPath + "review" + "/" + prevReview.getAttr_code();
+    		File delFile = new File(dir, review.getRev_img());
+    		if((delFile.exists())) {
+    			delFile.delete();
+    		}
+    		
+       		int index = file.getOriginalFilename().lastIndexOf(".");
+    		String ext = file.getOriginalFilename().substring(index);
+    		String prevFileName = "";
+    		if(prevReview.getRev_img()!=null) {
+    			
+    			prevFileName = review.getRev_img().substring(0, review.getRev_img().lastIndexOf("."));
+    		}else {
+    			
+    			Random rand = new Random();
+        		int num = rand.nextInt(1000000000);
+    			prevFileName = review.getRev_writer() + "-" + review.getUser_code() + "-" + num 	;
+    		}
+    		
+    		String reFileName = prevFileName + ext;
+    		
+    		File saveFile = new File(dir, reFileName);
+    		file.transferTo(saveFile);
+    		review.setRev_img(reFileName);
+    	}
+    	
+    	int res = userService.reviewUpdate(review);
+    	
+    	Map<String, String> result = new HashMap<>();
+    	String msg = "";
+    	String url = "";
+    	
+    	if(res==1) {
+    		msg = "리뷰가 수정되었습니다!";
+    		url = "/member/my_review?page=";
+    	}
+    	
+    	result.put("msg", msg);
+    	result.put("url", url);
+    	
+    	return result;
+    }
+    
+    @ResponseBody
+    @PostMapping("/review_delete")
+    public Map<String, String> reviewdelete(@RequestBody Map<String, String> code, HttpSession session) {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = Integer.parseInt(code.get("rev_code"));
+    	int page = Integer.parseInt(code.get("page"));
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
+    	
+    	int res = userService.reviewDelete(map);
+
+    	Map<String, String> result = new HashMap<>();
+    	String msg = "";
+    	String url = "";
+    	
+    	if(res==1) {
+    		msg = "리뷰가 삭제되었습니다!";
+    		url = "/member/my_review?page="+page;
+    	}
+    	
+    	result.put("msg", msg);
+    	result.put("url", url);
+    	
+    	return result;
+    }
 
 	
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import icu.gieok.dao.UserDAO;
+import icu.gieok.vo.AttrReviewVO;
 import icu.gieok.vo.UserVO;
 
 @Service
@@ -69,4 +70,35 @@ public class UserServiceImpl implements UserService {
 	public int emailDupCheck(Map<String, String> map) {
 		return userDAO.emailDupCheck(map);
 	}
+	
+	@Override
+	public int changeStateLeave(int user_code) {
+		return userDAO.changeStateLeave(user_code);
+	}
+	
+	@Override
+	public List<AttrReviewVO> getMyReviewList(Map<String, Object> map) {
+		return userDAO.getMyReviewList(map);
+	}
+	
+	@Override
+	public int countMyReview(Map<String, Object> map) {
+		return userDAO.getMyReviewCount(map);
+	}
+	
+	@Override
+	public AttrReviewVO reviewDetail(Map<String, Integer> map) {
+		return userDAO.reviewDetail(map);
+	}
+	
+	@Override
+	public int reviewDelete(Map<String, Integer> map) {
+		return userDAO.reviewDelete(map);
+	}
+	
+	@Override
+	public int reviewUpdate(AttrReviewVO review) {
+		return userDAO.reviewUpdate(review);
+	}
+	
 }
