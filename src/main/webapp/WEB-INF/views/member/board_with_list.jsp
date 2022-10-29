@@ -14,10 +14,10 @@
 
 <!--// contents section start -->
 <section class="content">
-
+	<input type="hidden" value="${sessionScope.code }" id="user_code">
 	<!-- contents: board list box -->
 	<div class="board_with">
-		<form type="post" name="board_with" action="">
+		<form method="post" name="board_with">
 		
 			<input type="hidden" value="${page}" id="page" name="page"/>
 			<input type="hidden" value="${category}" id="category" name="category" />
@@ -25,9 +25,9 @@
 			
 			<div class="board_top">
 				<span class="topbtn">
-					<button class="with_my">나의 동행</button>
+					<a class="with_my" href="/board_with_mylist">나의 동행</a>
 					<span class="with_slash"><b>/</b></span>
-					<button class="with_sin">신청 동행</button>
+					<a class="with_sin" href="#">신청 동행</a>
 				</span>
 				
 				<h1>
@@ -72,8 +72,11 @@
 								</div>
 	
 								<div class="with_contbox">${with.board_content}</div>
+								
+								<input type="hidden" class="with_submit_board_no" value="${with.board_no}" name="board_no">
+								<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
 	
-								<input type="button" value="신청하기">
+								<input class="with_accept" name="with_accept" type="button" value="신청하기">
 							</div>
 						</li>			
 					</c:forEach>
@@ -111,7 +114,7 @@
 							<li class="now_P">${p}</li>
 						</c:if>
 						<c:if test="${p != page}">
-							<li class="now_P">
+							<li>
 								<a href="/board_with_list?page=${p}&category=${category}&keyword=${keyword}">
 									${p}
 								</a>
@@ -132,14 +135,12 @@
 					<c:if test="${page == totalPage}">
 						<span>마지막</span>
 					</c:if>			
-					<c:if test="${page > totalPage}">
+					<c:if test="${page < totalPage}">
 						<a href="/board_with_list?page=${totalPage}&category=${category}&keyword=${keyword}">
 							<span>마지막</span>
 						</a>
-						<c:if test="${page == 0}">
-							<a href="/board_with_list?page=${totalPage}&category=${category}&keyword=${keyword}">
-								<span>마지막</span>
-							</a>
+						<c:if test="${totalPage == 0}">
+							<span>마지막</span>
 						</c:if>
 					</c:if>
 				</div>
@@ -148,7 +149,7 @@
 			<!-- search, event -->
 			<div class="board_bottom">
 				<!-- search -->
-				<form action="" class="board_src">
+				<form action="/board_with_list" class="board_src">
 					<select name="category" class="with_category">
 						<option value="" selected>선택</option>
 						<option value="board_writer" <c:if test="${category == 'board_writer'}"> selected</c:if>>작성자</option>
@@ -167,5 +168,5 @@
 </section>
 <!-- container section end //-->
 
-
+<script src="../resources/JS/member/board_with_list.js"></script>
 <jsp:include page="../static/footer.jsp" />

@@ -11,6 +11,7 @@ import icu.gieok.vo.AttrVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
+import icu.gieok.vo.WithVO;
 
 @Service
 public class BoardWithServiceImpl implements BoardWithService {
@@ -66,5 +67,22 @@ public class BoardWithServiceImpl implements BoardWithService {
 		
 	}
 
+	// 신청하기 중복 확인
+	@Override
+	public WithVO selectWith(Map<String, Object> map2) {
+		
+		return boardWithDao.selectWith(map2);
+		
+	}
 
+	// 신청하기
+	@Override
+	public int insert_WT(WithVO wt) {
+		
+		return boardWithDao.insert_WT(wt);
+		
+	}
+
+
+	
 }

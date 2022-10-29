@@ -54,6 +54,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 ) where rNum BETWEEN #{startRow} AND #{endRow}
 	</select>
 	
+	<!-- 신청하기 중복 확인 -->
+	<select id="selectWith" parameterType="java.util.Map" resultType="with">
+	 select * from with_table where board_no = #{board_no} and with_user_code = #{with_user_code}
+	</select>
+	
+	<!-- 신청하기 -->
+	<insert id="insert_WT" parameterType="with">
+	 insert into with_table (with_no, board_no, board_writer, with_user_id,
+	 	with_user_code, with_user_info, with_accept)
+	 values (with_seq.nextval, #{board_no}, #{board_writer}, #{with_user_id},
+	 	#{with_user_code}, #{with_user_info}, '1')
+	</insert>
+	
 </mapper>
 
 
