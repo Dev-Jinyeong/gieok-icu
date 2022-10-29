@@ -117,15 +117,18 @@
 }
 
 #province {
-	width: 100px;	
+	width: 100px;
+	cursor: pointer;
 }
 
 #city {
 	width: 100px;
+	cursor: pointer;
 }
 
 #attraction {
 	width: 150px;
+	cursor: pointer;
 }
 
 .board_title input {
@@ -159,6 +162,7 @@
     border-radius: 5px;
     padding-left: 10px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .board_people {
@@ -177,6 +181,7 @@
 
 .board_memCount {
     width: 100px;
+    cursor: pointer;
 }
 
 .board_title_cont {

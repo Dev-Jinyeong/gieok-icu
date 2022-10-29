@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- Pagination - totalCount -->
 	<select id="countWith" parameterType="java.util.Map" resultType="int">
-	 select count(board_no) from board where board_type='3'
+	 select count(board_no) from board where board_type='3' and board_state = '0'
 	 	<if test="!category.equals('')">
 	 		and ${category} LIKE '%${keyword}%'
 	 	</if>
@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 select * from (
 	 	select rowNum rNum, board_no, board_title, board_writer, board_location,
 	 		board_startDay, board_endDay, board_memCount, board_content from (
-	 			select * from board WHERE board_type = '3'
+	 			select * from board WHERE board_type = '3' and board_state = '0'
 		 			<if test="!category.equals('')">
 		 				and ${category} LIKE '%${keyword}%'
 		 			</if>
@@ -53,6 +53,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 		)
 	 ) where rNum BETWEEN #{startRow} AND #{endRow}
 	</select>
+	
+	<!-- 신청하기 중복 확인 -->
+	<select id="selectWith" parameterType="java.util.Map" resultType="with">
+	 select * from with_table where board_no = #{board_no} and with_user_code = #{with_user_code}
+	</select>
+	
+	<!-- 신청하기 -->
+	<insert id="insert_WT" parameterType="with">
+	 insert into with_table (with_no, board_no, board_writer, with_user_id,
+	 	with_user_code, with_user_info, with_accept)
+	 values (with_seq.nextval, #{board_no}, #{board_writer}, #{with_user_id},
+	 	#{with_user_code}, #{with_user_info}, '1')
+	</insert>
 	
 </mapper>
 
