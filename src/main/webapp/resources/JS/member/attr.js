@@ -9,6 +9,79 @@ const latitude = document.querySelector("#latitude").value;
 const longitude = document.querySelector("#longitude").value;
 const city_name = document.querySelector("#city_name").value;
 
+// 사진 슬라이드 
+// 이미지 선택 버튼
+const attr_image_btn1 = document.querySelector("#attr_image_btn1");
+const attr_image_btn2 = document.querySelector("#attr_image_btn2");
+let selectedImage = true; 
+
+const attr_image1 = document.querySelector("#attr_image1");
+const attr_image2 = document.querySelector("#attr_image2");
+
+autoImage1();
+
+function autoImage2() {
+
+	attr_image_btn2.style.background = "#333";
+	attr_image_btn2.style.border = "2px solid #fff";
+	attr_image_btn1.style.background = "#fff";
+	attr_image_btn1.style.border = "2px solid #333";
+	attr_image1.style.transform = "translateX(-120%)";
+	attr_image1.style.opacity = "0";
+	attr_image2.style.transform = "translateX(0)"
+	attr_image2.style.opacity = "1";
+
+	setTimeout(() => {
+		autoImage1();
+	}, 3000);
+	
+	
+
+}
+
+
+function autoImage1() {
+
+	attr_image_btn1.style.background = "#333";
+	attr_image_btn1.style.border = "2px solid #fff";
+	attr_image_btn2.style.border = "2px solid #333";
+    attr_image_btn2.style.background = "#fff";
+    attr_image2.style.transform = "translateX(110%)";
+    attr_image2.style.opacity = "0";
+    attr_image1.style.transform = "translateX(0)";
+    attr_image1.style.opacity = "1";
+    
+    setTimeout(() => {
+	    autoImage2();
+    }, 3000);
+    
+
+}
+
+attr_image_btn1.addEventListener("click", () => {
+    attr_image_btn1.style.background = "#333";
+	attr_image_btn1.style.border = "2px solid #fff";
+	attr_image_btn2.style.border = "2px solid #333";
+    attr_image_btn2.style.background = "#fff";
+    attr_image2.style.transform = "translateX(110%)";
+    attr_image2.style.opacity = "0";
+    attr_image1.style.transform = "translateX(0)";
+    attr_image1.style.opacity = "1";
+    
+})
+
+attr_image_btn2.addEventListener("click", () => {
+    attr_image_btn2.style.background = "#333";
+	attr_image_btn2.style.border = "2px solid #fff";
+    attr_image_btn1.style.background = "#fff";
+    attr_image_btn1.style.border = "2px solid #333";
+    attr_image1.style.transform = "translateX(-120%)";
+    attr_image1.style.opacity = "0";
+    attr_image2.style.transform = "translateX(0)"
+    attr_image2.style.opacity = "1";
+})
+
+
 
 // 뒤로가기 
 
@@ -250,7 +323,7 @@ function reviewReport(rev_code) {
 	}else {
 		let report_type = prompt("신고 유형 번호를 입력해주세요!\n1. 부적절한 내용\n2. 욕설/비방\n3. 광고/홍보\n4. 도배");
 		
-		if(report_type==""){
+		if(report_type==null){
 		}							  	
 		else if(report_type!="1" && report_type!="2"&& report_type!=="3" && report_type!="4") {
 			alert("유효하지 않은 옵션입니다!");

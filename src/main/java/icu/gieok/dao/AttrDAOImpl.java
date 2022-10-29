@@ -44,17 +44,17 @@ public class AttrDAOImpl implements AttrDAO {
 	}
 
 	@Override
-	public AttrReviewReportVO getAttrReviewReport(Map<String, Integer> codes) {
+	public AttrReviewReportVO getAttrReviewReport(Map<String, Object> codes) {
 		return sqlSession.selectOne("getAttrReviewReport", codes);
 	}
 	
 	@Override
-	public int insertAttrReviewReport(Map<String, Integer> codes) {
+	public int insertAttrReviewReport(Map<String, Object> codes) {
 		return sqlSession.insert("insertAttrReviewReport", codes);
 	}
 	
 	@Override
-	public int updateAttrReviewReport(Map<String, Integer> codes) {
+	public int updateAttrReviewReport(Map<String, Object> codes) {
 		return sqlSession.update("updateAttrReviewReport", codes);
 	}
 	
@@ -71,6 +71,11 @@ public class AttrDAOImpl implements AttrDAO {
 	@Override
 	public int updateAttrLike(AttrLikeVO attrLike) {
 		return sqlSession.update("updateAttrLike", attrLike);
+	}
+	
+	@Override
+	public int getAttrReviewWriter(int rev_code) {
+		return sqlSession.selectOne("getAttrReviewWriter", rev_code);
 	}
 	
 	

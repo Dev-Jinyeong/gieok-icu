@@ -18,6 +18,7 @@ public class AttrVO {
 	private int like_count;
 	private int like_rank;
 	
+	
 	public int getAttr_code() {
 		return attr_code;
 	}
@@ -108,6 +109,7 @@ public class AttrVO {
 	public void setLike_rank(int like_rank) {
 		this.like_rank = like_rank;
 	}
+	
 	
 	
 }

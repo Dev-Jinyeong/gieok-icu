@@ -100,6 +100,7 @@
 	background: rgba(255, 255, 255, 0.9);
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
+	
 }
 .attr_map {
 	position: absolute;
@@ -113,6 +114,7 @@
 	background: #fff;
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
+	overflow-x: hidden;
 }
 
 /* 명소 부분 추가 */
@@ -129,12 +131,6 @@
 	width: 100%;
 	text-align: center;
 	font-weight: 600;
-}
-
-.attr_image {
-	margin-top: 30px;
-	margin-left: 20px;
-	border-radius: 20px;
 }
 
 .attr_info {
@@ -228,10 +224,61 @@
 	fill: #fff;
 }
 
-
 .back_btn {
 	width: 100px;
 	height: 30px;
+}
+
+.attr_image_container {
+	display: flex;
+}
+
+.attr_image_block {
+	width:560px;
+	height: 300px;
+	margin-top: 30px;
+	margin-left: 20px;
+	border-radius: 20px;
+}
+
+.attr_image {
+	position: absolute;
+	margin-top: 30px;
+	margin-left: 20px;
+	border-radius: 20px;
+	width: 560px;
+	height: 300px;
+	transition: 0.7s;
+}
+
+#attr_image2 {
+	transform: translateX(110%);
+	opacity: 0;
+}
+
+
+.attr_image_btn_container {
+	box-sizing: border-box;
+	position: absolute;
+	top: 360px;
+	left: 280px;
+	display: flex;
+	justify-content: center;
+}
+.attr_image_btn {
+	width: 8px;
+	height: 8px;
+	margin: 1px 3px;
+	border-radius: 10px;
+	border: 2px solid #333;
+	opacity: 0.9;
+	cursor: pointer;
+	background: #fff;
+}
+
+#attr_image_btn1 {
+	background: #333;
+	border: 2px solid #fff;
 }
 
 /*=====사이드 메뉴=====*/

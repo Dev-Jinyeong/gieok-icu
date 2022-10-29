@@ -35,65 +35,65 @@ import icu.gieok.vo.UserVO;
 @RequestMapping(value="/member")
 @Controller
 public class MemberController {
-   
-   @Resource(name="uploadPath")
-   private String uploadPath;
-   
-   @Autowired
-   private UserService userService;
-   
-   @Autowired
-   private MapService mapService;
-   
-   @Autowired 
-   private MailSendService mss;
-   
-   private ModelAndView checkUser; 
-    
-   
-   // 회원 여부 확인 
-   public ModelAndView checkMember(HttpSession session) {
-      
-      CheckMember checkMember = new CheckMember(session);
-      
-      return checkMember.getcheckMember();
-      
-   }
-   
-   
-   @GetMapping("/join")
-   public String userJoin() {
-      return "/member/join";
-   }
-   
-   @ResponseBody
-   @PostMapping("/idDupCheck")
-   public boolean idDupCheck(@RequestBody Map<String, String> map) {
-      
-      String id_input = map.get("id_input");
-      boolean idDup = true;
-      UserVO user = userService.idDupCheck(id_input);
-      if(user==null) {
-         idDup = false;
-      }
-      
-      return idDup;
-   }
-   
-   @PostMapping("/joinEmail")
-   public ModelAndView userJoinEmail(UserVO user) {
-      
-      if(user.getUser_terms()==null) {
-         user.setUser_terms("disagree");
-      }else {
-         user.setUser_terms("agree");
-      }
-      
-      userService.userInsert(user);
+	
+	@Resource(name="uploadPath")
+	private String uploadPath;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private MapService mapService;
+	
+	@Autowired 
+	private MailSendService mss;
+	
+	private ModelAndView checkUser; 
+	 
+	
+	// 회원 여부 확인 
+	public ModelAndView checkMember(HttpSession session) {
+		
+		CheckMember checkMember = new CheckMember(session);
+		
+		return checkMember.getcheckMember();
+		
+	}
+	
+	
+	@GetMapping("/join")
+	public String userJoin() {
+		return "/member/join";
+	}
+	
+	@ResponseBody
+	@PostMapping("/idDupCheck")
+	public boolean idDupCheck(@RequestBody Map<String, String> map) {
+		
+		String id_input = map.get("id_input");
+		boolean idDup = true;
+		UserVO user = userService.idDupCheck(id_input);
+		if(user==null) {
+			idDup = false;
+		}
+		
+		return idDup;
+	}
+	
+	@PostMapping("/joinEmail")
+	public ModelAndView userJoinEmail(UserVO user) {
+		
+		if(user.getUser_terms()==null) {
+			user.setUser_terms("disagree");
+		}else {
+			user.setUser_terms("agree");
+		}
+		
+		userService.userInsert(user);
 
         //임의의 authKey 생성 & 이메일 발송
-      
-      String email = user.getUser_email()+"@"+user.getUser_domain();
+		
+		String email = user.getUser_email()+"@"+user.getUser_domain();
         String user_key = mss.sendAuthMail(email);
         user.setUser_key(user_key);
 
@@ -114,114 +114,114 @@ public class MemberController {
       mv.setViewName("message");
       
       return mv;
-   }
-   
-   @GetMapping("/joinOK")
-   public ModelAndView userJoinOK(@RequestParam Map<String, String> map) {
-      
-      String user_email = map.get("email").split("@")[0];
-      String user_domain = map.get("email").split("@")[1];
-      
-      map.put("user_email", user_email);
-      map.put("user_domain", user_domain);
-      
-      userService.updateAuth(map);
-      
-      ModelAndView mv = new ModelAndView();
-      String msg = "인증이 완료되었습니다! 로그인을 해주세요:)";
-      String url = "login";
-      mv.addObject("msg", msg);
-      mv.addObject("url", url);
-      mv.setViewName("message");
-      
-      return mv;
-   }
-   
-   
-   @GetMapping("/login")
-   public String userLogin(HttpServletRequest request) {
+	}
+	
+	@GetMapping("/joinOK")
+	public ModelAndView userJoinOK(@RequestParam Map<String, String> map) {
+		
+		String user_email = map.get("email").split("@")[0];
+		String user_domain = map.get("email").split("@")[1];
+		
+		map.put("user_email", user_email);
+		map.put("user_domain", user_domain);
+		
+		userService.updateAuth(map);
+		
+		ModelAndView mv = new ModelAndView();
+		String msg = "인증이 완료되었습니다! 로그인을 해주세요:)";
+		String url = "login";
+		mv.addObject("msg", msg);
+		mv.addObject("url", url);
+		mv.setViewName("message");
+		
+		return mv;
+	}
+	
+	
+	@GetMapping("/login")
+	public String userLogin(HttpServletRequest request) {
 
-      List<String> exception = new ArrayList<>();
-      exception.add("http://localhost:8080/member/join");
-      exception.add("http://localhost:8080/member/login");
-      String referer = request.getHeader("Referer");
-      if(!exception.contains(referer)) {
-         request.getSession().setAttribute("referer", referer);
-      }
-      
-      exception.add("joinOK");
-       exception.add("find_id_pw");
-       exception.add("board_with_sinchung");
-       if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
-          request.getSession().setAttribute("referer", "/");
-       }
-         
-       if(referer.contains("board_with_sinchung")) {
-            request.getSession().setAttribute("referer", "/board_with_list");
-       }
+		List<String> exception = new ArrayList<>();
+		exception.add("http://localhost:8080/member/join");
+		exception.add("http://localhost:8080/member/login");
+		String referer = request.getHeader("Referer");
+		if(!exception.contains(referer)) {
+			request.getSession().setAttribute("referer", referer);
+		}
+		
+		exception.add("joinOK");
+	    exception.add("find_id_pw");
+	    exception.add("board_with_sinchung");
+	    if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
+	    	request.getSession().setAttribute("referer", "/");
+	    }
+	      
+	    if(referer.contains("board_with_sinchung")) {
+	         request.getSession().setAttribute("referer", "/board_with_list");
+	    }
 
 
-      return "/member/login";
-   }
-   
-   @ResponseBody
-   @PostMapping("/login")
-   public Map<String, String> userLogin(@RequestBody Map<String, String> map,
-                              HttpSession session, HttpServletRequest request) {
-      
-      String msg = "";
-      String url = "";
-      
-      UserVO user = userService.checkAuth(map);
-      
-      if(user==null) {
-         msg = "아이디 혹은 비밀번호가 일치하지 않아요 :(";
-         url = "/member/login";
-      }else {
-         int user_auth = user.getUser_auth();
-         
-         if(user_auth==0) {
-            msg = "이메일 인증이 필요합니다! :(";
-            url = "/member/login";
-         }else if(user_auth==1) {
-            url = (String) session.getAttribute("referer");
-            if(url==null) {
-               url = "/";
-            }
-            session.setAttribute("code", user.getUser_code());
-            session.setAttribute("id", user.getUser_id());
-            session.setAttribute("name", user.getUser_name());
-            session.setAttribute("grade", user.getUser_grade());
-            session.setAttribute("profile", user.getUser_profile());
-         }
-      }
-      
-      
-      Map<String, String> result = new HashMap<>();
-      result.put("msg", msg);
-      result.put("url", url);
-      
-      
-      return result;
-   }
-   
-   @GetMapping("/logout")
-   public String userLogout(HttpServletRequest request, HttpServletResponse response) {
-      HttpSession session = request.getSession();
-      session.invalidate();
-      
-      return "redirect:/";
-   }
-   
-     /* =====// 회원 정보 수정 페이지 이동 //===== */
+		return "/member/login";
+	}
+	
+	@ResponseBody
+	@PostMapping("/login")
+	public Map<String, String> userLogin(@RequestBody Map<String, String> map,
+										HttpSession session, HttpServletRequest request) {
+		
+		String msg = "";
+		String url = "";
+		
+		UserVO user = userService.checkAuth(map);
+		
+		if(user==null) {
+			msg = "아이디 혹은 비밀번호가 일치하지 않아요 :(";
+			url = "/member/login";
+		}else {
+			int user_auth = user.getUser_auth();
+			
+			if(user_auth==0) {
+				msg = "이메일 인증이 필요합니다! :(";
+				url = "/member/login";
+			}else if(user_auth==1) {
+				url = (String) session.getAttribute("referer");
+				if(url==null) {
+					url = "/";
+				}
+				session.setAttribute("code", user.getUser_code());
+				session.setAttribute("id", user.getUser_id());
+				session.setAttribute("name", user.getUser_name());
+				session.setAttribute("grade", user.getUser_grade());
+				session.setAttribute("profile", user.getUser_profile());
+			}
+		}
+		
+		
+		Map<String, String> result = new HashMap<>();
+		result.put("msg", msg);
+		result.put("url", url);
+		
+		
+		return result;
+	}
+	
+	@GetMapping("/logout")
+	public String userLogout(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	  /* =====// 회원 정보 수정 페이지 이동 //===== */
     @GetMapping("/inform_edit")
     public ModelAndView userInformEdit(HttpSession session) {
-       
-       checkUser = checkMember(session);
-       
-       if(checkUser != null) {
-          return checkUser;
-       }
+    	
+    	checkUser = checkMember(session);
+    	
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
 
         String user_id = (String) session.getAttribute("id");
         UserVO user = userService.userSelect(user_id);
@@ -288,14 +288,14 @@ public class MemberController {
     /* =====// 비밀번호 변경 //===== */
     @GetMapping("/pw_edit")
     public ModelAndView userPwEdit(HttpSession session) {
-       
-       checkUser = checkMember(session);
-       
-       if(checkUser != null) {
-          return checkUser;
-       }
-       
-       
+    	
+    	checkUser = checkMember(session);
+    	
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
+    	
+    	
         return new ModelAndView("/member/pw_edit");
     }
 
@@ -305,13 +305,13 @@ public class MemberController {
             @RequestParam String user_pw,
             HttpSession session) {
 
-       checkUser = checkMember(session);
-       
-       if(checkUser != null) {
-          return checkUser;
-       }
-       
-       
+    	checkUser = checkMember(session);
+    	
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
+    	
+    	
         String user_id = (String) session.getAttribute("id");
 
         Map<String, String> map = new HashMap<>();
@@ -354,23 +354,23 @@ public class MemberController {
     /* =====// 아이디, 비밀번호 찾기 //===== */
     @GetMapping("/find_id_pw")
     public String userIdPwFind(HttpSession session) {
-       
+    	
         return "/member/find_id_pw";
     }
 
     @ResponseBody
     @PostMapping("/find_id_pwOK")
     public Map<String, String> userIdPwFindOK(@RequestParam Map<String, String> map) {
-       
-       
-       
-       if(checkUser != null) {
-          String error = "세션이 만료되었습니다. 다시 로그인 해주세요";
-          Map<String, String> errorMap = new HashMap<>();
-          errorMap.put("msg", error);
-          errorMap.put("fail", "1");
-          return errorMap;
-       }
+    	
+    	
+    	
+    	if(checkUser != null) {
+    		String error = "세션이 만료되었습니다. 다시 로그인 해주세요";
+    		Map<String, String> errorMap = new HashMap<>();
+    		errorMap.put("msg", error);
+    		errorMap.put("fail", "1");
+    		return errorMap;
+    	}
 
         String user_id = map.get("user_id"); // 아이디찾기, 비밀번호찾기 구분
 
@@ -383,17 +383,17 @@ public class MemberController {
             if (user_id == null) { // 아이디 찾기
                 msg = "아이디는 " + user.getUser_id().substring(0, user.getUser_id().length()/2) + "*** 입니다";
             } else { // 비밀번호 찾기
-               String user_email = map.get("user_email");
-               String user_domain = map.get("user_domain");
-               String full_email = user_email+"@"+user_domain;
-               String temp_pw = mss.resetPw(full_email);
-               map.put("user_pw", temp_pw);
-               int res = userService.updateUserPw(map);
-               if(res==1) {
-                  msg = full_email+"로 임시 비밀번호를 발송했습니다 :)";
-               }else {
-                  msg = "시스템 오류! 관리자에게 문의하세요";  
-               }
+            	String user_email = map.get("user_email");
+            	String user_domain = map.get("user_domain");
+            	String full_email = user_email+"@"+user_domain;
+            	String temp_pw = mss.resetPw(full_email);
+            	map.put("user_pw", temp_pw);
+            	int res = userService.updateUserPw(map);
+            	if(res==1) {
+            		msg = full_email+"로 임시 비밀번호를 발송했습니다 :)";
+            	}else {
+            		msg = "시스템 오류! 관리자에게 문의하세요";  
+            	}
             }
         }
         Map<String, String> result = new HashMap<>();
@@ -405,12 +405,12 @@ public class MemberController {
     /* =====// 회원 탈퇴 //===== */
     @GetMapping("/leave")
     public ModelAndView userLeave(HttpSession session) {
-       checkUser = checkMember(session);
-       
-       if(checkUser != null) {
-          return checkUser;
-       }
-       
+    	checkUser = checkMember(session);
+    	
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
+    	
         return new ModelAndView("/member/leave");
     }
 
@@ -418,14 +418,14 @@ public class MemberController {
     public ModelAndView userLeaveOK(
             @RequestParam String user_pw,
             HttpSession session) {
-       
-       checkUser = checkMember(session);
-       
-       if(checkUser != null) {
-          return checkUser;
-       }
-       
-       
+    	
+    	checkUser = checkMember(session);
+    	
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
+    	
+    	
         // @RequestParam("네임값")
         String user_id = (String) session.getAttribute("id");
 
@@ -434,21 +434,21 @@ public class MemberController {
 
         UserVO user = userService.userSelect(user_id);
         if (user_pw.equals(user.getUser_pw())) {
-           int user_code = user.getUser_code();
+        	int user_code = user.getUser_code();
             int result = userService.userDelete(user_id);
             if (result == 1) {
-               
-               int res = userService.changeStateLeave(user_code);
-               
-               if(res >= 0) {
-                  msg = "탈퇴 완료";
-                  url = "/";
-                  session.invalidate(); // 세션값 삭제
-               }else {
-                   msg = "시스템 오류";
+            	
+            	int res = userService.changeStateLeave(user_code);
+            	
+            	if(res >= 0) {
+            		msg = "탈퇴 완료";
+            		url = "/";
+            		session.invalidate(); // 세션값 삭제
+            	}else {
+            		 msg = "시스템 오류";
                      url = "/member/leave";
-               }
-               
+            	}
+            	
             } else {
                 msg = "시스템 오류";
                 url = "/member/leave";
@@ -485,210 +485,210 @@ public class MemberController {
     // 내가 쓴 리뷰
     @GetMapping("/my_review")
     public ModelAndView myReview(HttpSession session, HttpServletRequest request) {
-       
-       
-       checkUser = checkMember(session);
-       if(checkUser!=null) {
-          return checkUser;
-       }
-       
-       int page = 1;
-      if(request.getParameter("page")!=null) {
-         page = Integer.parseInt(request.getParameter("page"));
-      }
-      
-      int user_code = (int)session.getAttribute("code");
-      
-      int startRow = (page-1)*10+1;
-      int endRow = page*10;
-      
-      Map<String, Object> map = new HashMap<>();
-      map.put("startRow", startRow);
-      map.put("endRow", endRow);
-      map.put("user_code", user_code);
-      
-      int totalCount = userService.countMyReview(map);
-      
-      int totalPage = (totalCount/10);
-      if((totalCount%10)!=0) {
-         totalPage++;
-      }
-      
-      int startPage = 0;
-      int endPage = 0;
-      
-      
-      if(page/10<1 || page==10) {
-         startPage = 1;
-         endPage = 10;
-         if(totalPage<10) {
-            endPage = totalPage;
-         }
-      }else {
-         
-         startPage = ((page/10)*10)+1;
-         endPage = startPage+9;
-         
-         if(endPage>=totalPage) {
-            endPage = totalPage;
-         }
-         
-      }
-       
-       List<AttrReviewVO> review_list = userService.getMyReviewList(map);
-       
-       for(AttrReviewVO review : review_list) {
-          String attr_name = mapService.getAttrName(review.getAttr_code());
-          review.setRev_date(review.getRev_date().substring(0, 10));
-          review.setAttr_name(attr_name);
-       }
-       
-       ModelAndView mv = new ModelAndView();
-       
-       mv.addObject("review_list", review_list);
-       mv.addObject("page", page);
-      mv.addObject("startPage", startPage);
-      mv.addObject("endPage", endPage);
-      mv.addObject("totalPage", totalPage);
-      mv.addObject("totalCount", totalCount);
-       mv.setViewName("/member/my_review");
-       
-       return mv;
+    	
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return checkUser;
+    	}
+    	
+    	int page = 1;
+		if(request.getParameter("page")!=null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		int user_code = (int)session.getAttribute("code");
+		
+		int startRow = (page-1)*10+1;
+		int endRow = page*10;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("user_code", user_code);
+		
+		int totalCount = userService.countMyReview(map);
+		
+		int totalPage = (totalCount/10);
+		if((totalCount%10)!=0) {
+			totalPage++;
+		}
+		
+		int startPage = 0;
+		int endPage = 0;
+		
+		
+		if(page/10<1 || page==10) {
+			startPage = 1;
+			endPage = 10;
+			if(totalPage<10) {
+				endPage = totalPage;
+			}
+		}else {
+			
+			startPage = ((page/10)*10)+1;
+			endPage = startPage+9;
+			
+			if(endPage>=totalPage) {
+				endPage = totalPage;
+			}
+			
+		}
+    	
+    	List<AttrReviewVO> review_list = userService.getMyReviewList(map);
+    	
+    	for(AttrReviewVO review : review_list) {
+    		String attr_name = mapService.getAttrName(review.getAttr_code());
+    		review.setRev_date(review.getRev_date().substring(0, 10));
+    		review.setAttr_name(attr_name);
+    	}
+    	
+    	ModelAndView mv = new ModelAndView();
+    	
+    	mv.addObject("review_list", review_list);
+    	mv.addObject("page", page);
+		mv.addObject("startPage", startPage);
+		mv.addObject("endPage", endPage);
+		mv.addObject("totalPage", totalPage);
+		mv.addObject("totalCount", totalCount);
+    	mv.setViewName("/member/my_review");
+    	
+    	return mv;
     }
 
     
     @ResponseBody
     @PostMapping("/review_detail")
     public AttrReviewVO reviewDetail(@RequestBody Map<String, String> code, HttpSession session) {
-       
-       checkUser = checkMember(session);
-       if(checkUser!=null) {
-          return null;
-       }
-       
-       
-       int user_code = (int)session.getAttribute("code");
-       int rev_code = Integer.parseInt(code.get("rev_code"));
-       
-       Map<String, Integer> map = new HashMap<>();
-       
-       map.put("user_code", user_code);
-       map.put("rev_code", rev_code);
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = Integer.parseInt(code.get("rev_code"));
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
 
-       AttrReviewVO review = userService.reviewDetail(map);
-       
-       return review;
+    	AttrReviewVO review = userService.reviewDetail(map);
+    	
+    	return review;
     }
 
     @ResponseBody
     @PostMapping("/review_update")
     public Map<String, String> reviewUpdate(@RequestParam("image") MultipartFile file, AttrReviewVO review,
-                                  HttpSession session) throws IllegalStateException, IOException {
-       
-       checkUser = checkMember(session);
-       if(checkUser!=null) {
-          return null;
-       }
-       
-       int user_code = (int)session.getAttribute("code");
-       int rev_code = review.getRev_code();
-       
-       Map<String, Integer> map = new HashMap<>();
-       
-       map.put("user_code", user_code);
-       map.put("rev_code", rev_code);
-       
-       AttrReviewVO prevReview = userService.reviewDetail(map);
-       
-       review.setRev_writer(prevReview.getRev_writer());
-       review.setUser_code(prevReview.getUser_code());
-       
-       if(prevReview.getRev_img()==null) {
-          review.setRev_img("");
-       }else {
-          review.setRev_img(prevReview.getRev_img());
-       }
-       
-       if(file.getSize()>0) {
+			 								HttpSession session) throws IllegalStateException, IOException {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = review.getRev_code();
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
+    	
+    	AttrReviewVO prevReview = userService.reviewDetail(map);
+    	
+    	review.setRev_writer(prevReview.getRev_writer());
+    	review.setUser_code(prevReview.getUser_code());
+    	
+    	if(prevReview.getRev_img()==null) {
+    		review.setRev_img("");
+    	}else {
+    		review.setRev_img(prevReview.getRev_img());
+    	}
+    	
+    	if(file.getSize()>0) {
 
-          String dir = uploadPath + "review" + "/" + prevReview.getAttr_code();
-          File delFile = new File(dir, review.getRev_img());
-          if((delFile.exists())) {
-             delFile.delete();
-          }
-          
-             int index = file.getOriginalFilename().lastIndexOf(".");
-          String ext = file.getOriginalFilename().substring(index);
-          String prevFileName = "";
-          if(prevReview.getRev_img()!=null) {
-             
-             prevFileName = review.getRev_img().substring(0, review.getRev_img().lastIndexOf("."));
-          }else {
-             
-             Random rand = new Random();
-              int num = rand.nextInt(1000000000);
-             prevFileName = review.getRev_writer() + "-" + review.getUser_code() + "-" + num    ;
-          }
-          
-          String reFileName = prevFileName + ext;
-          
-          File saveFile = new File(dir, reFileName);
-          file.transferTo(saveFile);
-          review.setRev_img(reFileName);
-       }
-       
-       int res = userService.reviewUpdate(review);
-       
-       Map<String, String> result = new HashMap<>();
-       String msg = "";
-       String url = "";
-       
-       if(res==1) {
-          msg = "리뷰가 수정되었습니다!";
-          url = "/member/my_review?page=";
-       }
-       
-       result.put("msg", msg);
-       result.put("url", url);
-       
-       return result;
+    		String dir = uploadPath + "review" + "/" + prevReview.getAttr_code();
+    		File delFile = new File(dir, review.getRev_img());
+    		if((delFile.exists())) {
+    			delFile.delete();
+    		}
+    		
+       		int index = file.getOriginalFilename().lastIndexOf(".");
+    		String ext = file.getOriginalFilename().substring(index);
+    		String prevFileName = "";
+    		if(prevReview.getRev_img()!=null) {
+    			
+    			prevFileName = review.getRev_img().substring(0, review.getRev_img().lastIndexOf("."));
+    		}else {
+    			
+    			Random rand = new Random();
+        		int num = rand.nextInt(1000000000);
+    			prevFileName = review.getRev_writer() + "-" + review.getUser_code() + "-" + num 	;
+    		}
+    		
+    		String reFileName = prevFileName + ext;
+    		
+    		File saveFile = new File(dir, reFileName);
+    		file.transferTo(saveFile);
+    		review.setRev_img(reFileName);
+    	}
+    	
+    	int res = userService.reviewUpdate(review);
+    	
+    	Map<String, String> result = new HashMap<>();
+    	String msg = "";
+    	String url = "";
+    	
+    	if(res==1) {
+    		msg = "리뷰가 수정되었습니다!";
+    		url = "/member/my_review?page=";
+    	}
+    	
+    	result.put("msg", msg);
+    	result.put("url", url);
+    	
+    	return result;
     }
     
     @ResponseBody
     @PostMapping("/review_delete")
     public Map<String, String> reviewdelete(@RequestBody Map<String, String> code, HttpSession session) {
-       
-       checkUser = checkMember(session);
-       if(checkUser!=null) {
-          return null;
-       }
-       
-       int user_code = (int)session.getAttribute("code");
-       int rev_code = Integer.parseInt(code.get("rev_code"));
-       int page = Integer.parseInt(code.get("page"));
-       
-       Map<String, Integer> map = new HashMap<>();
-       
-       map.put("user_code", user_code);
-       map.put("rev_code", rev_code);
-       
-       int res = userService.reviewDelete(map);
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return null;
+    	}
+    	
+    	int user_code = (int)session.getAttribute("code");
+    	int rev_code = Integer.parseInt(code.get("rev_code"));
+    	int page = Integer.parseInt(code.get("page"));
+    	
+    	Map<String, Integer> map = new HashMap<>();
+    	
+    	map.put("user_code", user_code);
+    	map.put("rev_code", rev_code);
+    	
+    	int res = userService.reviewDelete(map);
 
-       Map<String, String> result = new HashMap<>();
-       String msg = "";
-       String url = "";
-       
-       if(res==1) {
-          msg = "리뷰가 삭제되었습니다!";
-          url = "/member/my_review?page="+page;
-       }
-       
-       result.put("msg", msg);
-       result.put("url", url);
-       
-       return result;
+    	Map<String, String> result = new HashMap<>();
+    	String msg = "";
+    	String url = "";
+    	
+    	if(res==1) {
+    		msg = "리뷰가 삭제되었습니다!";
+    		url = "/member/my_review?page="+page;
+    	}
+    	
+    	result.put("msg", msg);
+    	result.put("url", url);
+    	
+    	return result;
     }
 
-   
+	
 
 }

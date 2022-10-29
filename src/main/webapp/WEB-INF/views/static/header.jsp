@@ -84,6 +84,9 @@
 		            <div class="menu_member">
 		                <ul>
 		                    <li>
+		                        <a href="/member/my_review">내가 쓴 리뷰</a>
+		                    </li>
+		                    <li>
 		                        <a href="#">내 일정 관리</a>
 		                    </li>
 		                    <li>

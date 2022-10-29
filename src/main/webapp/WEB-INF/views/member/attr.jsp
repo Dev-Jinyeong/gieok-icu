@@ -35,7 +35,15 @@
 				<div id="map" class="attr_map">
 					<p class="attr_title wf-gangwonTT">${attr.attr_name }</p>
 					<span class="attr_rate">⭐  ${rev_rate}</span>
-					<img class="attr_image" src="/resources/upload/${attr.attr_img1}" width="560px" height="300px">
+					<div class="attr_image_container">
+						<div class="attr_image_block"></div>
+						<img class="attr_image" src="/resources/upload/${attr.attr_img1}" id="attr_image1">
+						<img class="attr_image" src="/resources/upload/${attr.attr_img2}" id="attr_image2">
+					</div>
+					<div class="attr_image_btn_container">
+						<div class="attr_image_btn" id="attr_image_btn1"></div>
+						<div class="attr_image_btn" id="attr_image_btn2"></div>
+					</div>
 					<div class="attr_info">
 						<span>주소: &nbsp; &nbsp;${attr.attr_addr } </span>
 						<c:if test="${!empty attr.attr_link }">

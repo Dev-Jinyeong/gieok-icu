@@ -185,50 +185,50 @@ public class AttrController {
 	}
 	
 	// 리뷰 신고
-//	@ResponseBody
-//	@PostMapping("/attr_review_report")
-//	public String attrReviewReport(@RequestBody Map<String, String> map, HttpSession session) {
-//		
-//		
-//    	int rev_code = Integer.parseInt(map.get("rev_code"));
-//    	int user_code = (int)session.getAttribute("code");
-//    	String report_type = map.get("report_type");
-//    	int rev_writer = attrService.getAttrRevieWriter(rev_code);
-//    	
-//    	Map<String, Object> codes = new HashMap<>();
-//    	codes.put("rev_code", rev_code);
-//    	codes.put("user_code", user_code);
-//    	
-//    	AttrReviewReportVO reportVO = attrService.getAttrReviewReport(codes);
-//    	
-//    	String msg = "";
-//    	int res = 0;
-//    	
-//    	if(reportVO==null) {
-//    		codes.put("report_type", report_type);
-//    		codes.put("rev_writer", rev_writer);
-//    		res = attrService.insertAttrReviewReport(codes);
-//
-//    		if(res==1) {
-//    			msg = "success";
-//    		}else {
-//    			msg = "error";
-//    		}
-//    	}else {
-//    		if(reportVO.getRev_report().equals("N")) {
-//    			res = attrService.updateAttrReviewReport(codes);
-//    			if(res==1) {
-//    				msg = "success";
-//    			}else {
-//    				msg = "error";
-//    			}
-//    		}else {
-//    			msg = "fail";
-//    		}
-//    	}
-//    	
-//		return msg;
-//	}
+	@ResponseBody
+	@PostMapping("/attr_review_report")
+	public String attrReviewReport(@RequestBody Map<String, String> map, HttpSession session) {
+		
+		
+    	int rev_code = Integer.parseInt(map.get("rev_code"));
+    	int user_code = (int)session.getAttribute("code");
+    	String report_type = map.get("report_type");
+    	int rev_writer = attrService.getAttrRevieWriter(rev_code);
+    	
+    	Map<String, Object> codes = new HashMap<>();
+    	codes.put("rev_code", rev_code);
+    	codes.put("user_code", user_code);
+    	
+    	AttrReviewReportVO reportVO = attrService.getAttrReviewReport(codes);
+    	
+    	String msg = "";
+    	int res = 0;
+    	
+    	if(reportVO==null) {
+    		codes.put("report_type", report_type);
+    		codes.put("rev_writer", rev_writer);
+    		res = attrService.insertAttrReviewReport(codes);
+
+    		if(res==1) {
+    			msg = "success";
+    		}else {
+    			msg = "error";
+    		}
+    	}else {
+    		if(reportVO.getRev_report().equals("N")) {
+    			res = attrService.updateAttrReviewReport(codes);
+    			if(res==1) {
+    				msg = "success";
+    			}else {
+    				msg = "error";
+    			}
+    		}else {
+    			msg = "fail";
+    		}
+    	}
+    	
+		return msg;
+	}
 	
 	// 좋아요
 	@ResponseBody
