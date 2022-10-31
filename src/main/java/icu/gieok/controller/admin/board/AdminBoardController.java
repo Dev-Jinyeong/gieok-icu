@@ -233,7 +233,7 @@ public class AdminBoardController {
 	}
 
 
-	@GetMapping("/board_del")
+	@PostMapping("/board_del")
 	public ModelAndView board_del(@RequestParam List<Integer> check_num, String page, String board_sort, String search_option, String list_search, HttpSession session) {
 		
 		checkUser = checkAdmin(session);
@@ -246,7 +246,11 @@ public class AdminBoardController {
 			for(int i : check_num) {
 				boardService.board_del(i);
 			}
-			return new ModelAndView("redirect:/board_list?page="+page+"&board_sort="+board_sort+"&search_option="+search_option+"&list_search="+list_search);
+			ModelAndView m = new ModelAndView();
+			m.addObject("msg", check_num.size()+"개의 게시물 삭제가 완료되었습니다!");
+			m.addObject("url", "/board_list?page="+page+"&board_sort="+board_sort+"&search_option="+search_option+"&list_search="+list_search);
+			m.setViewName("message");
+			return m;
 		}
 		return null;
 	}

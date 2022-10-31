@@ -38,7 +38,7 @@ public class IndexController {
 		m.setViewName("index");
 
 		return m;
-	}	
+	}
 	
 	@GetMapping("/main_search")
 	public ModelAndView index_search(ModelAndView m, String search) {
