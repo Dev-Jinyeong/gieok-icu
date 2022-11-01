@@ -67,6 +67,10 @@ public class PhotoDAOImpl implements PhotoDAO {
 
     @Override
     public int boardLikeReportInsert(Map<String, Object> map) {
+    	if(map.get("bad_member")==null) {
+    		return sqlSession.insert("boardLikeReportInsert2", map);
+    	}
+    	
         return sqlSession.insert("boardLikeReportInsert", map);
     }
 
@@ -74,5 +78,32 @@ public class PhotoDAOImpl implements PhotoDAO {
     public int updatePhotoEventLikeCheck(Map<String, Object> map) {
         return sqlSession.update("updatePhotoEventLikeCheck", map);
     }
+
+	@Override
+	public int updatePhotoEventReportCheck(Map<String, Object> map) {
+		return sqlSession.update("updatePhotoEventReportCheck", map);
+	}
+
+	@Override
+	public int updatePhotoEventReport(Map<String, Object> map) {
+		return sqlSession.update("updatePhotoEventReport", map);
+	}
+
+	@Override
+	public List<BoardVO> selectPhotoEventList(List<Integer> photo_no) {
+		return sqlSession.selectList("selectPhotoEventList", photo_no);
+	}
+
+	@Override
+	public int deletePhotoEventList(List<Integer> photo_no) {
+		
+		int result = sqlSession.delete("deletePhotoEventList", photo_no);
+		
+		if(result>0) {
+			sqlSession.update("updateBoardLikeReport", photo_no);
+		}
+		
+		return result;
+	}
 
 }

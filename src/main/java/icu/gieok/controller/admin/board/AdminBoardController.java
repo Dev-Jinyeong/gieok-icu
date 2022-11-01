@@ -88,7 +88,7 @@ public class AdminBoardController {
 
 		if(b.getBoard_type().equals("notice")) {
 			b.setBoard_type("1");
-			this.boardService.noticeInsert(b);
+			boardService.noticeInsert(b);
 		}else {
 			String start_date = request.getParameter("start_date");
 			String end_date= request.getParameter("end_date");
@@ -154,7 +154,7 @@ public class AdminBoardController {
 			b.setBoard_startDay(start_date);
 			b.setBoard_endDay(end_date);
 
-			this.boardService.eventInsert(b);
+			boardService.eventInsert(b);
 		}
 
 		return new ModelAndView("redirect:/board_list");
@@ -170,7 +170,7 @@ public class AdminBoardController {
 			return checkUser;
 		}
 
-		b = this.boardService.getboardDetail(board_no);
+		b = boardService.getboardDetail(board_no);
 
 		this.board_no = board_no;
 
@@ -201,14 +201,14 @@ public class AdminBoardController {
 		
 		if(b.getBoard_type().equals("notice")) {
 			b.setBoard_type("1");
-			this.boardService.noticeUpdate(b);
+			boardService.noticeUpdate(b);
 		}else {
 			String start_date = request.getParameter("start_date");
 			String end_date= request.getParameter("end_date");
 
 			String root = uploadPath + "event";
 
-			BoardVO blist = this.boardService.getboardDetail(board_no);
+			BoardVO blist = boardService.getboardDetail(board_no);
 			
 			if(imgfile1.getSize() <= 0) {
 				b.setBoard_img1(blist.getBoard_img1());
@@ -225,7 +225,7 @@ public class AdminBoardController {
 			b.setBoard_startDay(start_date);
 			b.setBoard_endDay(end_date);
 
-			this.boardService.eventUpdate(b);
+			boardService.eventUpdate(b);
 		}
 		
 
@@ -233,23 +233,27 @@ public class AdminBoardController {
 	}
 
 
-	@RequestMapping("/board_del")
-	public ModelAndView board_del(@RequestParam List<Integer> check_num, String page, String board_sort, String search_option, String list_search, HttpSession session) {
-		
-		checkUser = checkAdmin(session);
-		
-		if(checkUser != null) {
-			return checkUser;
-		}
-		
-		if(check_num.size()!=0) {
-			for(int i : check_num) {
-				this.boardService.board_del(i);
-			}
-			return new ModelAndView("redirect:/board_list?page="+page+"&board_sort="+board_sort+"&search_option="+search_option+"&list_search="+list_search);
-		}
-		return null;
-	}
+	 @PostMapping("/board_del")
+	 public ModelAndView board_del(@RequestParam List<Integer> check_num, String page, String board_sort, String search_option, String list_search, HttpSession session) {
+      
+      checkUser = checkAdmin(session);
+      
+      if(checkUser != null) {
+         return checkUser;
+      }
+      
+      if(check_num.size()!=0) {
+         for(int i : check_num) {
+            boardService.board_del(i);
+         }
+         ModelAndView m = new ModelAndView();
+         m.addObject("msg", check_num.size()+"개의 게시물 삭제가 완료되었습니다!");
+         m.addObject("url", "/board_list?page="+page+"&board_sort="+board_sort+"&search_option="+search_option+"&list_search="+list_search);
+         m.setViewName("message");
+         return m;
+      }
+      return null;
+	 }
 	
 	@PostMapping("/event_end")
 	public ModelAndView event_end(@RequestParam List<Integer> check_num, String page, String board_sort, String search_option, String list_search, HttpSession session) {
@@ -262,7 +266,7 @@ public class AdminBoardController {
 		
 		if(check_num.size()!=0) {
 			for(int i: check_num) {
-				this.boardService.board_eventEnd(i);
+				boardService.board_eventEnd(i);
 			}
 			return new ModelAndView("redirect:/board_list?page="+page+"&board_sort="+board_sort+"&search_option="+search_option+"&list_search="+list_search);
 		}

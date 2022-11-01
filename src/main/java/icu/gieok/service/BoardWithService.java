@@ -7,6 +7,7 @@ import icu.gieok.vo.AttrVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
+import icu.gieok.vo.WithVO;
 
 public interface BoardWithService {
 
@@ -21,5 +22,17 @@ public interface BoardWithService {
 	int countWith(Map<String, Object> map);
 
 	List<BoardVO> getWithList(Map<String, Object> map);
+
+	WithVO selectWith(Map<String, Object> map2);
+
+	int insert_WT(WithVO wt);
+
+	int delete_WT(int board_no);
+
+	int SinCountWith(Map<String, Object> map);
+
+	List<BoardVO> getWithSinDong(Map<String, Object> map);
+
+	int sinCancel(WithVO wt);
 
 }

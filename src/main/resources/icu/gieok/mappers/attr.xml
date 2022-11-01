@@ -19,12 +19,12 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	</select>	
 	
 	<select id="avgReviewRate" parameterType="int" resultType="String">
-		select AVG(rev_rate) from attr_review where attr_code = #{attr_code}
+		select AVG(rev_rate) from attr_review where attr_code = #{attr_code} and rev_state='R'
 	</select>
 	
 	<insert id="insertReview" parameterType="review">
 		insert into attr_review values(attr_rev_seq.nextval, #{rev_writer}, #{rev_content}, #{rev_rate},
-										SYSDATE, #{rev_img}, 0, 'R', #{user_code}, #{attr_code})
+										SYSDATE, #{rev_img}, 'R', #{user_code}, #{attr_code})
 	</insert>
 	
 	<select id="getAttrReviewReport" parameterType="java.util.Map" resultType="attr_review_report">
@@ -32,7 +32,8 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertAttrReviewReport" parameterType="java.util.Map">
-		insert into attr_review_report values(#{user_code}, #{rev_code}, 'Y')
+		insert into attr_review_report values(report_seq.nextval+1, #{user_code}, #{rev_writer}, 
+											  #{rev_code}, 'Y', #{report_type})
 	</insert>
 	
 	<update id="updateAttrReviewReport" parameterType="java.util.Map">
@@ -50,6 +51,12 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	<update id="updateAttrLike" parameterType="attrLike">
 		update attr_like set attr_like=#{attr_like} where attr_code=#{attr_code} and user_code=${user_code}
 	</update>
+	
+	<select id="getAttrReviewWriter" parameterType="int" resultType="int">
+		select user_code from attr_review where rev_code=#{rev_code}
+	</select>
+	
+
 	
 
 	

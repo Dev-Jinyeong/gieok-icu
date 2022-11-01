@@ -43,7 +43,8 @@ public class MapController {
 	}
 	
 	@GetMapping("/city")
-	public ModelAndView showCity(HttpServletRequest request, @RequestParam String city_name) throws Exception {
+	public ModelAndView showCity(HttpServletRequest request, @RequestParam String city_name,
+									String latitude, String longitude) throws Exception {
 		
 		request.setCharacterEncoding("UTF-8");
 		
@@ -53,8 +54,13 @@ public class MapController {
 
 		if(list.size()>0) {
 			String province_id = mapService.getProvinceId(list.get(0).getCity_code());
+			String province_name = mapService.getProvinceName(province_id);
+			
 			mv.addObject("attr_list", list);
 			mv.addObject("province", province_id);
+			mv.addObject("province_name", province_name);
+			mv.addObject("latitude", latitude);
+			mv.addObject("longitude", longitude);
 			mv.setViewName("/member/city");
 		}else {
 			mv.addObject("msg", "아직 등록된 명소가 없어요...");

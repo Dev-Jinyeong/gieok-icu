@@ -11,6 +11,7 @@ import icu.gieok.vo.AttrVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
+import icu.gieok.vo.WithVO;
 
 @Repository
 public class BoardWithDAOImpl implements BoardWithDAO {
@@ -63,5 +64,52 @@ public class BoardWithDAOImpl implements BoardWithDAO {
 		
 		return sqlSession.selectList("getWithList", map);
 	}
+
+	// 신청하기 중복 확인	
+	@Override
+	public WithVO selectWith(Map<String, Object> map2) {
+		
+		return sqlSession.selectOne("selectWith", map2);
+	}
+
+	// 신청하기
+	@Override
+	public int insert_WT(WithVO wt) {
+		
+		return sqlSession.insert("insert_WT", wt);
+	}
+
+	// 동행 목록 관리자 삭제
+	@Override
+	public int delete_WT(int board_no) {
+		
+		return sqlSession.update("delete_WT", board_no);
+	}
+
+	// 신청 동행 토탈페이징
+	@Override
+	public int SinCountWith(Map<String, Object> map) {
+		
+		return sqlSession.selectOne("SinCountWith", map);
+	}
+
+	// 신청 동행 목록
+	@Override
+	public List<BoardVO> getWithSinDong(Map<String, Object> map) {
+
+		return sqlSession.selectList("getWithSinDong", map);
+	}
+
+	// 신청 취소하기
+	@Override
+	public int sinCancel(WithVO wt) {
+		
+		return sqlSession.delete("sinCancel", wt);
+		
+	}
+
+
+
+
 
 }

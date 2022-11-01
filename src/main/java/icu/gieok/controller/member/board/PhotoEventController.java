@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -214,8 +215,7 @@ public class PhotoEventController {
         if(checkUser != null) {
         	return checkUser;
         }
-        
-        
+        board = photoService.getBoardDetail(board_no);
         int user_code = (int) session.getAttribute("code");
         
         map.put("user_code", user_code);
@@ -354,12 +354,12 @@ public class PhotoEventController {
         return mv;
     }
     
-    // 좋아요
+    /* =====// 좋아요 // ===== */
     @ResponseBody // 맵일때 
-    @GetMapping("/photo_event_detailLike")
+    @PostMapping("/photo_event_detailLike")
     public Map<String, Object> photoEventLike(
             HttpSession session,
-            @RequestParam("photo_no") int board_no) {
+            @RequestBody Map<String, String> code) {
         
         checkUser = checkMember(session);
         
@@ -383,6 +383,7 @@ public class PhotoEventController {
         // board_like값도 변경
         
         int user_code = (int) session.getAttribute("code");
+        int board_no = Integer.parseInt(code.get("board_no"));
         
         map.put("board_no", board_no);
         map.put("user_code", user_code);
@@ -392,21 +393,20 @@ public class PhotoEventController {
         if(boardLikeReport == null) {
             int result = photoService.boardLikeReportInsert(map);
             
-            if(result != 0) {
+            if(result == 1) {
                 boardLikeReport = photoService.getBoardLikeReport(map);
             } 
         }
         
-        int like = 0;
-        char like_check = boardLikeReport.getBoard_like();
+        String like_check = boardLikeReport.getBoard_like();
         map.put("check", like_check); // 좋아요가 눌려있는지 안눌려있는지
         
-        like = photoService.updatePhotoEventLikeCheck(map);
-        like += photoService.updatePhotoEventLike(map);
+        photoService.updatePhotoEventLike(map);
+        photoService.updatePhotoEventLikeCheck(map);
 
-        if(like_check == 'Y') {
+        if(like_check.equals("Y")) {
             msg = "좋아요가 취소되었습니다";
-        } else if(like_check == 'N') {
+        } else if(like_check.equals("N")) {
             msg = "좋아요를 눌렀습니다";
         }
         
@@ -415,4 +415,109 @@ public class PhotoEventController {
         return map;
     }
     
+    /* ===== 신고 ===== */
+    @ResponseBody // 맵일때 
+    @PostMapping("/photo_event_detailReport")
+    public Map<String, Object> photoEventReport(
+            HttpSession session,
+            @RequestBody Map<String, String> code) {
+        
+        checkUser = checkMember(session);
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        String msg = "";
+        String url = "";
+        
+        if(checkUser != null) {
+            msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
+            url = "/member/login";
+            map.put("msg", msg);
+            map.put("url", url);
+            
+            return map;
+        }
+        
+        int user_code = (int) session.getAttribute("code");
+        int board_no = Integer.parseInt(code.get("board_no"));
+        
+        map.put("board_no", board_no);
+        map.put("user_code", user_code);
+        
+
+        
+        BoardLikeReportVO boardLikeReport = photoService.getBoardLikeReport(map);
+        if(boardLikeReport == null) {
+        	
+            // 신고 당하는 글의 작성자
+            int bad_member = photoService.getBoardDetail(board_no).getUser_code();
+            map.put("bad_member", bad_member);
+        	
+        	String report_type = code.get("report_type");
+        	map.put("report_type", report_type);
+        	
+            int result = photoService.boardLikeReportInsert(map);
+            
+            if(result == 1) {
+                boardLikeReport = photoService.getBoardLikeReport(map);
+            } 
+        }
+        
+        String report_check = boardLikeReport.getBoard_report();
+        String like_check = boardLikeReport.getBoard_like();
+        
+        map.put("check", like_check);
+        
+        if(report_check.equals("Y")) {
+        	msg = "이미 신고처리된 게시물입니다";
+        } else if(report_check.equals("N")) {
+        	photoService.updatePhotoEventReportCheck(map);
+        	photoService.updatePhotoEventReport(map);
+        	
+        	if(like_check.equals("Y")) {
+        		photoService.updatePhotoEventLike(map);
+        		photoService.updatePhotoEventLikeCheck(map);
+        	}
+        	
+        	msg = "게시물이 신고처리되었습니다";
+        }
+        
+        map.put("msg", msg);
+        
+        return map;
+    }
+    
+    @PostMapping("/photo_event_listDelete")
+	public ModelAndView photoEventListDelete(
+			HttpSession session,
+			@RequestParam List<Integer> photo_no, int page,
+			String sortBy, String category, String keyword) {
+		
+		if(checkUser != null) {
+			return null;
+		}
+		
+		List<BoardVO> list = photoService.selectPhotoEventList(photo_no);
+		
+		int listSize = photo_no.size();
+		int result = photoService.deletePhotoEventList(photo_no);
+		
+		String msg = "";
+		
+		if(listSize == result) {
+			msg = "정상적으로 삭제되었습니다";
+		} else {
+			msg = "삭제 실패";
+		}
+		
+//		String url = "/photo_event_list?page=" + page + "&sortBy=" + sortBy + "&category=" + category + "&keyword=" + keyword;
+		String url = "/photo_event_list?page=" + page;
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("msg", msg);
+		mv.addObject("url", url);
+		mv.setViewName("message");
+		
+		return mv;
+	}
 }

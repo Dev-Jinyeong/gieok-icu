@@ -12,6 +12,8 @@ public class AttrReviewVO {
 	private int user_code; 
 	private int attr_code;
 	
+	private String attr_name;
+	
 	
 	public int getRev_code() {
 		return rev_code;
@@ -73,6 +75,12 @@ public class AttrReviewVO {
 	public void setAttr_code(int attr_code) {
 		this.attr_code = attr_code;
 	} 
+	public String getAttr_name() {
+		return attr_name;
+	}
+	public void setAttr_name(String attr_name) {
+		this.attr_name = attr_name;
+	}
 
 	
 }

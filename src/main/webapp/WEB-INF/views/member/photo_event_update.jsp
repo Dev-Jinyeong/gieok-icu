@@ -6,7 +6,8 @@
    		<c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 			<jsp:include page="../static/sidebar.jsp" />
 		</c:if>
-		<c:if test="${sessionScope.grade == 'm'  }">
+		<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
+			<jsp:include page="../static/board_sidebar.jsp"/>
 			<!-- 회원용 리모컨 -->
 		</c:if>
         

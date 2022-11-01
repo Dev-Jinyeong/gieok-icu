@@ -10,6 +10,10 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		select * from city where province_id = #{province_id} order by city_name
 	</select>
 	
+	<select id="getCity" parameterType="int" resultType="city">
+		select * from city where city_code=#{city_code}
+	</select>
+	
 	<select id="getCityName" parameterType="int" resultType="String">
 		select city_name from city where city_code=#{city_code}
 	</select>

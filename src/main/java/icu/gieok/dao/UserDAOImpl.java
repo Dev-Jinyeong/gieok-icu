@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import icu.gieok.vo.AttrReviewVO;
 import icu.gieok.vo.UserVO;
 
 @Repository
@@ -69,4 +70,40 @@ public class UserDAOImpl implements UserDAO {
 	public int emailDupCheck(Map<String, String> map) {
 		return sqlSession.selectOne("emailDupCheck", map);
 	}
+	
+	@Override
+	public int changeStateLeave(int user_code) {
+		int res = -1;
+		res = sqlSession.update("changeStateLeave1", user_code);
+		res += sqlSession.update("changeStateLeave2", user_code);
+		return res;
+	}
+	
+	
+	@Override
+	public List<AttrReviewVO> getMyReviewList(Map<String, Object> map) {
+		return sqlSession.selectList("getMyReviewList", map);
+	}
+	
+	@Override
+	public int getMyReviewCount(Map<String, Object> map) {
+		return sqlSession.selectOne("getMyReviewCount", map);
+	}
+	
+	@Override
+	public AttrReviewVO reviewDetail(Map<String, Integer> map) {
+		return sqlSession.selectOne("reviewDetail", map);
+	}
+	
+	@Override
+	public int reviewDelete(Map<String, Integer> map) {
+		return sqlSession.update("reviewDelete", map);
+	}
+	
+	@Override
+	public int reviewUpdate(AttrReviewVO review) {
+		return sqlSession.update("reviewUpdate", review);
+	}
+	
+	
 }

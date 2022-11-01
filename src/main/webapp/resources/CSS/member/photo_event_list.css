@@ -102,76 +102,6 @@ body {
     min-height: 800px;
 }
 
-/* =====// admin menu */
-.remote_controller {
-    /* 좌측 관리자메뉴 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-
-    position: absolute;
-    top: calc(50% - 350px);
-
-    left: 0;
-    z-index: 5;
-
-    width: 150px;
-    height: 700px;
-
-    background-color: rgba(51, 51, 51, .8);
-    border-radius: 20px;
-}
-
-.line_s {
-    width: 100px;
-    height: 3px;
-
-    background-color: #fff;
-    border-radius: 2px;
-}
-
-.remote_controller>span {
-    color: #fff;
-    font-size: var(--font-size-menu1);
-    font-weight: 600;
-
-    margin-top: 10px;
-}
-
-.remote_controller>span:first-of-type {
-    font-size: var(--font-size-head6);
-    margin: 0;
-    margin-bottom: -10px;
-}
-
-.remote_controller label {
-    display: block;
-    width: 100px;
-    height: 35px;
-
-    color: #fff;
-    font-size: var(--font-size-menu2);
-    text-align: center;
-    line-height: 35px;
-
-    border-radius: 5px;
-    transition: background-color .3s;
-
-    cursor: pointer;
-}
-
-.remote_controller label:hover {
-    background-color: #333;
-}
-
-.remote_controller input {
-    display: none;
-}
-
-.remote_controller input:checked+label {
-    background-color: #333;
-}
 
 #board_form {
     display: flex;
@@ -180,11 +110,11 @@ body {
     align-items: center;
 
     width: 1000px;
-    height: 700px;
+    height: 800px;
 
     background-color: rgba(255, 255, 255, .9);
     border-radius: 20px;
-    margin-top: 50px;
+	margin-top: calc(50vh - 450px);
 }
 
 .board_title {
@@ -200,7 +130,7 @@ body {
     font-size: var(--font-size-head3);
 }
 
-.board_post_delete,
+#delete_button,
 .board_title>input[type="button"] {
 	display: block; 
 	
@@ -212,12 +142,15 @@ body {
     height: 30px;
 }
 
-.board_post_delete {
+#delete_button {
 	line-height: 30px;
 
 	color: var(--color-red);
 	font-weight: 600;
 	text-align: right;
+	
+	background-color: transparent;
+	border: none;	
 	
 	cursor: pointer;
 }
@@ -228,6 +161,7 @@ body {
     height: 3px;
     border-radius: 3px;
     background-color: #333;
+    margin-bottom: 20px;
 }
 
 .board_list>ul {

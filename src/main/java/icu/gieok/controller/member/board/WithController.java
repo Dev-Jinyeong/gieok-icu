@@ -21,6 +21,7 @@ import icu.gieok.vo.AttrVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
+import icu.gieok.vo.WithVO;
 
 @Controller
 public class WithController {
@@ -195,8 +196,8 @@ public class WithController {
 		}
 		
 		// 목록 개수 - Pagination
-		int startRow = (page - 1) * 5 + 1;  // 현재 페이지 첫번째 게시물 값
-		int endRow = page * 5;  // 현재 페이지 마지막 게시물 값
+		int startRow = (page - 1) * 3 + 1;  // 현재 페이지 첫번째 게시물 값
+		int endRow = page * 3;  // 현재 페이지 마지막 게시물 값
 		
 		// 검색 - Pagination
 		if (category == null) {
@@ -215,8 +216,8 @@ public class WithController {
 		
 		// Total - Pagination
 		int totalCount = boardWithService.countWith(map); // 테이블 내 해당 게시물 전체 개수
-		int totalPage = (totalCount / 5);  // 전체 페이지 수
-		if ((totalCount % 5) != 0) {
+		int totalPage = (totalCount / 3);  // 전체 페이지 수
+		if ((totalCount % 3) != 0) {
 			totalPage++;  // 나머지 게시물을 위해서 페이지++
 		}
 		
@@ -268,8 +269,208 @@ public class WithController {
 		
 		return mv;
 		
-	}
+	} // board_with_list()
 	
+	
+	// 신청하기
+	@ResponseBody
+	@PostMapping("/board_with_sinchung")
+	public String board_with_sinchung(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+		
+
+		checkUser = checkMember(session);
+		if(checkUser != null) {
+			
+			return "noSession";
+		}
+		
+		
+		// 작성자
+		int board_no = Integer.parseInt(map.get("board_no"));
+		String board_writer = map.get("board_writer");
+		
+		
+		// 신청자
+		String with_user_id = (String)session.getAttribute("id");
+		int with_user_code = (int)session.getAttribute("code");
+		String with_user_info = map.get("with_user_info");
+		
+		
+		WithVO wt = new WithVO();
+		
+		wt.setBoard_no(board_no);
+		wt.setBoard_writer(board_writer);
+		wt.setWith_user_id(with_user_id);
+		wt.setWith_user_code(with_user_code);
+		wt.setWith_user_info(with_user_info);
+		
+		
+		String check = "";
+		
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("board_no", board_no);
+		map2.put("with_user_code", with_user_code);
+		
+		WithVO wtCheck = boardWithService.selectWith(map2);
+		
+		if (wtCheck != null) {
+			check = "false";
+		} else {
+			int res = boardWithService.insert_WT(wt);
+			
+			if (res != 1) {
+				check = "fail";
+			}
+		}
+		
+		return check;
+		
+	} // board_with_sinchung
+	
+	
+	
+	// 내가 신청한 동행 목록
+	@GetMapping("/board_with_sindong")
+	public ModelAndView board_with_sindong(HttpServletRequest request, HttpSession session,
+			String category, String keyword) {
+		
+		
+		checkUser = checkMember(session);
+		
+		if(checkUser != null) {
+			
+			return checkUser;
+			
+		}
+		
+		
+		// 작성자 (로그인한 user)
+		String loging_user = (String)session.getAttribute("id");
+		
+		// Pagination
+		int page = 1;
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		// 목록 개수 - Pagination
+		int startRow = (page - 1) * 3 + 1;  // 현재 페이지 첫번째 게시물 값
+		int endRow = page * 3;  // 현재 페이지 마지막 게시물 값
+		
+		// 검색 - Pagination
+		if (category == null) {
+			category = "";
+		}
+		
+		if (keyword == null) {
+			keyword = "";
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("loging_user", loging_user);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("category", category);
+		map.put("keyword", keyword);
+		
+		// Total - Pagination
+		int totalCount = boardWithService.SinCountWith(map); // 테이블 내 해당 게시물 전체 개수
+		int totalPage = (totalCount / 3);  // 전체 페이지 수
+		if ((totalCount % 3) != 0) {
+			totalPage++;  // 나머지 게시물을 위해서 페이지++
+		}
+		
+		// Num - Pagination(한 싸이클의 페이지 개수)
+		int startPage = 1;
+		int endPage = 1;
+		
+		if (page / 10 < 1 || page == 10) {  // 1 ~ 10까지는 → endPage = 10
+			
+			endPage = 10;
+			
+			if (totalPage < 10) {  // totalPage가 10보다 작으면
+				endPage = totalPage;
+			}
+			
+		}
+		else {
+			startPage = ((page / 10) * 10) + 1;  // startPage = 11..21..31..
+			endPage = startPage + 9;  // endPage = 10..20..30..
+			
+			if (endPage >= totalPage) {  // 만약 endPage가 totalPage보다 크거나 같으면
+				endPage = totalPage;	// endPage가 totalPage가 된다.
+			}
+			
+		}
+		
+		// 게시물 목록
+		List<BoardVO> with_li_list = boardWithService.getWithSinDong(map);
+		
+		if (with_li_list.size() > 0) {
+			for (BoardVO with : with_li_list) {
+				with.setBoard_startDay(with.getBoard_startDay().substring(0, 10));
+				with.setBoard_endDay(with.getBoard_endDay().substring(0, 10));
+			}
+		}
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("page", page);
+		mv.addObject("startPage", startPage);
+		mv.addObject("endPage", endPage);
+		mv.addObject("totalPage", totalPage);
+		mv.addObject("totalCount", totalCount);
+		mv.addObject("category", category);
+		mv.addObject("keyword", keyword);
+		mv.addObject("with_li_list", with_li_list);
+		
+		mv.setViewName("/member/board_with_sindong");
+		
+		return mv;
+	
+	} // board_with_sindong()
+	
+	
+	// 내가 신청한 동행 취소
+	@ResponseBody
+	@PostMapping("/board_with_sindel")
+	public String board_with_sindelok(@RequestBody Map<String, String> map, HttpSession session,
+			HttpServletRequest request) {
+		
+		checkUser = checkMember(session);
+		
+		if (checkUser != null) {
+			
+			return "noSession";
+			
+		}
+		
+		
+		int board_no = Integer.parseInt(map.get("board_no"));
+		String loging_user = (String)session.getAttribute("id");
+		
+		
+		WithVO wt = new WithVO();
+		
+		wt.setBoard_no(board_no);
+		wt.setWith_user_id(loging_user);
+		
+		
+		String sindel_Check = "";
+		
+		int res = boardWithService.sinCancel(wt);
+		
+		
+		if (res != 1) {
+			
+			sindel_Check = "fail";
+			
+		}	
+		
+		
+		return sindel_Check;
+		
+	} // board_with_sindelok()
 	
 }
 

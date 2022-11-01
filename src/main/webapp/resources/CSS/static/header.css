@@ -358,13 +358,14 @@ body {
     position: absolute;
 
     width: 150px;
-    height: 700px;
     
     text-align: center;
 	font-size: var(--font-size-cont3);
     
     background-color: rgba(51, 51, 51, .8);
     border-radius: 20px;
+    
+    padding-bottom: 30px;
 }
 
 .admin_menu>span {

@@ -26,7 +26,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping("/board_list")
+	@GetMapping("/board_list")
 	public ModelAndView board_list(@ModelAttribute BoardVO b, HttpServletRequest request, HttpSession session) {
 		
 		String board_sort = request.getParameter("board_sort");
@@ -59,7 +59,7 @@ public class BoardController {
 			row_sort.put("list_search", list_search);
 		}
 		board_count = boardService.board_count(row_sort);
-		blist = this.boardService.board_list(row_sort);
+		blist = boardService.board_list(row_sort);
 		
 		ModelAndView m = new ModelAndView();
 		
@@ -110,9 +110,9 @@ public class BoardController {
 		
 		String grade = (String)session.getAttribute("grade");
 		if(grade == null ||grade.equals("m")) {
-			b = this.boardService.board_contM(board_no);
+			b = boardService.board_contM(board_no);
 		}else {
-			b = this.boardService.board_cont(board_no);
+			b = boardService.board_cont(board_no);
 		}
 		ModelAndView cm = new ModelAndView();
 		cm.addObject("blist", b);

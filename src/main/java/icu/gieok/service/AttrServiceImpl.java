@@ -44,17 +44,17 @@ public class AttrServiceImpl implements AttrService {
 	}
 
 	@Override
-	public AttrReviewReportVO getAttrReviewReport(Map<String, Integer> codes) {
+	public AttrReviewReportVO getAttrReviewReport(Map<String, Object> codes) {
 		return attrDAO.getAttrReviewReport(codes);
 	}
 	
 	@Override
-	public int insertAttrReviewReport(Map<String, Integer> codes) {
+	public int insertAttrReviewReport(Map<String, Object> codes) {
 		return attrDAO.insertAttrReviewReport(codes);
 	}
 	
 	@Override
-	public int updateAttrReviewReport(Map<String, Integer> codes) {
+	public int updateAttrReviewReport(Map<String, Object> codes) {
 		return attrDAO.updateAttrReviewReport(codes);
 	}
 	
@@ -71,6 +71,11 @@ public class AttrServiceImpl implements AttrService {
 	@Override
 	public int updateAttrLike(AttrLikeVO attrLike) {
 		return attrDAO.updateAttrLike(attrLike);
+	}
+	
+	@Override
+	public int getAttrRevieWriter(int rev_code) {
+		return attrDAO.getAttrReviewWriter(rev_code);
 	}
 	
 

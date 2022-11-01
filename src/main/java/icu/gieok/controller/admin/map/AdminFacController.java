@@ -143,7 +143,7 @@ public class AdminFacController {
 	
 	// 주변 시설 등록 FRONT
 	@GetMapping("/fac_regist")
-	public ModelAndView facRegist(HttpSession session, int attr_code, int page, String sort, String category, String keyword) {
+	public ModelAndView facRegist(HttpSession session, int attr_code) {
 		
 		checkUser = checkAdmin(session);
 
@@ -157,10 +157,6 @@ public class AdminFacController {
 		
 		mv.addObject("attr_name", attr_name);
 		mv.addObject("attr_code", attr_code);
-		mv.addObject("page", page);
-		mv.addObject("sort", sort);
-		mv.addObject("category", category);
-		mv.addObject("keyword", keyword);
 		mv.setViewName("/admin/fac_regist");
 		
 		// System.out.println("page = " + page);
@@ -170,7 +166,7 @@ public class AdminFacController {
 	
 	// 주변 시설 등록 BACK
 	@PostMapping("/fac_regist")
-	public ModelAndView facRegistOK(@RequestParam("image") MultipartFile image, HttpSession session, int attr_code, FacVO fac, int page, String sort, String category, String keyword) {
+	public ModelAndView facRegistOK(@RequestParam("image") MultipartFile image, HttpSession session, int attr_code, FacVO fac) {
 		
 		checkUser = checkAdmin(session);
 
@@ -265,7 +261,7 @@ public class AdminFacController {
 			msg = "에러발생! 시스템 관리자에게 문의하세요!";
 		}
 		
-		String url = "/admin/fac_list?attr_code=" + attr_code + "&page=" + page + "&sort=" + sort + "&category=" + category + "&keyword=" + keyword;
+		String url = "/admin/fac_list?attr_code=" + attr_code;
 		
 		ModelAndView mv = new ModelAndView();
 		

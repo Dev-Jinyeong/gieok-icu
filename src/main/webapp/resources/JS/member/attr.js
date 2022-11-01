@@ -3,10 +3,110 @@ const province = document.querySelector("#province").value;
 const city_code = document.querySelector("#city_code").value;
 const attr_code = document.querySelector("#attr_code").value;
 let user_code = document.querySelector("#user_code").value;
+const user_grade = document.querySelector("#user_grade").value;
+
+const latitude = document.querySelector("#latitude").value;
+const longitude = document.querySelector("#longitude").value;
+const city_name = document.querySelector("#city_name").value;
+
+// 사진 슬라이드 
+// 이미지 선택 버튼
+const attr_image_btn1 = document.querySelector("#attr_image_btn1");
+const attr_image_btn2 = document.querySelector("#attr_image_btn2");
+let selectedImage = true; 
+
+const attr_image1 = document.querySelector("#attr_image1");
+const attr_image2 = document.querySelector("#attr_image2");
+
+autoImage1();
+
+function autoImage2() {
+
+	attr_image_btn2.style.background = "#333";
+	attr_image_btn2.style.border = "2px solid #fff";
+	attr_image_btn1.style.background = "#fff";
+	attr_image_btn1.style.border = "2px solid #333";
+	attr_image1.style.transform = "translateX(-120%)";
+	attr_image1.style.opacity = "0";
+	attr_image2.style.transform = "translateX(0)"
+	attr_image2.style.opacity = "1";
+
+	setTimeout(() => {
+		autoImage1();
+	}, 3000);
+	
+	
+
+}
+
+
+function autoImage1() {
+
+	attr_image_btn1.style.background = "#333";
+	attr_image_btn1.style.border = "2px solid #fff";
+	attr_image_btn2.style.border = "2px solid #333";
+    attr_image_btn2.style.background = "#fff";
+    attr_image2.style.transform = "translateX(110%)";
+    attr_image2.style.opacity = "0";
+    attr_image1.style.transform = "translateX(0)";
+    attr_image1.style.opacity = "1";
+    
+    setTimeout(() => {
+	    autoImage2();
+    }, 3000);
+    
+
+}
+
+attr_image_btn1.addEventListener("click", () => {
+    attr_image_btn1.style.background = "#333";
+	attr_image_btn1.style.border = "2px solid #fff";
+	attr_image_btn2.style.border = "2px solid #333";
+    attr_image_btn2.style.background = "#fff";
+    attr_image2.style.transform = "translateX(110%)";
+    attr_image2.style.opacity = "0";
+    attr_image1.style.transform = "translateX(0)";
+    attr_image1.style.opacity = "1";
+    
+})
+
+attr_image_btn2.addEventListener("click", () => {
+    attr_image_btn2.style.background = "#333";
+	attr_image_btn2.style.border = "2px solid #fff";
+    attr_image_btn1.style.background = "#fff";
+    attr_image_btn1.style.border = "2px solid #333";
+    attr_image1.style.transform = "translateX(-120%)";
+    attr_image1.style.opacity = "0";
+    attr_image2.style.transform = "translateX(0)"
+    attr_image2.style.opacity = "1";
+})
+
+
+
+// 뒤로가기 
+
+const back_btn = document.querySelector(".back_btn");
+back_btn.addEventListener("click", () => {
+	location.href = `/member/city?city_name=${city_name}&latitude=${latitude}&longitude=${longitude}`;
+});
+
+// 시 이름 클릭
+if(user_grade == "m") {
+	const go_city = document.querySelector(".go_city");
+	go_city.addEventListener("click", () => {
+		location.href = `/member/city?city_name=${city_name}&latitude=${latitude}&longitude=${longitude}`;
+	});
+}
+
+
+// 별점
+const attr_rate = document.querySelector(".attr_rate");
 
 // 메뉴 탭
 const side_option = document.getElementsByName("option");
 const attr_card_list = document.querySelector(".attr_card_list");
+
+
 
 // 메뉴 버튼 클릭 이벤트
 side_option.forEach((option) => {
@@ -66,8 +166,7 @@ function changeSideOption(list) {
 	
 		list.forEach((item) => {
 			let content = `<li class="attr_card_item">
-									<img src="../resources/upload/fac/${province}/${city_code}
-									/${attr_code }/${item.fac_img }/" class="attr_card_img">
+									<img src="../resources/upload/${item.fac_img }/" class="attr_card_img">
 									<span class="attr_card_name">${item.fac_name }</span>
 									<span class="attr_card_name">${item.fac_addr }</span>
 									<a href="${item.fac_link }" target="_blank"><span class="fac_link">
@@ -125,8 +224,10 @@ function attrReview(list) {
 				review += `⭐`;
 			}
 			
-			review += `<input type="button" value="신고하기" class="attr_review_delete" onclick="reviewReport(${item.rev_code});">`
-			
+			if(item.user_code!=user_code) {
+				review += `<input type="button" value="신고하기" class="attr_review_delete" 
+							onclick="reviewReport(${item.rev_code});">`
+			}
 			if(item.rev_img != null) {
 				review += `<img src="/resources/upload/review/${item.attr_code}/${item.rev_img}" class="attr_review_img">`
 			}
@@ -184,6 +285,22 @@ function attrReviewSubmit() {
 				if(res.length > 0) {
 					alert("리뷰가 등록되었습니다!");
 					attrReview(res);
+					
+					
+					let sum = 0;
+					let length = res.length;
+					res.forEach((item) => {
+							sum += item.rev_rate				
+					})
+					
+					console.log(sum);
+					console.log(length);
+					console.log(sum/length);
+					
+					let avg = Math.ceil(sum / length * 100) / 100;
+					
+					attr_rate.innerText = `⭐ ${avg}`;
+					
 					attrReviewSubmit();
 				}else {
 					alert("시스템 오류! 관리자에게 문의하세요:(");
@@ -203,25 +320,36 @@ function reviewReport(rev_code) {
 			location.href = "/member/login";
 		}
 	}else {
-		fetch("http://localhost:8080/member/attr_review_report", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				rev_code: rev_code,
-			}),
-		})
-		.then(res => res.text())
-		.then(res => {
-			if(res=="success") {
-				alert("신고가 접수되었습니다!");
-			}else if(res=="fail") {
-				alert("이미 신고한 리뷰입니다!");
-			}else if(res=="error") {
-				alert("시스템 오류! 관리자에게 문의해주세요!");
-			}
-		})
+		let report_type = prompt("신고 유형 번호를 입력해주세요!\n1. 부적절한 내용\n2. 욕설/비방\n3. 광고/홍보\n4. 도배");
+		
+		if(report_type==null){
+		}							  	
+		else if(report_type!="1" && report_type!="2"&& report_type!=="3" && report_type!="4") {
+			alert("유효하지 않은 옵션입니다!");
+		}else {
+			fetch("http://localhost:8080/member/attr_review_report", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					rev_code: rev_code,
+					report_type: report_type,
+				}),
+			})
+			.then(res => res.text())
+			.then(res => {
+				if(res=="success") {
+					alert("신고가 접수되었습니다!");
+				}else if(res=="fail") {
+					alert("이미 신고한 리뷰입니다!");
+				}else if(res=="error") {
+					alert("시스템 오류! 관리자에게 문의해주세요!");
+				}
+			})
+		}
+	
+
 	}
 	
 }

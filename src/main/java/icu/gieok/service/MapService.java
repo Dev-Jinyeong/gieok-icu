@@ -36,6 +36,8 @@ public interface MapService {
 
 	List<AttrVO> getDeleteAttrList(List<Integer> attr_checkBox);
 
+	CityVO getCity(int city_code);
+
 	
 
 

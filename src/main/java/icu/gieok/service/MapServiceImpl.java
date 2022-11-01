@@ -81,5 +81,10 @@ public class MapServiceImpl implements MapService {
 		return mapDAO.getDeleteAttrList(attr_checkBox);
 	}
 	
+	@Override
+	public CityVO getCity(int city_code) {
+		return mapDAO.getCity(city_code);
+	}
+	
 	
 }

@@ -25,10 +25,25 @@ function preview() {
 //document.getElementById('optime').value = new Date().toISOString().slice(11, 16);
 //document.getElementById('cltime').value = new Date().toISOString().slice(11, 16);
 
-// 유효성 검사
-let form = fac_regist;
+// double click 방지
+let doubleSubmit = false;
 
-function formValidate1() {
+function doubleSubmitCheck() {
+   
+   if (doubleSubmit) {
+      return false;
+   } else { // doubleSubmit = false 인 경우
+      doubleSubmit = true;
+      return true;
+   }
+   
+}
+
+// 유효성 검사
+let form = document.fac_regist;
+
+function formValidate() {
+
    const type = form.fac_type;
    const name = form.fac_name; 
    const addr = form.fac_addr; 
@@ -46,12 +61,11 @@ function formValidate1() {
    }
    if(addr.value=="") {
       alert("주소는 필수 검색 사항입니다!");
-      addr.focus();
       return false;
    }
    if(link.value=="") {
       alert("링크는 필수 입력 사항입니다!");
-      map.focus();
+      link.focus();
       return false;
    }
    if(facimageCheck == false) {
@@ -59,44 +73,15 @@ function formValidate1() {
       return false;
    }
    
-   return true;
-}
-
-function formValidate2() {
-   const type = form.fac_type;
-   const name = form.fac_name; 
-   const addr = form.fac_addr; 
-   const link = form.fac_link; 
+   return doubleSubmitCheck();
    
-   if(type.value=="") {
-      alert("타입은 필수 선택 사항입니다!");
-      type.focus();
-      return false;
-   }
-   if(name.value=="") {
-      alert("이름은 필수 입력 사항입니다!");
-      name.focus();
-      return false;
-   }
-   if(addr.value=="") {
-      alert("주소는 필수 검색 사항입니다!");
-      addr.focus();
-      return false;
-   }
-   if(link.value=="") {
-      alert("링크는 필수 입력 사항입니다!");
-      map.focus();
-      return false;
-   }
-   
-   return true;
 }
-
 
 // 취소 버튼
 const cancel_btn = document.querySelector(".facreg_cac_btn");
 
 cancel_btn.addEventListener("click", () => {
-   let attr_code = document.querySelector("#attr_code").value;
+   const attr_code = document.querySelector("#attr_code").value;
+   
    location.href = `/admin/fac_list?attr_code=${attr_code}`;
 });

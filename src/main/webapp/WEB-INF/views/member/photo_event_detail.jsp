@@ -6,9 +6,10 @@
         <c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
             <jsp:include page="../static/sidebar.jsp" />
         </c:if>
-        <c:if test="${sessionScope.grade == 'm'  }">
-            <!-- 회원용 리모컨 -->
-        </c:if>
+		<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)  }">
+			<jsp:include page="../static/board_sidebar.jsp"/>
+			<!-- 회원용 리모컨 -->
+		</c:if>
         <link rel="stylesheet" href="../resources/CSS/member/photo_event_detail.css">
 
         <!-- contents: board list box -->
@@ -45,10 +46,10 @@
                 <div class="board_line"></div>
 
                 <div class="board_post_button">
-                	<c:if test="${sessionScope.code == board.user_code}">
-                		<input type="button" id="update_button" value="수정">
-                	</c:if>
-                    <input type="checkbox" name="like_checkbox" id="like_checkbox" <c:if test="${boardLikeReport.board_like eq 'Y'.charAt(0)}">checked</c:if>>
+                   <c:if test="${sessionScope.code == board.user_code}">
+                      <input type="button" id="update_button" value="수정">
+                   </c:if>
+                    <input type="checkbox" name="like_checkbox" id="like_checkbox" <c:if test="${boardLikeReport.board_like == 'Y'}">checked</c:if>>
                     <label for="like_checkbox">
                         <svg width="17" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="path-1-inside-1_731_234" fill="white">
@@ -62,9 +63,13 @@
                                 mask="url(#path-1.5-inside-1_731_234)" />
                         </svg>
                     </label>
-                    <input type="button" value="뒤로">
-                	<c:if test="${sessionScope.code == board.user_code}">
-                    	<span id="delete_button">게시물 삭제</span>
+                    <input type="button" value="뒤로" class="back_button">
+                   <c:if test="${sessionScope.code == board.user_code}">
+                       <span id="delete_button">게시물 삭제</span>
+                    </c:if>
+                    <input type="checkbox" id="report_checkbox" name="report_checkbox">
+                    <c:if test="${sessionScope.code != board.user_code}">
+                       <label for="report_checkbox" class="report_button">게시물 신고</label>
                     </c:if>
                 </div>
             </form>

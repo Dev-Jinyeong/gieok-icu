@@ -240,7 +240,7 @@
 }
 
 #board_no {
-	display: none;
+   display: none;
 }
 
 .board_post_detail {
@@ -309,9 +309,9 @@
     font-size: 0;
 }
 
-.board_post_button>label {
-	display: block;
-	
+.board_post_button>label:first-of-type {
+   display: block;
+   
     position: absolute;
     top: 0;
     left: calc(100px - 20px);
@@ -331,39 +331,39 @@
     transition: transform, box-shadow .1s, .1s;
 }
 
-.board_post_button>label:hover {
+.board_post_button>label:first-of-type:hover {
     transform: translate(-1px, -1px);
     box-shadow: 1px 1px 1px #333;
 }
 
-.board_post_button>label:active {
+.board_post_button>label:first-of-type:active {
     transform: translate(1px, 1px);
     box-shadow: none;
 }
 
 .board_post_button>label>svg,
 .board_post_button>label>svg>path {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .board_post_button>label>svg>path:last-of-type {
-	fill: #fff;
+   fill: #fff;
 }
 
 #like_count {
-	/* 좋아요 추가 */
-	display: none;
+   /* 좋아요 추가 */
+   display: none;
 }
 
 .board_post_button>input[type="button"]:first-of-type {
-	position: absolute;
-	left: 0;
-	
-	width: 60px;
-	height: 30px;
+   position: absolute;
+   left: 0;
+   
+   width: 60px;
+   height: 30px;
 }
 
-.board_post_button>input[type="button"]:last-of-type {
+.board_post_button>.back_button {
     position: absolute;
     right: 0;
 
@@ -383,23 +383,25 @@
 }
 
 #like_checkbox:checked+label>svg>path:first-of-type {
-	/* 좋아요 체크시 */
-	fill: #fff;
+   /* 좋아요 체크시 */
+   fill: #fff;
 }
 
+.report_button,
 #delete_button {
-	display: block;
-	
-	position: absolute;
-	right: -310px;
-	
-	width: 70px;
-	
-	font-size: 10px;
-	color: var(--color-red);
-	font-weight: 600;
-	
-	cursor: pointer;
+   display: block;
+   
+   position: absolute;
+   right: -310px;
+   bottom: 15px;
+   
+   width: 70px;
+   
+   font-size: 10px;
+   color: var(--color-red);
+   font-weight: 600;
+   
+   cursor: pointer;
 }
 
 /* =====// contents end //===== */

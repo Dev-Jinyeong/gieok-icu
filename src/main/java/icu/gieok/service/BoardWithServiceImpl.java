@@ -11,6 +11,7 @@ import icu.gieok.vo.AttrVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
+import icu.gieok.vo.WithVO;
 
 @Service
 public class BoardWithServiceImpl implements BoardWithService {
@@ -66,5 +67,52 @@ public class BoardWithServiceImpl implements BoardWithService {
 		
 	}
 
+	// 신청하기 중복 확인
+	@Override
+	public WithVO selectWith(Map<String, Object> map2) {
+		
+		return boardWithDao.selectWith(map2);
+		
+	}
 
+	// 신청하기
+	@Override
+	public int insert_WT(WithVO wt) {
+		
+		return boardWithDao.insert_WT(wt);
+		
+	}
+
+	// 동행 목록 관리자 삭제
+	@Override
+	public int delete_WT(int board_no) {
+		
+		return boardWithDao.delete_WT(board_no);
+	}
+
+	// 신청 동행 토탈페이징
+	@Override
+	public int SinCountWith(Map<String, Object> map) {
+		
+		return boardWithDao.SinCountWith(map);
+	}
+
+	// 신청 동행 목록
+	@Override
+	public List<BoardVO> getWithSinDong(Map<String, Object> map) {
+
+		return boardWithDao.getWithSinDong(map);
+	}
+
+	// 신청 취소하기
+	@Override
+	public int sinCancel(WithVO wt) {
+
+		return boardWithDao.sinCancel(wt);
+	}
+
+
+
+
+	
 }

@@ -38,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	<if test="!category.equals('')">
 	 		and ${category} LIKE '%${keyword}%'
 	 	</if>
+	 	order by board_no desc
 	</select>
 	
 	<!-- 게시물 목록 -->
@@ -49,10 +50,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 			<if test="!category.equals('')">
 		 				and ${category} LIKE '%${keyword}%'
 		 			</if>
+		 			order by board_no desc
 		 			
 	 		)
 	 ) where rNum BETWEEN #{startRow} AND #{endRow}
 	</select>
+	
+	<!-- 신청하기 중복 확인 -->
+	<select id="selectWith" parameterType="java.util.Map" resultType="with">
+	 select * from with_table where board_no = #{board_no} and with_user_code = #{with_user_code}
+	</select>
+	
+	<!-- 신청하기 -->
+	<insert id="insert_WT" parameterType="with">
+	 insert into with_table (with_no, board_no, board_writer, with_user_id,
+	 	with_user_code, with_user_info, with_accept)
+	 values (with_seq.nextval, #{board_no}, #{board_writer}, #{with_user_id},
+	 	#{with_user_code}, #{with_user_info}, '1')
+	</insert>
+	
+	<!-- 동행 목록 관리자 삭제 -->
+	<update id="delete_WT" parameterType="int">
+	 update board set board_state = '1' where board_no = #{board_no}
+	</update>
+	
+	<!-- 신청 동행 토탈 페이징 -->
+	<select id="SinCountWith" parameterType="java.util.Map" resultType="int">
+	select count(T1.board_no)
+	from board T1, with_table T2
+	where T1.board_no = T2.board_no AND T1.board_type = '3' AND T1.board_state = '0' AND T2.with_user_id = #{loging_user}
+	 	<if test="!category.equals('')">
+	 		and T1.${category} LIKE '%${keyword}%'
+	 	</if>
+	 	order by T1.board_no desc
+	</select>
+	
+	<!-- 신청 동행 목록 -->
+	<select id="getWithSinDong" parameterType="java.util.Map" resultType="board">
+		select * from (       
+			select rowNum rNum, T1.board_no, T1.board_title, T1.board_writer, T1.board_startDay, T1.board_endDay, T1.board_memCount, T1.board_content
+			from board T1, with_table T2
+			where T1.board_no = T2.board_no AND T1.board_type = '3' AND T1.board_state = '0' AND T2.with_user_id = #{loging_user}
+			<if test="!category.equals('')">
+		 		and T1.${category} LIKE '%${keyword}%'
+		 	</if>
+		 	order by T1.board_no desc
+			)
+		where rNum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- 신청 취소하기 -->
+	<delete id="sinCancel" parameterType="with">
+	 delete from with_table where board_no = #{board_no} AND with_user_id = #{with_user_id}
+	</delete>
 	
 </mapper>
 

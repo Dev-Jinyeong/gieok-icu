@@ -35,7 +35,7 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 				<where>
 				board_type = '4' and board_state = '0'
 					<if test="!category.equals('')">
-						${category} like '%${keyword}%'
+						and ${category} like '%${keyword}%'
 					</if>
 				</where>
 				order by ${sortBy}
@@ -47,7 +47,7 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getBoardDetail" resultType="board">
-		select * from board where board_type = 4 and board_no=#{board_no}
+		select * from board where board_type = 4 and board_no=#{board_no} and board_state = '0'
 	</select>
 	
 	<update id="updateBoardHit">
@@ -69,29 +69,70 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="updatePhotoEventLikeCheck" parameterType="java.util.Map">
-		update board_like_report set 
-		<if test="check == 'N'">
-			board_like = 'Y'  
+		update board_like_report set board_like=
+		<if test='check.equals("N")'>
+			'Y'  
 		</if>
-		<if test="check == 'Y'">
-			board_like = 'N'
+		<if test='check.equals("Y")'>
+			'N'
 		</if>
 		where board_no = #{board_no} and user_code = #{user_code}
 	</update>
 	
 	<update id="updatePhotoEventLike" parameterType="java.util.Map">
-		update board set
-		<if test="check == 'N'">
-			board_like = board_like + 1  
+		update board set 
+		<if test='check.equals("N")'>
+			board_like=board_like+1  
 		</if>
-		<if test="check == 'Y'">
-			board_like = board_like - 1
+		<if test='check.equals("Y")'>
+			board_like=board_like-1 
 		</if>
 		where board_no = #{board_no}
 	</update>
 	
 	<insert id="boardLikeReportInsert" parameterType="java.util.Map">
-		insert into board_like_report (user_code, board_no)
-		values (#{user_code}, #{board_no})
+		insert into board_like_report (report_no, user_code, board_no, bad_member, report_type)
+		values (report_seq.nextVal, #{user_code}, #{board_no}, #{bad_member}, #{report_type})
 	</insert>
+
+	<insert id="boardLikeReportInsert2" parameterType="java.util.Map">
+		insert into board_like_report (report_no, user_code, board_no)
+		values (report_seq.nextVal, #{user_code}, #{board_no})
+	</insert>
+	
+	<update id="updatePhotoEventReportCheck" parameterType="java.util.Map">
+		update board_like_report set board_report = 'Y'
+		where board_no = #{board_no} and user_code = #{user_code}
+	</update>
+	
+	<update id="updatePhotoEventReport" parameterType="java.util.Map">
+		update board set board_like=board_like+1
+		where board_no = #{board_no}
+	</update>
+	
+	<select id="selectPhotoEventList" parameterType="java.util.List" resultType="board">
+		select * from board where board_no in
+		<foreach collection="list" item="board_no" open="(" close=")" separator=",">
+			#{board_no}
+		</foreach>
+	</select>
+	
+	<update id="deletePhotoEventList" parameterType="java.util.List">
+		update board set board_state='1' where board_no in
+		<foreach collection="list" item="board_no" open="(" close=")" separator=",">
+			#{board_no}
+		</foreach>
+	</update>
+	
+	<update id="updateBoardLikeReport" parameterType="int">
+		update board_like_report set board_report='N'where board_no in
+		<foreach collection="list" item="board_no" open="(" close=")" separator=",">
+			#{board_no}
+		</foreach>	
+	</update>
+	
+	
+	
+	
+	
 </mapper>

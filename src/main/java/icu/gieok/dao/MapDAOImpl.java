@@ -81,5 +81,9 @@ public class MapDAOImpl implements MapDAO {
 		return sqlSession.selectList("getDeleteAttrList", attr_checkBox);
 	}
 	
+	@Override
+	public CityVO getCity(int city_code) {
+		return sqlSession.selectOne("getCity", city_code);
+	}
 	
 }
