@@ -53,11 +53,11 @@
 					<c:forEach var="with" items="${with_li_list}">
 	 					<li style="position: relative;">
 							<div class="li_box">
-								
-								<h2>${with.board_title}</h2>
+								<h2>${with.board_title} </h2>
 								<div class="li_with_cont">
 									<p>
-										<b>작성자 :</b>&nbsp
+										<span class="with_statustxt">[${with.with_accept }]</span>
+										<b>작성자 : </b>&nbsp
 										<span class="li_box_list">
 											${with.board_writer}
 										</span>
@@ -81,6 +81,7 @@
 								<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
 								
 								<input class="with_cancelBtn" name="with_cancelBtn" type="button" value="신청취소">
+								
 							</div>
 						</li>			
 					</c:forEach>

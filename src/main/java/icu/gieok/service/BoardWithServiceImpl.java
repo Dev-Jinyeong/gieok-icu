@@ -118,7 +118,5 @@ public class BoardWithServiceImpl implements BoardWithService {
 	}
 
 
-
-
 	
 }

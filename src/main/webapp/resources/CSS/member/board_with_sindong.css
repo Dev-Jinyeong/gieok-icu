@@ -227,7 +227,17 @@
     height: 200px;
     transition: height ease-out 1s;
 
-}   
+}
+
+.with_statustxt {
+	width: 50px;
+	
+	font-weight: bold;
+	font-family: var(--font-cont);
+	font-size: var(--font-size-cont3);
+	color: var(--color-red);
+	
+}
 
 .li_box {
     display: flex;

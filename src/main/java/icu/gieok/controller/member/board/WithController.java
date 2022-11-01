@@ -435,11 +435,26 @@ public class WithController {
 		// 내가 신청한 동행 게시물 목록
 		List<BoardVO> with_li_list = boardWithService.getWithSinDong(map);
 		
+		
 		if (with_li_list.size() > 0) {
 			for (BoardVO with : with_li_list) {
 				with.setBoard_startDay(with.getBoard_startDay().substring(0, 10));
 				with.setBoard_endDay(with.getBoard_endDay().substring(0, 10));
-			}
+				
+					switch(with.getWith_accept()) {
+					case "1":
+						with.setWith_accept("대기중");
+						break;
+					case "2":
+						with.setWith_accept("수락됨");
+						break;
+					case "3":
+						with.setWith_accept("거절됨");
+						break;
+					}
+					
+				}
+				
 		}
 		
 		ModelAndView mv = new ModelAndView();

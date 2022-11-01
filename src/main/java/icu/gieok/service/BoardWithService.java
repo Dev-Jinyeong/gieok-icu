@@ -37,4 +37,5 @@ public interface BoardWithService {
 
 	WithVO getwithAccept(Map<String, Object> withMap);
 
+
 }

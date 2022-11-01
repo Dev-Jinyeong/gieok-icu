@@ -88,9 +88,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 신청 동행 목록 -->
 	<select id="getWithSinDong" parameterType="java.util.Map" resultType="board">
 		select * from (       
-			select rowNum rNum, T1.board_no, T1.board_title, T1.board_writer, T1.board_startDay, T1.board_endDay, T1.board_memCount, T1.board_content
-			from board T1, with_table T2
-			where T1.board_no = T2.board_no AND T1.board_type = '3' AND T1.board_state = '0' AND T2.with_user_id = #{loging_user}
+			select rowNum rNum, T1.*, T2.with_user_id, T2.with_accept
+			from board T1 left outer join with_table T2 on T1.board_no = T2.board_no 
+			where T1.board_type = '3' AND T1.board_state = '0' AND T2.with_user_id = #{loging_user}
 			<if test="!category.equals('')">
 		 		and T1.${category} LIKE '%${keyword}%'
 		 	</if>
