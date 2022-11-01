@@ -35,4 +35,6 @@ public interface BoardWithService {
 
 	int sinCancel(WithVO wt);
 
+	WithVO getwithAccept(Map<String, Object> withMap);
+
 }

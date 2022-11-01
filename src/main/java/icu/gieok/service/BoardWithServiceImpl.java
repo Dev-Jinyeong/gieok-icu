@@ -110,6 +110,12 @@ public class BoardWithServiceImpl implements BoardWithService {
 
 		return boardWithDao.sinCancel(wt);
 	}
+	
+	// 동행 상태
+	@Override
+	public WithVO getwithAccept(Map<String, Object> withMap) {
+		return boardWithDao.getWithAccept(withMap);
+	}
 
 
 

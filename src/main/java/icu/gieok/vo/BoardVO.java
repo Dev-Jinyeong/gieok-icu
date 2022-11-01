@@ -25,6 +25,8 @@ public class BoardVO {
 	
 	private int board_report;
 	
+	private String with_accept;
+	
 	
 	public int getBoard_no() {
 		return board_no;
@@ -145,6 +147,12 @@ public class BoardVO {
 	}
 	public void setBoard_report(int board_report) {
 		this.board_report = board_report;
+	}
+	public String getWith_accept() {
+		return with_accept;
+	}
+	public void setWith_accept(String with_accept) {
+		this.with_accept = with_accept;
 	}
 	
 	

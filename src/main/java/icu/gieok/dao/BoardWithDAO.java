@@ -35,6 +35,8 @@ public interface BoardWithDAO {
 
 	int sinCancel(WithVO wt);
 
+	WithVO getWithAccept(Map<String, Object> withMap);
+
 
 
 }

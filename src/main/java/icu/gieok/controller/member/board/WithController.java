@@ -247,10 +247,39 @@ public class WithController {
 		// 게시물 목록
 		List<BoardVO> with_li_list = boardWithService.getWithList(map);
 		
+		String user_id = (String)session.getAttribute("id");
+		
+		Map<String, Object> withMap = new HashMap<>();
+		
+		withMap.put("with_user_id", user_id);
+		
 		if (with_li_list.size() > 0) {
 			for (BoardVO with : with_li_list) {
 				with.setBoard_startDay(with.getBoard_startDay().substring(0, 10));
 				with.setBoard_endDay(with.getBoard_endDay().substring(0, 10));
+				
+				withMap.put("board_no", with.getBoard_no());
+				WithVO w = boardWithService.getwithAccept(withMap);
+				
+				if(w!=null) {
+					
+					String with_accept = "";
+					
+					switch(w.getWith_accept()) {
+					case "1":
+						with_accept = "대기중";
+						break;
+					case "2":
+						with_accept = "수락됨";
+						break;
+					case "3":
+						with_accept = "거절됨";
+						break;
+					}
+					
+					with.setWith_accept(with_accept);
+				}
+				
 			}
 		}
 		
@@ -403,7 +432,7 @@ public class WithController {
 			
 		}
 		
-		// 게시물 목록
+		// 내가 신청한 동행 게시물 목록
 		List<BoardVO> with_li_list = boardWithService.getWithSinDong(map);
 		
 		if (with_li_list.size() > 0) {

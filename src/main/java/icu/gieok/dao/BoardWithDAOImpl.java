@@ -109,6 +109,12 @@ public class BoardWithDAOImpl implements BoardWithDAO {
 	}
 
 
+	// 동행상태
+	@Override
+	public WithVO getWithAccept(Map<String, Object> withMap) {
+		return sqlSession.selectOne("getWithAccept", withMap);
+	}
+	
 
 
 

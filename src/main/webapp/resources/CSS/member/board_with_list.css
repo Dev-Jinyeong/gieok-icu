@@ -306,10 +306,27 @@
     border-radius: 10px;
 }
 
-.li_box > input {
+.with_accept {
     width: 70px;
     height: 25px;
     margin-bottom: 5px;
+}
+
+.with_statusBtn {
+	display: flex;
+	width: 70px;
+    height: 25px;
+    
+	justify-content: center;
+	align-items: center;
+	
+	color: var(--color-darkgray);
+	font-weight: bold;
+	
+    margin-bottom: 5px;
+    border: 1.5px solid var(--color-darkgray);
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 

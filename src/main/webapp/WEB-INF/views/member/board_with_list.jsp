@@ -57,7 +57,9 @@
 							<div class="li_box">
 								
 								<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)}">
-									<button id="use_Btn" class="useBtn">신고</button>
+									<c:if test="${sessionScope.id != with.board_writer}">
+										<button id="use_Btn" class="useBtn">신고</button>
+									</c:if>
 								</c:if>
 								<c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
 									<button id="del_Btn" name="del_Btn" class="useBtn">삭제</button>
@@ -90,7 +92,12 @@
 								<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
 								
 								<c:if test="${sessionScope.id != with.board_writer}">
-									<input class="with_accept" name="with_accept" type="button" value="신청하기">
+									<c:if test="${empty with.with_accept}">
+										<input class="with_accept" name="with_accept" type="button" value="신청하기">
+									</c:if>
+									<c:if test="${!empty with.with_accept }">
+										<span class="with_statusBtn" name="with_accept">${with.with_accept }</span>
+									</c:if>
 								</c:if>
 							</div>
 						</li>			

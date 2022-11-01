@@ -104,6 +104,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 delete from with_table where board_no = #{board_no} AND with_user_id = #{with_user_id}
 	</delete>
 	
+	<!-- 동행 상태 -->
+	<select id="getWithAccept" parameterType="java.util.Map" resultType="with">
+	 select * from with_table where with_user_id=#{with_user_id} AND board_no=#{board_no}
+	</select>
+	
+	
 </mapper>
 
 
