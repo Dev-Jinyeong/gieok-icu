@@ -12,7 +12,7 @@ let banner = document.querySelector(".banner");
 
 let scrollbar_label1 = document.querySelector(".item1");
 let scrollbar_label2 = document.querySelector(".item2");
-scrollbar_label1.style.opacity = 0.7;
+scrollbar_label2.style.opacity = 0.5;
 
 function wheelAction() {
     window.addEventListener("wheel", (event) => {
@@ -30,8 +30,10 @@ function wheelAction() {
                 search_box.style.top = "115px";
                 // search_text.style.fontSize = "0px";
                 // search_svg.style.top = "100px";
-                scrollbar_label1.style.opacity = 0.3;
-                scrollbar_label2.style.opacity = 0.7;
+                scrollbar_label1.style.opacity = 0.5;
+                scrollbar_label2.style.opacity = 1;
+                scrollbar_label1.style.background = 'black';
+              	scrollbar_label2.style.background = 'black';
             } else {
                 background_image.style.height = "calc(100vh - 600px)";
             }
@@ -42,8 +44,12 @@ function wheelAction() {
             background_image.style.backgroundPositionY = "-35vh";
             search_box.style.top = "calc(50vh - 220px / 2)";
             contents.style.bottom = "-100vh";
-              scrollbar_label1.style.opacity = 0.7	;
-              scrollbar_label2.style.opacity = 0.3;
+              scrollbar_label1.style.opacity = 1;
+              scrollbar_label2.style.opacity = 0.5;
+              scrollbar_label1.style.background = 'white';
+              scrollbar_label2.style.background = 'white';
+              
+              
 
             if (window.innerWidth <= 1920) {
                 search_box.style.top = "calc(50vh - 220px / 2)";

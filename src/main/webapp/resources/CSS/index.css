@@ -422,8 +422,7 @@ height: 600px;
 	width: 5px;
     height: 100px;
     transition: 1s;
-    opacity: 0.3;
-    background: black;
+    background: white;
 }
 .scrollbar .item1 {
 	border-top-left-radius: 5px;
