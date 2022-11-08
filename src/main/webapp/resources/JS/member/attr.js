@@ -117,7 +117,7 @@ side_option.forEach((option) => {
 	
 		// 리뷰 버튼 클릭
 		if(e.target.value==="review") {
-			fetch("http://localhost:8080/member/attr_review", {
+			fetch("/member/attr_review", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -138,7 +138,7 @@ side_option.forEach((option) => {
 			
 		}else {
 			// 식당&카페 클릭 시
-			fetch("http://localhost:8080/member/attr_fac", {
+			fetch("/member/attr_fac", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -268,7 +268,7 @@ function attrReviewSubmit() {
 		user_code = document.querySelector("#user_code").value;
 		if(user_code== "") {
 			if(confirm("리뷰 작성은 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
-				location.href = "/member/login";
+				location.href = "/login";
 			}
 		}else if(attr_review_content.value == "") {
 			alert("리뷰를 입력해주세요!");
@@ -276,7 +276,7 @@ function attrReviewSubmit() {
 			
 			const review = new FormData(review_write_form);
 			
-			fetch("http://localhost:8080/member/attr_review_write", {
+			fetch("/member/attr_review_write", {
 				method: "POST",
 				body : review,
 			})
@@ -317,7 +317,7 @@ function reviewReport(rev_code) {
 	user_code = document.querySelector("#user_code").value;
 	if(user_code== "") {
 		if(confirm("신고하기는 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
-			location.href = "/member/login";
+			location.href = "/login";
 		}
 	}else {
 		let report_type = prompt("신고 유형 번호를 입력해주세요!\n1. 부적절한 내용\n2. 욕설/비방\n3. 광고/홍보\n4. 도배");
@@ -327,7 +327,7 @@ function reviewReport(rev_code) {
 		else if(report_type!="1" && report_type!="2"&& report_type!=="3" && report_type!="4") {
 			alert("유효하지 않은 옵션입니다!");
 		}else {
-			fetch("http://localhost:8080/member/attr_review_report", {
+			fetch("/member/attr_review_report", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
@@ -363,11 +363,11 @@ like_btn.addEventListener("click", () => {
 	user_code = document.querySelector("#user_code").value;
 	if(user_code== "") {
 		if(confirm("좋아요는 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
-			location.href = "/member/login";
+			location.href = "/login";
 		}
 		like_btn.checked = false;
 	}else {
-		fetch("http://localhost:8080/member/attr_like", {
+		fetch("/member/attr_like", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

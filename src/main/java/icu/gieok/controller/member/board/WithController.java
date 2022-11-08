@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import icu.gieok.service.BoardWithService;
 import icu.gieok.utils.CheckMember;
 import icu.gieok.vo.AttrVO;
+import icu.gieok.vo.BoardLikeReportVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
@@ -253,7 +254,7 @@ public class WithController {
 		
 		withMap.put("with_user_id", user_id);
 		
-		if (with_li_list.size() > 0) {
+		if (with_li_list.size() > 0 && user_id!=null) {
 			for (BoardVO with : with_li_list) {
 				with.setBoard_startDay(with.getBoard_startDay().substring(0, 10));
 				with.setBoard_endDay(with.getBoard_endDay().substring(0, 10));
@@ -515,6 +516,62 @@ public class WithController {
 		return sindel_Check;
 		
 	} // board_with_sindelok()
+	
+	
+	
+	// 동행 신고
+	@ResponseBody
+	@PostMapping("/board_with_report")
+	public Map<String, String> board_with_report(HttpSession session, @RequestBody Map<String, String> map) {
+		
+		Map<String, String> result = new HashMap<>();
+		
+		checkUser = checkMember(session);
+		if(checkUser!=null) {
+			result.put("msg", "세션이 만료되었습니다!");
+			result.put("url", "/login");
+			
+			return result;
+		}
+		
+		int user_code = (int)session.getAttribute("code");
+		int bad_member = Integer.parseInt(map.get("report_writer"));
+		int board_no = Integer.parseInt(map.get("report_no"));
+		String report_type = map.get("report_type");
+		
+		Map<String, Integer> code = new HashMap<>();
+		code.put("user_code", user_code);
+		code.put("board_no", board_no);
+		
+		BoardLikeReportVO report = boardWithService.getReportBoardWith(code);
+		
+		String msg = "이미 신고한 동행입니다!";
+		
+		if(report==null) {
+			report = new BoardLikeReportVO();
+			report.setUser_code(user_code);
+			report.setBad_member(bad_member);
+			report.setBoard_no(board_no);
+			report.setReport_type(report_type);
+
+			int res = boardWithService.insertReportBoardWith(report);
+		
+			if(res==1) {
+				msg = "신고가 접수되었습니다! :)";
+			}else {
+				msg = "시스템 오류! 관리자에게 문의하세요 :(";
+			}
+		}
+	
+		result.put("msg", msg);
+		
+		return result;
+	}
+	
+	
+	
+	
+	
 	
 }
 

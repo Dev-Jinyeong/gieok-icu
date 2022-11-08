@@ -611,12 +611,19 @@
 	
 	padding: 0 5px;
 }
-.with_user_info_btn {
+.with_user_info_btn1 {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	
-	width: 90px;
+	width: 150px;
+}
+.with_user_info_btn2 {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	
+	width: 110px;
 }
 .accept_btn {
 	background-color: black;
@@ -651,5 +658,97 @@
     font-family: var(--font-cont);
 	font-size: var(--font-size-cont3);
 }
+
+/* text : 수락됨  */
+.with_result1 {
+	border: 1.5px solid var(--color-darkgray);
+	color: blue;
+	font-weight: bold;
+	border-radius: 5px;
+	padding: 0px 5px;
+	line-height: 20px;
+}
+/* text : 거절됨 */
+.with_result2 {
+	border: 1.5px solid var(--color-darkgray);
+	color: red;
+	font-weight: bold;
+	border-radius: 5px;
+	padding: 0px 5px;
+	line-height: 20px;
+}
+
+/*========메세지 창========  */
+
+.message_block {
+	position:absolute;
+	display: none;
+	box-sizing: border-box;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 1300;
+}
+
+.message_container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	left: calc(50vw - 225px);
+	top: 250px;
+	border: 2px solid #333;
+	border-radius: 10px;
+	width: 400px;
+	height: 300px;
+	font-size: 14px;
+	padding: 10px 20px;
+	background: #333;
+	transform: translateY(-200%);
+	transition: 1s;
+	z-index: 1500;
+	opacity: 0.5;
+	
+}
+
+.message_receiver {
+	color: #fff;
+}
+
+.message_title {
+	height: 30px;
+}
+
+.message_content {
+	height: 100px;
+	border-radius: 10px;
+	resize: none;
+	border: none;
+}
+
+.message_btn_container {
+	text-align: center;
+}
+
+#message_submit_btn,
+#message_cancel_btn {
+	background: #fff;
+	color: #333;
+	font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 

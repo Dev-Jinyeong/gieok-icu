@@ -526,7 +526,7 @@ function idDupCheck() {
 	
 	
 	
-	fetch("http://localhost:8080/member/idDupCheck", {
+	fetch("/member/idDupCheck", {
 			method: "POST",
 			headers: { // 보낼 데이터의 타입 (텍스트인지 파일인지 등)
 				"Content-Type" : "application/json", 
@@ -565,7 +565,7 @@ function emailDupCheck() {
 		return false;
 	}
 	
-	fetch("http://localhost:8080/member/emailDupCheck", {
+	fetch("/member/emailDupCheck", {
 			method: "POST",
 			headers: {
 				"Content-Type" : "application/json", 

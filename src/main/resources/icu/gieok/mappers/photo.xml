@@ -131,6 +131,11 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 		</foreach>	
 	</update>
 	
+	<select id="getPhotoEventLikeCheck" parameterType="java.util.Map" resultType="String">
+		select board_like from board_like_report where board_no=#{board_no} AND 
+		user_code=#{user_code}
+	</select>
+	
 	
 	
 	

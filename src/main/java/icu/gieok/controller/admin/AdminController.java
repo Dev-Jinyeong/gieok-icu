@@ -452,7 +452,7 @@ public class AdminController {
 		checkUser = checkAdmin(session);
 		if(checkUser!=null) {
 			msg = "세션이 만료되었습니다!";
-			url = "/member/login";
+			url = "/login";
 			
 			result.put("msg", msg);
 			result.put("url", url);

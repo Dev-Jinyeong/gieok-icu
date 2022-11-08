@@ -121,7 +121,7 @@ function find_submit() {
     const find_pw_form = new FormData(document.find_pw_form);
     
     if(radio_select == 'find_id') {
-		fetch("http://localhost:8080/member/find_id_pwOK", {
+		fetch("/member/find_id_pwOK", {
 				method: "POST",
 				body: find_id_form,
 		})
@@ -134,7 +134,7 @@ function find_submit() {
 			}
 		});
     } else {
-		fetch("http://localhost:8080/member/find_id_pwOK", {
+		fetch("/member/find_id_pwOK", {
 				method: "POST",
 				body: find_pw_form,
 		})

@@ -30,7 +30,7 @@ like_checkbox.addEventListener('change', () => {
 });
 
 function like_check() {
-   fetch(`http://localhost:8080/photo_event_detailLike?`, {
+   fetch(`/photo_event_detailLike?`, {
       method: "POST",
       headers: {
       	"Content-Type": "application/json",
@@ -69,7 +69,7 @@ function report_check() {
 		alert("유효하지 않은 옵션입니다!");
 	}else {
 
-	   fetch(`http://localhost:8080/photo_event_detailReport`, {
+	   fetch(`/photo_event_detailReport`, {
 	      method: "POST",
 	      headers: {
 	      	"Content-Type": "application/json",

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +31,7 @@ import icu.gieok.service.UserService;
 import icu.gieok.utils.CheckMember;
 import icu.gieok.utils.MailSendService;
 import icu.gieok.vo.AttrReviewVO;
+import icu.gieok.vo.MessageVO;
 import icu.gieok.vo.UserVO;
 
 @RequestMapping(value="/member")
@@ -48,7 +50,13 @@ public class MemberController {
 	@Autowired 
 	private MailSendService mss;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	private ModelAndView checkUser; 
+	
+	
+	
 	 
 	
 	// 회원 여부 확인 
@@ -63,6 +71,7 @@ public class MemberController {
 	
 	@GetMapping("/join")
 	public String userJoin() {
+		
 		return "/member/join";
 	}
 	
@@ -88,6 +97,10 @@ public class MemberController {
 		}else {
 			user.setUser_terms("agree");
 		}
+		
+		// 비밀번호 암호화
+		String encode_pw = bCryptPasswordEncoder.encode(user.getUser_pw());
+		user.setUser_pw(encode_pw);
 		
 		userService.userInsert(user);
 
@@ -137,73 +150,6 @@ public class MemberController {
 		return mv;
 	}
 	
-	
-	@GetMapping("/login")
-	public String userLogin(HttpServletRequest request) {
-
-		List<String> exception = new ArrayList<>();
-		exception.add("http://localhost:8080/member/join");
-		exception.add("http://localhost:8080/member/login");
-		String referer = request.getHeader("Referer");
-		if(!exception.contains(referer)) {
-			request.getSession().setAttribute("referer", referer);
-		}
-		
-		exception.add("joinOK");
-	    exception.add("find_id_pw");
-	    exception.add("board_with_sinchung");
-	    if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
-	    	request.getSession().setAttribute("referer", "/");
-	    }
-	      
-	    if(referer.contains("board_with_sinchung")) {
-	         request.getSession().setAttribute("referer", "/board_with_list");
-	    }
-
-
-		return "/member/login";
-	}
-	
-	@ResponseBody
-	@PostMapping("/login")
-	public Map<String, String> userLogin(@RequestBody Map<String, String> map,
-										HttpSession session, HttpServletRequest request) {
-		
-		String msg = "";
-		String url = "";
-		
-		UserVO user = userService.checkAuth(map);
-		
-		if(user==null) {
-			msg = "아이디 혹은 비밀번호가 일치하지 않아요 :(";
-			url = "/member/login";
-		}else {
-			int user_auth = user.getUser_auth();
-			
-			if(user_auth==0) {
-				msg = "이메일 인증이 필요합니다! :(";
-				url = "/member/login";
-			}else if(user_auth==1) {
-				url = (String) session.getAttribute("referer");
-				if(url==null) {
-					url = "/";
-				}
-				session.setAttribute("code", user.getUser_code());
-				session.setAttribute("id", user.getUser_id());
-				session.setAttribute("name", user.getUser_name());
-				session.setAttribute("grade", user.getUser_grade());
-				session.setAttribute("profile", user.getUser_profile());
-			}
-		}
-		
-		
-		Map<String, String> result = new HashMap<>();
-		result.put("msg", msg);
-		result.put("url", url);
-		
-		
-		return result;
-	}
 	
 	@GetMapping("/logout")
 	public String userLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -281,7 +227,6 @@ public class MemberController {
         }
 
         session.setAttribute("profile", user.getUser_profile());
-
         return user;
     }
 
@@ -316,18 +261,22 @@ public class MemberController {
 
         Map<String, String> map = new HashMap<>();
         map.put("user_id", user_id);
-        map.put("user_pw", user_pw);
 
         String msg = "";
         String url = "";
 
         UserVO user = userService.userSelect(user_id);
 
-        if (pw.equals(user.getUser_pw())) {
-            if (user_pw.equals(pw)) {
+        if (bCryptPasswordEncoder.matches(pw, user.getUser_pw())) {
+            if (bCryptPasswordEncoder.matches(user_pw, user.getUser_pw())) {
                 msg = "기존과 다른 비밀번호를 입력해주세요";
-                url = "/pw_edit";
+                url = "/member/pw_edit";
             } else {
+            	
+            	// 비밀번호 암호화
+        		String encode_pw = bCryptPasswordEncoder.encode(user_pw);
+        		map.put("user_pw", encode_pw);
+        		
                 int result = userService.updateUserPw(map);
 
                 if (result == 1) {
@@ -335,12 +284,12 @@ public class MemberController {
                     url = "/";
                 } else {
                     msg = "시스템 오류";
-                    url = "/pw_edit";
+                    url = "/member/pw_edit";
                 }
             }
         } else {
             msg = "비밀번호가 다릅니다";
-            url = "/pw_edit";
+            url = "/member/pw_edit";
         }
 
         ModelAndView mv = new ModelAndView();
@@ -387,7 +336,17 @@ public class MemberController {
             	String user_domain = map.get("user_domain");
             	String full_email = user_email+"@"+user_domain;
             	String temp_pw = mss.resetPw(full_email);
-            	map.put("user_pw", temp_pw);
+            	String encode_pw = bCryptPasswordEncoder.encode(temp_pw);
+
+            	System.out.println(temp_pw);
+            	System.out.println("====================================================");
+            	System.out.println(encode_pw);
+            	System.out.println(bCryptPasswordEncoder.encode(temp_pw));
+            	System.out.println("====================================================");
+            	
+            	
+            	
+            	map.put("user_pw", encode_pw);
             	int res = userService.updateUserPw(map);
             	if(res==1) {
             		msg = full_email+"로 임시 비밀번호를 발송했습니다 :)";
@@ -689,6 +648,143 @@ public class MemberController {
     	return result;
     }
 
+    
+    // 메세지 보내기 
+    @ResponseBody
+    @PostMapping("/sendMessage")
+    public Map<String, String> sendMessage(@RequestBody Map<String, String> map, HttpSession session) {
+    
+    	Map<String,String> result = new HashMap<>();
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		result.put("msg", "세션이 만료되었습니다!");
+    		result.put("url", "/login");
+    		
+    		return result;
+    	}
+    	
+    	String message_sender = (String)session.getAttribute("id");
+    	String message_receiver = map.get("message_receiver");
+    	String message_title = map.get("message_title");
+    	String message_content = map.get("message_content");
+    	
+    	MessageVO message = new MessageVO();
+    	message.setMessage_sender(message_sender);
+    	message.setMessage_receiver(message_receiver);
+    	message.setMessage_title(message_title);
+    	message.setMessage_content(message_content);
+    	
+    	int res = userService.sendMessage(message);
+    	
+    	String msg = "";
+    	
+    	if(res==1) {
+    		msg = "메세지를 보냈습니다 :)";
+    	}else {
+    		msg = "시스템 오류! 관리자에게 문의하세요:(";
+    	}
+    	
+    	result.put("msg", msg);
+    	
+    	
+    	return result;
+    }
+    
+    // 내 메세지
+    @GetMapping("/my_message")
+    public ModelAndView myMessage(HttpSession session, String category, String keyword) {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		return checkUser;
+    	}
+    	
+    	Map<String, String> map = new HashMap<>();
+    	
+    	String message_receiver = (String)session.getAttribute("id");
+
+    	if(category==null) {
+    		category = "all";
+    	}
+    	
+    	if(keyword==null) {
+    		keyword = "";
+    	}
+    	
+    	
+    	map.put("message_receiver", message_receiver);
+    	map.put("category", category);
+    	map.put("keyword", keyword);
+    	
+    	List<MessageVO> myMessage = userService.getMyMessage(map);
+    	
+    	ModelAndView mv = new ModelAndView();
+    	mv.addObject("myMessage", myMessage);
+    	mv.addObject("category", category);
+    	mv.addObject("keyword", keyword);
+    	mv.setViewName("/member/my_message");
+    	
+    	return mv;
+    	
+    }
+    
+    @ResponseBody
+    @PostMapping("/updateMessageRead")
+    public int updateMessageRead(HttpSession session, @RequestBody Map<String, Object> map) {
+    	
+    	checkUser = checkMember(session);
+    	if(checkUser != null) {
+    		return -1;
+    	}
+    	
+    	int res = userService.updateMessageRead(map);
+    	
+    	if(res==1 || res==0) {
+    		String message_receiver = (String)session.getAttribute("id");
+    		map.put("message_receiver", message_receiver);
+    		res = userService.countUnreadMessage(map);
+    		session.setAttribute("msgCount", res);
+    	}else {
+    		res = -2;
+    	}
+    	
+    	return res;
+    	
+    }
+    
+    // 메세지 삭제
+    @ResponseBody
+    @PostMapping("/deleteMessage")
+    public Map<String, String> deleteMessage(@RequestBody Map<String, Integer[]> map, HttpSession session) {
+    	
+    	Map<String, String> result = new HashMap<>();	
+    	checkUser = checkMember(session);
+    	if(checkUser!=null) {
+    		result.put("msg", "세션이 만료되었습니다!");
+    		result.put("url", "/login");
+    	}
+    	
+    	
+    	
+    	Integer[] message_no = map.get("message_no");
+    	
+    	int res = userService.deleteMessage(message_no);
+    	String msg="";
+    	String url="";
+    	
+    	if(res>0) {
+    		msg = "총 " + res + "개의 메세지가 삭제되었습니다!";
+    		url = "/member/my_message";
+    	}
+    	
+    	result.put("msg", msg);
+    	result.put("url", url);
+    	
+    	return result;
+    }
+    
+    
 	
 
 }

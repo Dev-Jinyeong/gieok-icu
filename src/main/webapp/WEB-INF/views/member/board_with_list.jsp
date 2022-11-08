@@ -58,11 +58,13 @@
 								
 								<c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)}">
 									<c:if test="${sessionScope.id != with.board_writer}">
-										<button id="use_Btn" class="useBtn">신고</button>
+										<input type="hidden" class="report_with_no" value="${with.board_no }">
+										<input type="hidden" class="report_with_writer" value="${with.user_code }">
+										<button type="button" id="use_Btn" class="useBtn">신고</button>
 									</c:if>
 								</c:if>
 								<c:if test="${(sessionScope.grade == 'a' || sessionScope.grade=='s')}">
-									<button id="del_Btn" name="del_Btn" class="useBtn">삭제</button>
+									<button id="del_Btn" name="del_Btn" class="useBtn2">삭제</button>
 								</c:if>
 								
 								<h2>${with.board_title}</h2>
@@ -88,11 +90,10 @@
 	
 								<div class="with_contbox">${with.board_content}</div>
 								
-								<input type="hidden" class="with_submit_board_no" value="${with.board_no}" name="board_no">
-								<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
-								
 								<c:if test="${sessionScope.id != with.board_writer}">
 									<c:if test="${empty with.with_accept}">
+										<input type="hidden" class="with_submit_board_no" value="${with.board_no}" name="board_no">
+										<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
 										<input class="with_accept" name="with_accept" type="button" value="신청하기">
 									</c:if>
 									<c:if test="${!empty with.with_accept }">

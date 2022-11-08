@@ -64,7 +64,7 @@
                         </svg>
                     </label>
                     <input type="button" value="뒤로" class="back_button">
-                   <c:if test="${sessionScope.code == board.user_code}">
+                   <c:if test="${sessionScope.code == board.user_code || sessionScope.grade == 's' || sessionScope.grade == 'a'}">
                        <span id="delete_button">게시물 삭제</span>
                     </c:if>
                     <input type="checkbox" id="report_checkbox" name="report_checkbox">

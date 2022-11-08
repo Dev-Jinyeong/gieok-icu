@@ -14,7 +14,7 @@ if(isNotEmpty) {
 		
 			let rev_code = rev_code_list[i].value;
 		
-			fetch("http://localhost:8080/member/review_detail", {
+			fetch("/member/review_detail", {
 				method: "POST",
 				headers: {
 					"Content-Type" : "application/json",
@@ -81,7 +81,7 @@ function closeForm() {
 }
 
 function updateReview(formData) {
-	fetch("http://localhost:8080/member/review_update", {
+	fetch("/member/review_update", {
 		method:"POST",
 		body: formData,
 	})
@@ -98,7 +98,7 @@ function updateReview(formData) {
 
 function deleteReview(rev_code, page) {
 
-	fetch("http://localhost:8080/member/review_delete", {
+	fetch("/member/review_delete", {
 		method:"POST",
 		headers: {
 			"Content-Type": "application/json",

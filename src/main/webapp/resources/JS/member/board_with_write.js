@@ -11,7 +11,7 @@ const provinceOption = document.querySelector("#province");
 
 provinceOption.addEventListener("focus", () => {
 	
-	fetch("http://localhost:8080/board_with_province", {
+	fetch("/board_with_province", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -40,8 +40,7 @@ provinceOption.addEventListener("click", () => {
 	
 	p_nm.value = p_id.options[p_id.selectedIndex].text;
 	
-//	console.log(p_id);
-//	console.log(p_nm);
+
 	
 });
 
@@ -56,7 +55,7 @@ const cityOption = document.querySelector("#city");
 
 provinceOption.addEventListener("change", () => {
 
-   fetch("http://localhost:8080/board_with_city", {
+   fetch("/board_with_city", {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
@@ -88,9 +87,6 @@ cityOption.addEventListener("click", () => {
 	
 	c_nm.value = c_id.options[c_id.selectedIndex].text;
 	
-	console.log(c_id);
-	console.log(c_nm);
-	
 });
 
 
@@ -103,7 +99,7 @@ cityOption.addEventListener("click", () => {
 const attrOption = document.querySelector("#attraction");
 
 cityOption.addEventListener("change", () => {
-   fetch("http://localhost:8080/board_with_attr", {
+   fetch("/board_with_attr", {
       method: "POST",
       headers: {
          "Content-Type": "application/json",
@@ -134,10 +130,7 @@ attrOption.addEventListener("click", () => {
 	let a_nm = document.querySelector("#with_attr_name");
 	
 	a_nm.value = a_id.options[a_id.selectedIndex].text;
-	
-	console.log(a_id);
-	console.log(a_nm);
-	
+
 });
 
 
@@ -188,7 +181,6 @@ let cont = document.querySelector("#with_board_content");
 let noteEditable = document.querySelector('.note-editable');
 
 noteEditable.addEventListener("keyup", (e) => {
-	console.log(cont.value);
 	let content = e.target.value;
 	let content_length = content.length;
 	if(content_length > 50) {
@@ -214,8 +206,7 @@ let with_board_content_check = form.board_content;
 
 function formcheck() {
 
-	console.log(memCount.value);
-	console.log(memCount_check.value);
+
 	
 	// 도 선택 유효성 검사
 	if (with_province_name_check.value == "") {

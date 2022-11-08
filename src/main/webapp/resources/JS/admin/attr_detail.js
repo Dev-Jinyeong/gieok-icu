@@ -64,7 +64,7 @@ for(let i=1; i<provinceOption.options.length; i++) {
 	if(provinceOption.options[i].value==province_id) {
 		provinceOption.options[i].selected = true;
 		
-		fetch("http://localhost:8080/member/map", {
+		fetch("/member/map", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -83,7 +83,7 @@ const cityOption = document.querySelector("#city");
 
 provinceOption.addEventListener("change", () => {
 	
-	fetch("http://localhost:8080/member/map", {
+	fetch("/member/map", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

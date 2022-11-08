@@ -8,7 +8,8 @@
 <!-- contents: board list box -->
     <div class="content">
         <!-- login form -->
-        <form class="member_login_box" name="login_form">
+        <form class="member_login_box" name="login_form" method="POST" action="/login">
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <!-- logo -->
             <h1 class="member_login_logo">ㄱㅎㅈ</h1>
             <!-- id -->

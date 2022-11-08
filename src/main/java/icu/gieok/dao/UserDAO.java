@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import icu.gieok.vo.AttrReviewVO;
+import icu.gieok.vo.MessageVO;
 import icu.gieok.vo.UserVO;
 
 public interface UserDAO {
@@ -41,5 +42,17 @@ public interface UserDAO {
 	int reviewDelete(Map<String, Integer> map);
 
 	int reviewUpdate(AttrReviewVO review);
+
+	int sendMessage(MessageVO message);
+
+	List<MessageVO> getMyMessage(Map<String, String> map);
+
+	int deleteMessage(Integer[] checked);
+
+	int updateMessageRead(Map<String, Object> map);
+
+	int countUnreadMessage(Map<String, Object> map);
+
+	UserVO userCheck_sec(String user_id);
 
 }

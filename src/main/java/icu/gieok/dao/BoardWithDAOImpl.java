@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import icu.gieok.vo.AttrVO;
+import icu.gieok.vo.BoardLikeReportVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
@@ -82,7 +83,7 @@ public class BoardWithDAOImpl implements BoardWithDAO {
 	// 동행 목록 관리자 삭제
 	@Override
 	public int delete_WT(int board_no) {
-		
+		sqlSession.update("changeWithReportState", board_no);
 		return sqlSession.update("delete_WT", board_no);
 	}
 
@@ -113,6 +114,17 @@ public class BoardWithDAOImpl implements BoardWithDAO {
 	@Override
 	public WithVO getWithAccept(Map<String, Object> withMap) {
 		return sqlSession.selectOne("getWithAccept", withMap);
+	}
+	
+	//신고하기
+	@Override
+	public int insertReportBoardWith(BoardLikeReportVO report) {
+		return sqlSession.insert("insertReportBoardWith", report);
+	}
+	
+	@Override
+	public BoardLikeReportVO getReportBoardWith(Map<String, Integer> code) {
+		return sqlSession.selectOne("getReportBoardWith", code);
 	}
 
 	

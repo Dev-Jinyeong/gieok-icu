@@ -13,13 +13,13 @@ for (let i = 0; i < cancel_Btn.length; i++) {
 		
 		if(user_code.value=="") {
 			alert("로그인이 필요합니다!");
-			window.location.href = "/member/login";
+			window.location.href = "/login";
 		}
 		else if(user_grade.value == "m" || user_grade.value == "a" || user_grade.value == "s") {
 			
 			const board_no = cancelList[i].value;
 			
-			fetch("http://localhost:8080/board_with_sindel", {
+			fetch("/board_with_sindel", {
 				method: "POST",
 				headers: {
 					"Content-Type" : "application/json",
@@ -40,7 +40,7 @@ for (let i = 0; i < cancel_Btn.length; i++) {
 				}
 				else if (res == "noSession") {
 					alert("관리자 로그인이 필요합니다!😭");
-					window.location.href = "/member/login";
+					window.location.href = "/login";
 				}
 				
 			});

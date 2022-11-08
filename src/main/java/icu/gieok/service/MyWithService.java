@@ -22,4 +22,6 @@ public interface MyWithService {
 
 	int countWithAccept(int board_no);
 
+	int changeWith(int board_no);
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import icu.gieok.dao.UserDAO;
 import icu.gieok.vo.AttrReviewVO;
+import icu.gieok.vo.MessageVO;
 import icu.gieok.vo.UserVO;
 
 @Service
@@ -99,6 +100,36 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int reviewUpdate(AttrReviewVO review) {
 		return userDAO.reviewUpdate(review);
+	}
+	
+	@Override
+	public int sendMessage(MessageVO message) {
+		return userDAO.sendMessage(message);
+	}
+	
+	@Override
+	public List<MessageVO> getMyMessage(Map<String, String> map) {
+		return userDAO.getMyMessage(map);
+	}
+	
+	@Override
+	public int deleteMessage(Integer[] checked) {
+		return userDAO.deleteMessage(checked);
+	}
+	
+	@Override
+	public int updateMessageRead(Map<String, Object> map) {
+		return userDAO.updateMessageRead(map);
+	}
+	
+	@Override
+	public int countUnreadMessage(Map<String, Object> map) {
+		return userDAO.countUnreadMessage(map);
+	}
+	
+	@Override
+	public UserVO userCheck_sec(String user_id) {
+		return userDAO.userCheck_sec(user_id);
 	}
 	
 }

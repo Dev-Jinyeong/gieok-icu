@@ -10,19 +10,24 @@ for(let i=0; i<with_accept_btn.length; i++) {
 
 		if(user_code.value=="") {
 			alert("로그인이 필요합니다!");
-			window.location.href = "/member/login";
+			window.location.href = "/login";
 		}else {
 			const board_no = board_no_list[i].value;
 			const board_writer = board_writer_list[i].value;
 			const info = window.prompt("신청을 보내시려는 분에게 간단한 소개를 해주세요!😊\n" +
 									   "ex) 이름: ㅇㅇㅇ / 나이: ㅇㅇ세 / 성별: 남|여 / 동행신청합니다~ ");
 			
+			
+			console.log(board_no);
+			console.log(board_writer);
+			
 			if(info=="") {
 				alert("신청자의 정보를 입력해주세요!😊");
 			}else if(info.length > 50) {
 				alert("소개글이 너무 길어요😭");
 			}else if(info!=""&&info!=null) {
-				fetch("http://localhost:8080/board_with_sinchung", {
+				
+				fetch("/board_with_sinchung", {
 					method: "POST",
 					headers: {
 						"Content-Type" : "application/json",
@@ -44,7 +49,7 @@ for(let i=0; i<with_accept_btn.length; i++) {
 						alert("이미 신청한 동행입니다!😭");
 					}else if(res == "noSession") {
 						alert("로그인이 필요합니다!😭");
-						window.location.href = "/member/login";
+						window.location.href = "/login";
 					}
 						
 				});
@@ -75,13 +80,13 @@ for (let i = 0; i < del_Btn.length; i++) {
 		
 		if(user_code.value=="") {
 			alert("관리자 로그인이 필요합니다!");
-			window.location.href = "/member/login";
+			window.location.href = "/login";
 		}
 		else if(user_grade.value == "a" || user_grade.value == "s") {
 			
 			const board_no = boardDelList[i].value;
 			
-			fetch("http://localhost:8080/board_with_delbtn", {
+			fetch("/board_with_delbtn", {
 				method: "POST",
 				headers: {
 					"Content-Type" : "application/json",
@@ -101,7 +106,7 @@ for (let i = 0; i < del_Btn.length; i++) {
 				}
 				else if (res == "noSession") {
 					alert("관리자 로그인이 필요합니다!😭");
-					window.location.href = "/member/login";
+					window.location.href = "/login";
 				}
 				
 			});
@@ -111,3 +116,69 @@ for (let i = 0; i < del_Btn.length; i++) {
 	});
 	
 }
+
+
+/* ======신고====== */
+const report_btn = document.querySelectorAll(".useBtn");
+const report_with_no = document.querySelectorAll(".report_with_no");
+const report_with_writer = document.querySelectorAll(".report_with_writer");
+let report_no = "";
+
+for(let i=0; i<report_btn.length; i++) {
+
+	report_btn[i].addEventListener("click", () => {
+	
+		const user_code = document.querySelector("#user_code");
+
+		console.log(user_code.value);
+		if(user_code.value=="") {
+			alert("로그인이 필요합니다!");
+			window.location.href = "/login";
+		}
+		else {
+			let report_type = prompt("신고 유형 번호를 입력해주세요!\n1. 부적절한 내용\n2. 욕설/비방\n3. 광고/홍보\n4. 도배");
+		
+			if(report_type==null){
+			}							  	
+			else if(report_type!="1" && report_type!="2"&& report_type!=="3" && report_type!="4") {
+				alert("유효하지 않은 옵션입니다!");
+			}else {
+				report_no = report_with_no[i].value;
+				report_writer = report_with_writer[i].value;
+				
+				fetch("/board_with_report", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						report_no: report_no,
+						report_writer: report_writer,
+						report_type: report_type,
+					}),
+				})
+				.then(res => res.json())
+				.then(res => {
+					alert(res.msg);
+					if(res.url!=undefined) {
+						window.location.href = res.url;
+					}
+				})
+				
+			}
+			
+		
+		}
+		
+	})
+}
+
+
+
+
+
+
+
+
+
+

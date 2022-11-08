@@ -1,10 +1,19 @@
 package icu.gieok.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import icu.gieok.service.BoardService;
@@ -13,6 +22,7 @@ import icu.gieok.service.IndexService;
 import icu.gieok.service.MapService;
 import icu.gieok.service.PhotoService;
 import icu.gieok.utils.TotalList;
+import icu.gieok.vo.UserVO;
 	
 @Controller
 public class IndexController {
@@ -59,6 +69,91 @@ public class IndexController {
 		
 		return m;
 	}
+	
+	
+	/*======로그인 ======*/
+	
+	@GetMapping("/login")
+	public String userLogin(HttpServletRequest request) {
+
+		List<String> exception = new ArrayList<>();
+		exception.add("http://localhost:8080/member/join");
+		exception.add("http://localhost:8080/login");
+		String referer = request.getHeader("Referer");
+		if(!exception.contains(referer)) {
+			request.getSession().setAttribute("referer", referer);
+		}
+		
+		exception.add("joinOK");
+	    exception.add("find_id_pw");
+	    exception.add("board_with_sinchung");
+	    if(referer!=null) {
+		    if(referer.contains("joinOK")||referer.contains("find_id_pw")) {
+		    	request.getSession().setAttribute("referer", "/");
+		    }
+		      
+		    if(referer.contains("board_with_sinchung")) {
+		         request.getSession().setAttribute("referer", "/board_with_list");
+		    }
+	    }
+
+
+		return "/member/login";
+	}
+	
+//	@ResponseBody
+//	@PostMapping("/login")
+//	public Map<String, String> userLogin(@RequestBody Map<String, String> map,
+//										HttpSession session, HttpServletRequest request) {
+//		
+//		String msg = "";
+//		String url = "";
+//		
+//		UserVO user = userService.checkAuth(map);
+//		
+//		if(user==null) {
+//			msg = "아이디 혹은 비밀번호가 일치하지 않아요 :(";
+//			url = "/login";
+//		}else {
+//			int user_auth = user.getUser_auth();
+//			
+//			if(user_auth==0) {
+//				msg = "이메일 인증이 필요합니다! :(";
+//				url = "/login";
+//			}else if(user_auth==1) {
+//				url = (String) session.getAttribute("referer");
+//				if(url==null) {
+//					url = "/";
+//				}
+//				
+//				Map<String, Object> countMsg = new HashMap<>();
+//				countMsg.put("message_receiver", user.getUser_id());
+//				
+//				int msgCount = userService.countUnreadMessage(countMsg);
+//				
+//				session.setAttribute("code", user.getUser_code());
+//				session.setAttribute("id", user.getUser_id());
+//				session.setAttribute("name", user.getUser_name());
+//				session.setAttribute("grade", user.getUser_grade());
+//				session.setAttribute("profile", user.getUser_profile());
+//				session.setAttribute("msgCount", msgCount);
+//			}
+//		}
+//		
+//		
+//		Map<String, String> result = new HashMap<>();
+//		result.put("msg", msg);
+//		result.put("url", url);
+//		
+//		
+//		return result;
+//	}
+	
+	
+	
+	
+	
+	
 	
 	
 }

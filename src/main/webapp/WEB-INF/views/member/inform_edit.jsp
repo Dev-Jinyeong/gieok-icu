@@ -14,7 +14,9 @@
                 <!--member edit id-->
 
                 <div class="member_profile_img">
-                    <div class="user_profile"></div>
+					<div class="user_profile">
+					   <img src="/resources/upload/profile/${sessionScope.profile }" width="80" height="80">
+					</div>
                     <label for="profile">사진 추가</label>
                     <input type="file" name="profile" id="profile">
                 </div>

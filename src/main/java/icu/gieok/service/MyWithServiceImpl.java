@@ -53,4 +53,9 @@ public class MyWithServiceImpl implements MyWithService {
 		return myWithDao.countWithAccept(board_no);
 	}
 
+	@Override
+	public int changeWith(int board_no) {
+		return myWithDao.changeWith(board_no);
+	}
+
 }

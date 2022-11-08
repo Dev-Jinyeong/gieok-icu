@@ -111,7 +111,7 @@ function edit_button_check() {
 	// new FormData(document.폼name) => 폼 태그 안에 입력한 파일, 값들이 담김
 	const edit_form_data = new FormData(document.edit_form);
 	
-	fetch("http://localhost:8080/member/inform_edit", {
+	fetch("/member/inform_edit", {
 		method: "POST",
 		body: edit_form_data,
 	})

@@ -61,7 +61,7 @@ function event_upload_check() {
         return false;
     }
 
-    fetch("http://localhost:8080/photo_event_update", {
+    fetch("/photo_event_update", {
         method: "POST",
         body: photo_event_form,
     })

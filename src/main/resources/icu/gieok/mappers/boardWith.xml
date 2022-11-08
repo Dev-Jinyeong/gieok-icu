@@ -109,6 +109,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 select * from with_table where with_user_id=#{with_user_id} AND board_no=#{board_no}
 	</select>
 	
+	<!-- 신고하기 -->
+	
+	<select id="getReportBoardWith" parameterType="java.util.Map" resultType="boardLikeReport">
+		select * from board_like_report where board_no=#{board_no} AND user_code=#{user_code}
+		AND board_report = 'Y'
+	</select>
+	
+	<insert id="insertReportBoardWith" parameterType="boardLikeReport">
+		insert into board_like_report values(report_seq.nextval, #{user_code}, #{bad_member}, 
+									 #{board_no}, 'N', 'Y', #{report_type})
+	</insert>
+	
+	<!-- 동행 삭제시 신고테이블 변경 -->
+	<update id="changeWithReportState" parameterType="int">
+		update board_like_report set board_report = 'N' where board_no = #{board_no}
+	</update>
 	
 </mapper>
 

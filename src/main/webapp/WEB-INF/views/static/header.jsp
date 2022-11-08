@@ -42,9 +42,9 @@
         <div class="header_menu">
             <ul>
                 <li><a href="/member/map">어디 갈래</a></li>
-                <li><a href="#">여행 일정</a></li>
+                <li><a href="/time_table">여행 일정</a></li>
                 <li><a href="/board_list">소통 하자</a></li>
-                <li><a href="#">기억 해줘!</a></li>
+                <li><a href="/about">기억 해줘!</a></li>
             </ul>
             <!-- underline -->
             <div class="menu_underline"></div>
@@ -63,7 +63,7 @@
 	            <div class="menu_non_member">
 	                <ul>
 	                    <li>
-	                        <a href="/member/login">로그인</a>
+	                        <a href="/login">로그인</a>
 	                    </li>
 	                    <li>
 	                        <a href="/member/join">회원 가입</a>
@@ -74,9 +74,21 @@
             </c:if>
             
         	<c:if test="${!empty sessionScope.id}">
-
+        	
 	            <!-- member login status -->
-	            <a href="/member/inform_edit" class="member_image"><img src="/resources/upload/profile/${sessionScope.profile }" width="50" height="50"></a>
+	            <div class="member_image">
+		            <c:if test="${sessionScope.msgCount != 0 }">
+			            <div class="msgCount2" id="msgCount">
+			            	${sessionScope.msgCount }
+			            </div>
+		            </c:if>
+		            <c:if test="${sessionScope.profile == 'default_profile.png' }">
+	            		<img id="profile_image" src="/resources/images/${sessionScope.profile }" width="50" height="50">
+		            </c:if>
+		            <c:if test="${sessionScope.profile != 'default_profile.png' }">
+	            		<img id="profile_image" src="/resources/upload/profile/${sessionScope.profile }" width="50" height="50">
+		            </c:if>
+	            </div>
 	            <input type="checkbox" id="member_name">
  	            <label for="member_name" class="member_name">${sessionScope.name }님</label>
 	            
@@ -90,10 +102,14 @@
 		                        <a href="#">내 일정 관리</a>
 		                    </li>
 		                    <li>
-		                        <a href="#">내 메시지</a>
+		                        <a href="/member/my_message">내 메시지</a>
 		                    </li>
 		                    <li>
-		                        <a href="/member/logout">로그아웃</a>
+		                        <form method="post" action="/logout">
+                             		<input type="submit" value="로그아웃">
+                             		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                              	<!-- <a href="/member/logout">로그아웃</a> -->
+                           		</form>
 		                    </li>
 		                </ul>
 		            </div>
@@ -118,7 +134,11 @@
 		                        <a href="#">메시지</a>
 		                    </li>
 		                    <li>
-		                        <a href="/member/logout">로그아웃</a>
+		                    	<form method="post" action="/logout">
+                             		<input type="submit" value="로그아웃">
+                             		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                            	<!-- <a href="/member/logout">로그아웃</a> -->
+                           		</form>
 		                    </li>
 		                </ul>
 		            </div>

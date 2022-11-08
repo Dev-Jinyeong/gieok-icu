@@ -41,7 +41,7 @@ outline.forEach((item) => {
     
     item.addEventListener("click", () => {
     
-    	fetch("http://localhost:8080/member/map", {
+    	fetch("/member/map", {
     		method: "POST",
     		headers: {
     			"Content-Type": "application/json",

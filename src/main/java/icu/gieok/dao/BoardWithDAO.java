@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import icu.gieok.vo.AttrVO;
+import icu.gieok.vo.BoardLikeReportVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
@@ -36,6 +37,12 @@ public interface BoardWithDAO {
 	int sinCancel(WithVO wt);
 
 	WithVO getWithAccept(Map<String, Object> withMap);
+
+	int insertReportBoardWith(BoardLikeReportVO report);
+
+	BoardLikeReportVO getReportBoardWith(Map<String, Integer> code);
+	
+	
 
 
 

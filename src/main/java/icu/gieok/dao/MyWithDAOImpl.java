@@ -29,6 +29,8 @@ public class MyWithDAOImpl implements MyWithDAO {
 
 	@Override
 	public int delMyWith(int board_no) {
+		sqlSession.update("changeWithReportState", board_no);
+		sqlSession.delete("delWithList", board_no);
 		return sqlSession.update("delMyWith", board_no);
 	}
 
@@ -51,5 +53,18 @@ public class MyWithDAOImpl implements MyWithDAO {
 	public int countWithAccept(int board_no) {
 		return sqlSession.selectOne("countWithAccept", board_no);
 	}
-	
+
+	@Override
+	public int changeWith(int board_no) {
+		// 여기부터~
+		
+		int countWithPending = sqlSession.selectOne("countWithPending", board_no);
+		
+		if(countWithPending==0) {
+			return 1;
+		}
+		
+		return sqlSession.update("changeWith", board_no);
+	}
+
 }

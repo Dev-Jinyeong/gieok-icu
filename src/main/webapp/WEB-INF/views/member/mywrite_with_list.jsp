@@ -6,6 +6,7 @@
 </c:if>
 <c:if test="${(sessionScope.grade == 'm' || empty sessionScope.grade)}">
 	<!-- 회원용 리모컨 -->
+	<jsp:include page="../static/board_sidebar.jsp"/>
 </c:if>
 <link rel="stylesheet" href="../resources/CSS/static/header.css">
 <link rel="stylesheet"
@@ -73,7 +74,7 @@
 								<input type="hidden" class="with_submit_board_writer" value="${with.board_writer}" name="board_writer">
 								<input type="hidden" class="with_submit_board_memCount" value="${with.board_memCount}" name="board_memCount">
 	
-								<input class="with_accept" id="with_accept" type="button" value="신청 목록">
+								<input class="with_accept" id="with_accept" type="button" value="${with.with_accept}">
 							</div>
 						</li>			
 					</c:forEach>
@@ -165,6 +166,7 @@
 <!-- container section end //-->
 
 <!-- 신청 목록 modal -->
+
 <div class="modal_back" id="modal_back" onclick="popClose()"></div>
 <div class="modal_container" id="modal_container">
 	<div class="count_box">
@@ -175,7 +177,7 @@
 	<!-- modal 닫기 버튼 -->
 	<div class="modal_close">
 		<svg width="25" height="25" class="modal_close_btn" id="modal_close_btn" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" onClick="popClose()" role="button">
-			<path fill-rule="evenodd" clip-rule="evenodd" d="M2.29297 3.70706L10.5859 12L2.29297 20.2928L3.70718 21.7071L12.0001 13.4142L20.293 21.7071L21.7072 20.2928L13.4143 12L21.7072 3.70706L20.293 2.29285L12.0001 10.5857L3.70718 2.29285L2.29297 3.70706Z" fill="currentColor"></path>
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M2.29297 3.70706L10.5859 12L2.29297 20.2928L3.70718 21.7071L12.0001 13.4142L20.293 21.7071L21.7072 20.2928L13.4143 12L21.7072 3.70706L20.293 2.29285L12.0001 10.5857L3.70718 2.29285L2.29297 3.70706Z" fill="#fff"></path>
 		</svg>
 	</div>
 	
@@ -189,8 +191,14 @@
 			</div>
 		</div>
 	</div>
-	
 </div>
+
+<div class="message_block"></div>
+<!-- 메세지 창 -->
+<div class="message_container">
+</div>
+
+
 
 <script src="../resources/JS/member/mywrite_with_list.js"></script>
 <jsp:include page="../static/footer.jsp" />

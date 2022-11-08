@@ -27,6 +27,8 @@ public class BoardVO {
 	
 	private String with_accept;
 	
+	private String check_like;
+	
 	
 	public int getBoard_no() {
 		return board_no;
@@ -153,6 +155,12 @@ public class BoardVO {
 	}
 	public void setWith_accept(String with_accept) {
 		this.with_accept = with_accept;
+	}
+	public String getCheck_like() {
+		return check_like;
+	}
+	public void setCheck_like(String check_like) {
+		this.check_like = check_like;
 	}
 	
 	

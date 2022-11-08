@@ -52,6 +52,7 @@ public class PhotoDAOImpl implements PhotoDAO {
 
     @Override
     public int deletePhotoEvent(int board_no) {
+    	sqlSession.update("changeWithReportState", board_no);
         return sqlSession.update("deletePhotoEvent", board_no);
     }
 
@@ -104,6 +105,11 @@ public class PhotoDAOImpl implements PhotoDAO {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public String getPhotoEventLikeCheck(Map<String, Integer> likeMap) {
+		return sqlSession.selectOne("getPhotoEventLikeCheck", likeMap);
 	}
 
 }

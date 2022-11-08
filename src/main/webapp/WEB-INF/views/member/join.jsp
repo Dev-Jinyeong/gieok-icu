@@ -72,6 +72,7 @@
 
         <!--// user join form start -->
         <form action="/member/joinEmail" method="POST" class="member_join_box" onsubmit="return join_button_check();">
+        	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <h1>회원가입</h1>
             <input type="checkbox" name="user_terms" id="terms_select">
             <!-- member join id -->

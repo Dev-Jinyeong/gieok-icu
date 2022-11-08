@@ -65,7 +65,7 @@ const cityOption = document.querySelector("#city");
 
 provinceOption.addEventListener("change", () => {
 	
-	fetch("http://localhost:8080/member/map", {
+	fetch("/member/map", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

@@ -1,7 +1,7 @@
 document.querySelector("#user_id").focus();
 
 
-
+/* 이전 로그인 방식
 function loginCheck(){
 		
 	const user_id = login_form.user_id.value;
@@ -9,7 +9,7 @@ function loginCheck(){
 	
 	if(loginValid(user_id, user_pw)===true) {
 
-		fetch("http://localhost:8080/member/login", {
+		fetch("/member/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -44,10 +44,12 @@ function loginValid(id, pw) {
 }
 
 
+
 login_form.addEventListener("submit", function (e) {
   loginCheck();
   e.preventDefault();
 });
+*/
 
 
 

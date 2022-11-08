@@ -67,7 +67,7 @@
 .content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
     position: relative;
     top: 100px;
@@ -81,7 +81,7 @@
 
 .review_report_detail {
 	position: absolute;
-	top: 0;
+	top: 0px;
     width: 400px;
     height: 370px;
 
@@ -190,6 +190,8 @@
     background-color: rgba(255, 255, 255, .9);
     border-radius: 20px;
     box-sizing: border-box;
+	
+	margin-top: 16px;
 
     padding: 30px 25px;
 }

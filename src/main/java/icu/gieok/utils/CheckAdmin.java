@@ -14,7 +14,7 @@ public class CheckAdmin {
 		if(session.getAttribute("code") == null) {
 			checkAdmin = new ModelAndView();
 			checkAdmin.addObject("msg", "세션이 만료되었습니다! 다시 로그인해주세요.");
-			checkAdmin.addObject("url", "/member/login");
+			checkAdmin.addObject("url", "/login");
 			checkAdmin.setViewName("message");
 		}else {
 			if(session.getAttribute("grade").equals("m")) {

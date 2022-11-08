@@ -1,5 +1,7 @@
 package icu.gieok.vo;
 
+import java.util.List;
+
 public class UserVO {
 	
     private int user_code;
@@ -20,6 +22,8 @@ public class UserVO {
 	private String user_state; 
 	private String user_grade; 
 	private String user_profile;
+	
+	private List<AuthVO> authList;
 	
 	
 	public int getUser_code() {
@@ -129,6 +133,12 @@ public class UserVO {
 	}
 	public void setUser_profile(String user_profile) {
 		this.user_profile = user_profile;
+	}
+	public List<AuthVO> getAuthList() {
+		return authList;
+	}
+	public void setAuthList(List<AuthVO> authList) {
+		this.authList = authList;
 	}
 	
 	

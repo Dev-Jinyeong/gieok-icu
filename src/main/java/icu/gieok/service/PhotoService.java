@@ -43,5 +43,7 @@ public interface PhotoService {
 
 	int deletePhotoEventList(List<Integer> photo_no);
 
+	String getPhotoEventLikeCheck(Map<String, Integer> likeMap);
+
 
 }

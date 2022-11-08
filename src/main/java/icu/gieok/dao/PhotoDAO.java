@@ -40,4 +40,6 @@ public interface PhotoDAO {
 
 	int deletePhotoEventList(List<Integer> photo_no);
 
+	String getPhotoEventLikeCheck(Map<String, Integer> likeMap);
+
 }

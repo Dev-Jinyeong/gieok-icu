@@ -259,6 +259,22 @@
 	cursor: pointer;
 }
 
+.useBtn2 {
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	display: flex;
+	align-items: flex-start;
+	
+	font-family: var(--font-msg);
+	font-size: var(--font-size-cont3);
+	color: var(--color-red);
+	border: none;
+	background: none;
+	
+	cursor: pointer;
+}
+
 .useBtn:hover {
 	transform: translate(-1px, -1px);	
 }

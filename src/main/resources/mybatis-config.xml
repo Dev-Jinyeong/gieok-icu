@@ -8,6 +8,8 @@
      <typeAliases>
      
      	<typeAlias type="icu.gieok.vo.UserVO" alias="user"/>
+
+     	<typeAlias type="icu.gieok.vo.AuthVO" alias="auth"/>
      	
      	<typeAlias type="icu.gieok.vo.ProvinceVO" alias="pro"/>
      	
@@ -28,6 +30,8 @@
         <typeAlias type="icu.gieok.vo.AttrLikeVO" alias="attrLike"/>
         
         <typeAlias type="icu.gieok.vo.WithVO" alias="with"/>
+
+        <typeAlias type="icu.gieok.vo.MessageVO" alias="message"/>
        
      </typeAliases>
   </configuration>

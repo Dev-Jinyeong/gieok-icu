@@ -35,7 +35,7 @@
 	            	<c:forEach var="review" items="${boardReport }">
 		                <li class="board_report_list_btn">
 		                	<input type="hidden" value="${review.bad_board.board_no }" class="bad_board_no">
-		                	<input type="hidden" value="${review.bad_board.board_no }" class="bad_board_type">
+		                	<input type="hidden" value="${review.bad_board.board_type }" class="bad_board_type">
 		                	<input type="hidden" value="${review.bad_board.board_title }" class="bad_board_title">
 	                        <span>${review.report_no }</span>
 	                        <span>${review.user_id }</span>

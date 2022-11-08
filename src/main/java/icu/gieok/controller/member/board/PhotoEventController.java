@@ -74,7 +74,7 @@ public class PhotoEventController {
 		
 		if(checkUser != null) {
 			msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
-			url = "/member/login";
+			url = "/login";
 		}
     	
     	
@@ -180,10 +180,17 @@ public class PhotoEventController {
         }
         
         List<BoardVO> list = photoService.getBoardList(map);
+        Map<String, Integer> likeMap = new HashMap<>(); 
+        int user_code = (int)session.getAttribute("code");
+        likeMap.put("user_code", user_code);
+        
         
         if(list.size() > 0) {
             for(BoardVO board : list) {
                 board.setBoard_regDate(board.getBoard_regDate().substring(0, 10));
+                likeMap.put("board_no", board.getBoard_no());
+                String like = photoService.getPhotoEventLikeCheck(likeMap);
+                board.setCheck_like(like);
             }
         }
         
@@ -271,7 +278,7 @@ public class PhotoEventController {
         
         if(checkUser != null) {
             msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
-            url = "/member/login";
+            url = "/login";
         }
         
         Calendar now = Calendar.getInstance();
@@ -361,16 +368,16 @@ public class PhotoEventController {
             HttpSession session,
             @RequestBody Map<String, String> code) {
         
-        checkUser = checkMember(session);
+    	Map<String, Object> map = new HashMap<>();
+    	
+    	String msg = "";
+    	String url = "";
         
-        Map<String, Object> map = new HashMap<>();
-        
-        String msg = "";
-        String url = "";
+    	checkUser = checkMember(session);
         
         if(checkUser != null) {
             msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
-            url = "/member/login";
+            url = "/login";
             map.put("msg", msg);
             map.put("url", url);
             
@@ -431,7 +438,7 @@ public class PhotoEventController {
         
         if(checkUser != null) {
             msg = "세션이 만료되었습니다! 다시 로그인 해주세요!";
-            url = "/member/login";
+            url = "/login";
             map.put("msg", msg);
             map.put("url", url);
             

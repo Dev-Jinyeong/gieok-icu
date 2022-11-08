@@ -114,7 +114,7 @@ body {
 
     background-color: rgba(255, 255, 255, .9);
     border-radius: 20px;
-	margin-top: calc(50vh - 450px);
+   margin-top: calc(50vh - 450px);
 }
 
 .board_title {
@@ -132,10 +132,10 @@ body {
 
 #delete_button,
 .board_title>input[type="button"] {
-	display: block; 
-	
+   display: block; 
+   
     position: absolute;
-    top: calc(50% - 15px);
+    top: calc(50% - 20px);
     right: 0px;
 
     width: 100px;
@@ -143,16 +143,16 @@ body {
 }
 
 #delete_button {
-	line-height: 30px;
+   line-height: 30px;
 
-	color: var(--color-red);
-	font-weight: 600;
-	text-align: right;
-	
-	background-color: transparent;
-	border: none;	
-	
-	cursor: pointer;
+   color: var(--color-red);
+   font-weight: 600;
+   text-align: right;
+   
+   background-color: transparent;
+   border: none;   
+   
+   cursor: pointer;
 }
 
 .board_line {
@@ -189,10 +189,10 @@ body {
 }
 
 #delete_check {
-	position: absolute;
-	
-	top: 5px;
-	right: 5px;
+   position: absolute;
+   
+   top: 5px;
+   right: 5px;
 }
 
 .photo_thumb {
@@ -239,26 +239,11 @@ body {
 }
 
 .photo_info:hover>span {
-	color: #fff;
+   color: #fff;
 }
 
-.board_like_check {
-	display: none;
-}
-
-.board_like_check+label>svg,
-.board_like_check+label>svg>path {
-	cursor: pointer;
-}
-
-.board_like_check+label>svg>path:nth-of-type(2),
-.board_like_check:checked+label>svg>path:first-of-type {
-	fill: #E64E4E;
-}
-
-.photo_info:hover>span>label>svg>path:nth-of-type(2),
-.photo_info:hover>span>.board_like_check:checked+label>svg>path:first-of-type {
-	fill: #fff;
+.board_like_check>svg>path:last-of-type {
+   fill: #f24949;
 }
 
 .photo_info>span {
@@ -345,14 +330,14 @@ body {
     width: 50px;
     height: 20px;
 
-	line-height: 20px;
-	
+   line-height: 20px;
+   
     border-radius: var(--radius-smaller);
 }
 
 .prev>span>a,
 .next>span>a {
-	display: block;
+   display: block;
     border-radius: var(--radius-smaller);
 }
 
@@ -367,7 +352,7 @@ body {
 }
 
 .board_page li>a {
-	display: block;
+   display: block;
     border-radius: var(--radius-smaller);
 }
 
@@ -383,8 +368,8 @@ body {
 }
 
 .board_page .select_page {
-	background-color: var(--color-green);
-	color: #fff;
+   background-color: var(--color-black);
+   color: #fff;
 }
 
 /* =====// contents end //===== */

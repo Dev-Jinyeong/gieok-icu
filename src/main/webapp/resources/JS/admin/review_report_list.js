@@ -13,7 +13,7 @@ if(isNotEmpty) {
 		
 			let rev_code = bad_review_code[i].value;
 		
-			fetch("http://localhost:8080/admin/review_report_detail", {
+			fetch("/admin/review_report_detail", {
 				method: "POST",
 				headers: {
 					"Content-Type" : "application/json",
@@ -37,7 +37,7 @@ if(isNotEmpty) {
 					});
 				}else {
 					alert("세션이 만료되었습니다!");
-					window.location.href = "/member/login";
+					window.location.href = "/login";
 				}
 
 				
@@ -65,7 +65,7 @@ function closeForm() {
 
 function deleteReview(rev_code, page) {
 
-	fetch("http://localhost:8080/admin/review_report_delete", {
+	fetch("/admin/review_report_delete", {
 		method:"POST",
 		headers: {
 			"Content-Type": "application/json",

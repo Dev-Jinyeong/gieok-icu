@@ -18,7 +18,7 @@ function view_detail() {
 		return false;
 	}
 	
-	fetch("http://localhost:8080/admin/admin_search", {
+	fetch("/admin/admin_search", {
 		method: "POST",
 		headers: {
 			"Content-Type" : "application/json",
@@ -62,7 +62,7 @@ add_button.addEventListener('click', () => {
 
 // 관리자 위임
 function add_admin(user_id) {
-	fetch("http://localhost:8080/admin/add_admin", {
+	fetch("/admin/add_admin", {
 		method: "POST",
 		headers: {
 			"Content-Type" : "application/json",
@@ -91,7 +91,7 @@ delete_button.addEventListener('click', () => {
 
 // 관리자 해임
 function delete_admin(user_id) {
-	fetch("http://localhost:8080/admin/delete_admin", {
+	fetch("/admin/delete_admin", {
 		method: "POST",
 		headers: {
 			"Content-Type" : "application/json",

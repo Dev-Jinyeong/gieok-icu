@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import icu.gieok.vo.AttrReviewVO;
+import icu.gieok.vo.MessageVO;
 import icu.gieok.vo.UserVO;
 
 @Repository
@@ -24,6 +25,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void userInsert(UserVO user) {
 		sqlSession.insert("userInsert", user);
+		sqlSession.insert("userInsert2", user);
 	}
 	
 	@Override
@@ -105,5 +107,34 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.update("reviewUpdate", review);
 	}
 	
+	@Override
+	public int sendMessage(MessageVO message) {
+		return sqlSession.insert("sendMessage", message);
+	}
+	
+	@Override
+	public List<MessageVO> getMyMessage(Map<String, String> map) {
+		return sqlSession.selectList("getMyMessage", map);
+	}
+	
+	@Override
+	public int deleteMessage(Integer[] checked) {
+		return sqlSession.update("deleteMessage", checked);
+	}
+	
+	@Override
+	public int updateMessageRead(Map<String, Object> map) {
+		return sqlSession.update("updateMessageRead", map);
+	}
+	
+	@Override
+	public int countUnreadMessage(Map<String, Object> map) {
+		return sqlSession.selectOne("countUnreadMessage", map);
+	}
+	
+	@Override
+	public UserVO userCheck_sec(String user_id) {
+		return sqlSession.selectOne("userCheck_sec", user_id);
+	}
 	
 }

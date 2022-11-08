@@ -13,7 +13,7 @@ private ModelAndView checkMember = null;
 		if(session.getAttribute("code") == null) {
 			checkMember = new ModelAndView();
 			checkMember.addObject("msg", "로그인이 필요한 페이지입니다!");
-			checkMember.addObject("url", "/member/login");
+			checkMember.addObject("url", "/login");
 			checkMember.setViewName("message");
 		}
 	}

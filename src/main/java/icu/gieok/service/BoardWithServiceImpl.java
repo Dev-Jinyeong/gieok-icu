@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import icu.gieok.dao.BoardWithDAO;
 import icu.gieok.vo.AttrVO;
+import icu.gieok.vo.BoardLikeReportVO;
 import icu.gieok.vo.BoardVO;
 import icu.gieok.vo.CityVO;
 import icu.gieok.vo.ProvinceVO;
@@ -115,6 +116,17 @@ public class BoardWithServiceImpl implements BoardWithService {
 	@Override
 	public WithVO getwithAccept(Map<String, Object> withMap) {
 		return boardWithDao.getWithAccept(withMap);
+	}
+	
+	// 신고하기
+	@Override
+	public int insertReportBoardWith(BoardLikeReportVO report) {
+		return boardWithDao.insertReportBoardWith(report);
+	}
+	
+	@Override
+	public BoardLikeReportVO getReportBoardWith(Map<String, Integer> code) {
+		return boardWithDao.getReportBoardWith(code);
 	}
 
 

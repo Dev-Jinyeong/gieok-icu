@@ -43,6 +43,7 @@ public class MyWithController {
 	public ModelAndView mywriteWithList(HttpServletRequest request, HttpSession session,
 			String category, String keyword) {
 		
+		
 		checkUser = checkMember(session);
 		
 		if(checkUser != null) {
@@ -115,6 +116,19 @@ public class MyWithController {
 			for (BoardVO with : with_li_list) {
 				with.setBoard_startDay(with.getBoard_startDay().substring(0, 10));
 				with.setBoard_endDay(with.getBoard_endDay().substring(0, 10));
+				
+				int acceptCount = myWithService.countWithAccept(with.getBoard_no());
+				int board_memcount = with.getBoard_memCount();
+				
+				String with_accept = "";
+				
+				if (acceptCount == board_memcount) {
+					with_accept = "모집 완료";
+				} else {
+					with_accept = "신청 목록";
+				}
+				
+				with.setWith_accept(with_accept);
 			}
 		}
 		
@@ -192,11 +206,17 @@ public class MyWithController {
 	// 동행 수락
 	@ResponseBody
 	@PostMapping("/my_with_accept")
-	public String myWithAccept(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+	public Map<String, String> myWithAccept(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+		
+		Map<String, String> result = new HashMap<>();
+		
 		
 		checkUser = checkMember(session);
 		if(checkUser != null) {
-			return "noSession";
+			
+			result.put("check", "noSession");
+			
+			return result;
 		}
 		
 		int board_no = Integer.parseInt(map.get("board_no"));
@@ -211,23 +231,34 @@ public class MyWithController {
 		String check = "";
 		
 		int res = myWithService.acceptMyWith(wt);
+		String count = String.valueOf(myWithService.countWithAccept(board_no));
+		
 		
 		if (res != 1) {
 			check = "fail";
 		}
 		
-		return check;
+		
+		result.put("check", check);
+		result.put("count", count);
+		
+		return result;
 		
 	}
 	
 	// 동행 거절
 	@ResponseBody
 	@PostMapping("/my_with_reject")
-	public String myWithReject(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+	public Map<String, String> myWithReject(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+		
+		Map<String, String> result = new HashMap<>();
 		
 		checkUser = checkMember(session);
 		if(checkUser != null) {
-			return "noSession";
+			
+			result.put("check", "noSession");
+			
+			return result;
 		}
 		
 		int board_no = Integer.parseInt(map.get("board_no"));
@@ -242,70 +273,38 @@ public class MyWithController {
 		String check = "";
 		
 		int res = myWithService.rejectMyWith(wt);
+		String count = String.valueOf(myWithService.countWithAccept(board_no));
 		
 		if (res != 1) {
 			check = "fail";
 		}
 		
-		return check;
+		result.put("check", check);
+		result.put("count", count);
+		
+		return result;
 		
 	}
 	
+	// 마지막 동행 수락 시 동행 신청 상태 '1' > '3'
+	@ResponseBody
+	@PostMapping("/change_with_accept")
+	public String changeWithAccept(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
+		
+		int board_no = Integer.parseInt(map.get("board_no"));
+		
+		String check = "";
+		
+		int res = myWithService.changeWith(board_no);
+		
+		if (res >= 1) {
+			check = "success";
+		}
+		
+		return check;
+	}
 	
-//	@ResponseBody
-//	@PostMapping("/board_with_sinchung")
-//	public String board_with_sinchung(@RequestBody Map<String, String> map, HttpSession session, HttpServletRequest request) {
-//		
-//
-//		checkUser = checkMember(session);
-//		if(checkUser != null) {
-//			
-//			return "noSession";
-//		}
-//		
-//		
-//		// 작성자
-//		int board_no = Integer.parseInt(map.get("board_no"));
-//		String board_writer = map.get("board_writer");
-//		
-//		
-//		// 신청자
-//		String with_user_id = (String)session.getAttribute("id");
-//		int with_user_code = (int)session.getAttribute("code");
-//		String with_user_info = map.get("with_user_info");
-//		
-//		
-//		WithVO wt = new WithVO();
-//		
-//		wt.setBoard_no(board_no);
-//		wt.setBoard_writer(board_writer);
-//		wt.setWith_user_id(with_user_id);
-//		wt.setWith_user_code(with_user_code);
-//		wt.setWith_user_info(with_user_info);
-//		
-//		
-//		String check = "";
-//		
-//		Map<String, Object> map2 = new HashMap<>();
-//		map2.put("board_no", board_no);
-//		map2.put("with_user_code", with_user_code);
-//		
-//		WithVO wtCheck = boardWithService.selectWith(map2);
-//		
-//		if (wtCheck != null) {
-//			check = "false";
-//		} else {
-//			int res = boardWithService.insert_WT(wt);
-//			
-//			if (res != 1) {
-//				check = "fail";
-//			}
-//		}
-//		
-//		return check;
-//		
-//	}
-
+	
 	
 }
 

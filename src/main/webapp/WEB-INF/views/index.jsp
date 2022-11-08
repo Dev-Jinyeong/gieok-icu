@@ -12,6 +12,10 @@
 	</script>
 </c:if>
 
+<div class="scrollbar">
+	<label class="label_item item1"></label>
+	<label class="label_item item2"></label>
+</div>
 
 <!--// search box start -->
     <div class="search_box">

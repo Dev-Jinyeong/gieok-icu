@@ -45,7 +45,7 @@ public class MailSendService {
             sendMail.setSubject("기억하자 이메일 인증");
             sendMail.setText(new StringBuffer().append("<h1>반갑습니다:) 기억하자 인증 이메일입니다!</h1>")
             .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-            .append("<a href='http://localhost:8080/member/joinOK?email=")
+            .append("<a href='http://gieok.icu/member/joinOK?email=")
             .append(email)
             .append("&authKey=")
             .append(authKey)

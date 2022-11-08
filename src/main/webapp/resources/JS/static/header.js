@@ -63,3 +63,21 @@ moveUnderline();
 // ===== menu underline : position change end ===== //
 
 
+// 이미지 & 알림
+const profile_image = document.querySelector("#profile_image");
+if(profile_image!=null) {
+	profile_image.addEventListener("click", () => {
+		window.location.href = "/member/inform_edit";
+	});
+}
+const msgCount = document.querySelector("#msgCount");
+
+if(msgCount!=null) {
+	msgCount.addEventListener("click", () => {
+		window.location.href = "/member/my_message";
+	});
+}
+
+
+
+

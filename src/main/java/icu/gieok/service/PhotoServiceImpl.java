@@ -95,5 +95,10 @@ public class PhotoServiceImpl implements PhotoService {
 	public int deletePhotoEventList(List<Integer> photo_no) {
 		return photoDAO.deletePhotoEventList(photo_no);
 	}
+	
+	@Override
+	public String getPhotoEventLikeCheck(Map<String, Integer> likeMap) {
+		return photoDAO.getPhotoEventLikeCheck(likeMap);
+	}
 
 }

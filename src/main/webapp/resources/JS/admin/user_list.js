@@ -15,7 +15,7 @@ function view_detail() {
 			user_code = get_user_code[i].value;
 			user_id = get_user_id[i].value;
 			
-			fetch("http://localhost:8080/admin/user_detail", {
+			fetch("/admin/user_detail", {
 				method: "POST",
 				headers: {
 					"Content-Type" : "application/json",
@@ -61,7 +61,7 @@ function close_detail() {
 
 function delete_user(user_id, page) {
 
-	fetch("http://localhost:8080/admin/user_delete", {
+	fetch("/admin/user_delete", {
 		method: "POST",
 		headers: {
 			"Content-Type" : "application/json",
