@@ -76,13 +76,13 @@ public class IndexController {
 	@GetMapping("/login")
 	public String userLogin(HttpServletRequest request) {
 
-	      List<String> exception = new ArrayList<>();
-//	      exception.add("http://localhost:8080/member/join");
-//	      exception.add("http://localhost:8080/login");
-	      String referer = request.getHeader("Referer");
-	      if(!(referer.contains("join")||referer.contains("login"))) {
-	         request.getSession().setAttribute("referer", referer);
-	      }
+		List<String> exception = new ArrayList<>();
+//		exception.add("http://localhost:8080/member/join");
+//		exception.add("http://localhost:8080/login");
+		String referer = request.getHeader("Referer");
+		if(!(referer.contains("join")||referer.contains("login"))) {
+			request.getSession().setAttribute("referer", referer);
+		}
 		
 		exception.add("joinOK");
 	    exception.add("find_id_pw");

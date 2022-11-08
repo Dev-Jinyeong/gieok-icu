@@ -34,6 +34,7 @@
    <beans:bean id="uploadPath" class="java.lang.String">
    	  <!-- 상대경로 -->	
       <!-- <beans:constructor-arg value="Gieok\src\main\webapp\resources\upload\" /> --> 
+      <!-- <beans:constructor-arg value="/usr/src/tomcat9/webapps/Gieok/resources/upload/" /> -->
       <beans:constructor-arg value="C:\FinalProject_work\Gieok\src\main\webapp\resources\upload\" />
    </beans:bean>
    

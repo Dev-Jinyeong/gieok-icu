@@ -21,10 +21,6 @@ PUBLIC ".//mybatis.org/DTD Mapper 3.0//EN"
 				)
 	</insert>
 	
-	<insert id="userInsert2" parameterType="auth">
-		insert into user_auth values(#{user_id}, 'ROLE_M')
-	</insert>
-	
 	<update id="updateAuthKey" parameterType="java.util.Map">
 		update users set user_key = #{authKey} where user_id = #{user_id} AND user_state='0'
 	</update>
